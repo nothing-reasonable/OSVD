@@ -16,12 +16,15 @@ can change the behavior observed. A 100% fingerprint match therefore does not
 prove an exact installed kernel or Windows build. Nmap-equivalent version
 accuracy has not been established for this implementation.
 
-This README describes the current 1,519-line source snapshot. The code walkthrough
-follows source order and explains every top-level function and class, grouping
-continuation lines and closely related statements. Packet construction receives
-individual line explanations. Blank lines and decorative comments are not
-explained separately. Line numbers refer to **scanner.py**, not this document;
-they can change if you edit the source.
+The [Nmap alignment review](SCANNER_REVIEW.md) records the verified methods,
+compatibility fixes, tests, and remaining gaps. New reports record
+`implementation_revision=2`; older captures remain readable but require a fresh
+scan before a unique version candidate can be reported.
+
+The detailed walkthrough in section 13 retains line references to the original
+1,519-line snapshot. Those line numbers are historical; use the function names
+to navigate the current source. Sections 6-10 and the review describe the updated
+behavior, including the new sequence timing checks.
 
 ## Contents
 
@@ -50,9 +53,11 @@ they can change if you edit the source.
 | `nmap-os-db` | 6,108 reference fingerprints and their matching weights | Yes, unless you supply another compatible database |
 | `NMAP-DATABASE-LICENSE.txt` | License terms supplied with the published database | Keep with the database |
 | `README.md` | This usage and implementation guide | Documentation |
+| `SCANNER_REVIEW.md` | Nmap comparison, fixes, verification, and remaining work | Documentation |
+| `test_scanner.py` | Offline regressions and opt-in Linux loopback integration tests | Development only |
 
-Earlier design PDFs, tests, demo guides, and captured reports were removed at
-your request. Examples below that mention `vm.json`, `scanme.json`, `cases.json`,
+Earlier design PDFs, demo guides, and captured reports are not bundled.
+Examples below that mention `vm.json`, `scanme.json`, `cases.json`,
 or `fingerprints.json` refer to files **you create**, not bundled files.
 
 ### Runtime requirements
@@ -634,15 +639,15 @@ real-time packet transmission.
 
 | Probe | Destination | Flags / special properties | Window | TCP options or payload |
 | --- | --- | --- | --- | --- |
-| S1 | Open TCP | SYN, DF | 1 | WS10, NOP, MSS1460, TS, SACK |
-| S2 | Open TCP | SYN, DF | 63 | MSS1400, WS0, SACK, TS, EOL |
-| S3 | Open TCP | SYN, DF | 4 | TS, NOP, NOP, WS5, NOP, MSS640 |
-| S4 | Open TCP | SYN, DF | 4 | SACK, TS, WS10, EOL |
-| S5 | Open TCP | SYN, DF | 16 | MSS536, SACK, TS, WS10, EOL |
-| S6 | Open TCP | SYN, DF | 512 | MSS265, SACK, TS |
+| S1 | Open TCP | SYN, no DF | 1 | WS10, NOP, MSS1460, TS, SACK |
+| S2 | Open TCP | SYN, no DF | 63 | MSS1400, WS0, SACK, TS, EOL |
+| S3 | Open TCP | SYN, no DF | 4 | TS, NOP, NOP, WS5, NOP, MSS640 |
+| S4 | Open TCP | SYN, no DF | 4 | SACK, TS, WS10, EOL |
+| S5 | Open TCP | SYN, no DF | 16 | MSS536, SACK, TS, WS10, EOL |
+| S6 | Open TCP | SYN, no DF | 512 | MSS265, SACK, TS |
 | IE1 | ICMP to target | Echo request, code9, DF, sequence295 | N/A | 120 zero bytes |
 | IE2 | ICMP to target | Echo request, code0, no DF, TOS4, sequence296 | N/A | 150 zero bytes; identifier IE1+1 |
-| ECN | Open TCP | SYN+ECE+CWR+special bit `0x100`, DF, ACK value0, urgent pointer `0xF7F5` | 3 | WS10, NOP, MSS1460, SACK, NOP, NOP |
+| ECN | Open TCP | SYN+ECE+CWR+reserved wire bit `0x800`, no DF, ACK value0, urgent pointer `0xF7F5` | 3 | WS10, NOP, MSS1460, SACK, NOP, NOP |
 | T2 | Open TCP | No flags, DF | 128 | Common options below |
 | T3 | Open TCP | SYN+FIN+URG+PSH, no DF | 256 | Common options |
 | T4 | Open TCP | ACK, DF | 1024 | Common options |
@@ -861,11 +866,12 @@ the selected margin of the top score, whose positive weight is at least 80% of
 the top's positive weight, and whose coverage is at least 35%.
 
 The margin is **1 percentage point** only when all six SYNs answered, original
-TS evidence is present, the timestamp source is `sequence`, and top coverage is
-at least 75%. Otherwise it is **5 percentage points**. The variable named
-`sequence_evidence_complete` specifically checks six WIN entries plus original
-TS classification; it is not a guarantee that every SEQ field exists or that
-all samples were unretried.
+SP/GCD/ISR/TS evidence is present, the timestamp source is `sequence`, and top
+coverage is at least 75%. New live captures must also have six unretried SYNs
+with each send interval between 75 and 150 ms, and no contradictory fields
+across rounds. This timing tolerance is a project safeguard, not a Nmap
+threshold. Otherwise the margin is **5 percentage points**. Captures from
+implementation revision 1 cannot produce a unique version candidate.
 
 | Result | Meaning |
 | --- | --- |
@@ -886,10 +892,13 @@ confidence, and at least 75% coverage. An ambiguous perfect match does not stop
 the loop merely because it is perfect.
 
 The selected round maximizes SYN replies, then top positive weight, then score.
-Non-SEQ fields that disagree between observed rounds are deleted from the final
-fingerprint with a warning. Missing a field in one round alone does not count as
-contradiction. Original round fingerprints remain in JSON. SEQ is kept from one
-round rather than combined into a fictitious timing series.
+The selected round's fields are preserved. Contradictions across observed
+rounds are recorded in `unstable_fields` and prevent a unique version candidate.
+Numeric SEQ statistics SP/GCD/ISR are excluded from this comparison because
+they naturally vary; categorical ID/timestamp classes are compared. Missing
+fields alone do not count as contradictions. Original round fingerprints remain
+in JSON. SEQ is kept from one round rather than combining timing series.
+Retransmitted probes are excluded from sequence rate and IP-ID calculations.
 
 ## 8. Saved report and database formats
 
@@ -1117,11 +1126,19 @@ python3 -B -c 'import ast, pathlib; ast.parse(pathlib.Path("scanner.py").read_te
 python3 -B -c 'import scanner; d=scanner.read_published_database("nmap-os-db"); print(d["count"], d["sha256"])'
 ```
 
-Before the cleanup, the Linux test suite passed 46 tests, including checksum,
-probe-byte, expression, scoring, ambiguity, raw-loopback, and isolated-Ethernet
-checks. The tests were removed at your request, so `python -m unittest` in this
-folder no longer reproduces those checks. Packet-test success is not an OS
-accuracy benchmark.
+The regression suite is now reproducible:
+
+```bash
+python3 -B -m unittest -v
+# Linux only: also exercise real raw packets against 127.0.0.1 listeners.
+sudo env SCANNER_LIVE_TEST=1 python3 -B -m unittest -v
+```
+
+The suite checks packet fields/checksums, database expressions, sequence and
+matching safeguards, malformed replies, and report compatibility. Opt-in live
+tests cover SYN discovery, the full fingerprint battery, and scan/save/rematch.
+These are correctness checks, not a multi-OS accuracy benchmark. See the review
+for results and the remaining validation work.
 
 Earlier public testing supported a Linux family on scanme, with two references
 matching 100% of available fields. A known WSL Linux 6.18 kernel also resembled
@@ -1346,7 +1363,7 @@ this program, not an independently captured link-layer frame.
 | 63 | Insert checksum at TCP bytes16-17 and return the segment |
 
 The fixed TCP header is20 bytes. `(5 + option_length/4) << 12` encodes its total
-length. `flags` can include the special `0x100` bit used by the ECN test.
+length. `flags` can include the reserved wire bit `0x800` used by the ECN test.
 This builder adds no application payload.
 
 ### 13.5 `udp_segment`: lines 66-71
@@ -1634,7 +1651,7 @@ equal to the endpoint of `>FE` does not match, whereas endpoints of `8-C` do.
 Reads raw hex back into option bytes. Accumulates `L` for each EOL/padding byte
 and `N` for NOP. Validates variable-option bounds. Encodes MSS/WS as hex,
 SACK as `S`, and TS as nonzero-value bits. Advances by each option's length.
-Returns None for an unsupported option encoding so the caller omits that field.
+Returns None for an unsupported or malformed option encoding so the caller omits that field.
 Returns an empty string when a valid reply has no TCP options.
 
 This differs intentionally from `decode_options`: the latter provides readable
@@ -1654,7 +1671,7 @@ hex constant0.
 
 | Line(s) | Explanation |
 | --- | --- |
-| 622-628 | Populate TI/CI/II only when each response series supports classification |
+| 622-628 | Exclude retransmitted samples and populate TI/CI/II only when each response series supports classification |
 | 629-632 | Filter unretried SYN samples; require at least four for ISN timing |
 | 633-640 | Compute valid send intervals, shortest wrap-aware ISN changes, and rates |
 | 641-647 | With three intervals, compute GCD, logarithmic ISR, normalized sample deviation, and logarithmic SP |
@@ -1839,11 +1856,13 @@ network delay.
 | 1153-1160 | Collect a fresh round, identify timestamp provenance, classify it, retain original data |
 | 1161-1165 | Stop only for complete unique100% candidate with >=75% coverage, or absent TCP prerequisite |
 | 1166-1173 | Select by reply completeness/positive evidence/score; copy chosen tests/notes before modifying |
-| 1174-1186 | Compare fields across rounds, skip SEQ, remove only genuinely contradictory observed fields, record warning |
+| 1174-1186 | Compare fields across rounds, excluding variable numeric SEQ statistics; preserve original fields and record contradictions |
 | 1187-1195 | Build original round summaries including packet evidence and return selected round plus summaries |
 
-This function classifies rounds for selection. `scan` classifies once more after
-unstable fields are removed, so the final result corresponds to the final tests.
+The new `sequence_timing_complete` helper checks unretried SYN send intervals.
+This function classifies rounds for selection and reclassifies after recording
+instability. `scan` also classifies the final report; all use the same evidence
+and consistency metadata.
 
 ### 13.37 `scan`: lines 1198-1271
 

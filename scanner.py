@@ -28,6 +28,7 @@ PROBE_SET = "handmade-v1"
 DEFAULT_DB = Path(__file__).with_name("fingerprints.json")
 PUBLISHED_DB = Path(__file__).with_name("nmap-os-db")
 PUBLISHED_PROBES = "standard-ipv4-v2"
+IMPLEMENTATION_REVISION = 2
 
 
 # 1. Packet construction and decoding. No packet/scanning libraries are used.
@@ -148,6 +149,8 @@ def decode_packet(data):
         packet.update(icmp_type=kind, code=code, icmp_id=ident, icmp_seq=seq)
         if kind in (3, 11, 12):
             quote = decode_ip(body[8:], quoted=True)
+            if len(quote["payload"]) < 8:
+                raise ValueError("truncated ICMP transport quote")
             quote["data_hex"] = quote["payload"].hex()
             quote["payload"] = quote["payload"][:8].hex()
             packet["quote"] = quote
@@ -455,7 +458,7 @@ def standard_probes(source, target, open_port, closed_port, udp_port, reserve=No
             (512, mss(265) + b"\x04\x02" + timestamp),
         )
         for number, (window, options) in enumerate(samples, 1):
-            probes.append(tcp("S%d" % number, open_port, SYN, window, options))
+            probes.append(tcp("S%d" % number, open_port, SYN, window, options, df=False))
     echo_id = RNG.randrange(1, 65535)
     probes.append(make_probe(source, target, "IE1", protocol=1, code=9,
                              size=120, df=True, icmp_id=echo_id, icmp_seq=295, fill=b"\x00", fingerprint=True))
@@ -464,8 +467,11 @@ def standard_probes(source, target, open_port, closed_port, udp_port, reserve=No
                              fill=b"\x00", fingerprint=True))
     common = bytes.fromhex("03030A0102040109080AFFFFFFFF000000000402")
     if open_port is not None:
-        probes.append(tcp("ECN", open_port, SYN | ECE | CWR | 0x100, 3,
-                          bytes.fromhex("03030A01020405B404020101"), urgent=0xf7f5, ack_value=0))
+        # Nmap's current sender sets the four-bit reserved field to 8:
+        # byte 12 has low nibble 8 (wire mask 0x0800), not NS (0x0100).
+        probes.append(tcp("ECN", open_port, SYN | ECE | CWR | 0x800, 3,
+                          bytes.fromhex("03030A01020405B404020101"), df=False,
+                          urgent=0xf7f5, ack_value=0))
         probes.append(tcp("T2", open_port, 0, 128, common))
         probes.append(tcp("T3", open_port, SYN | FIN | URG | PSH, 256, common, df=False))
         probes.append(tcp("T4", open_port, ACK, 1024, common))
@@ -579,10 +585,10 @@ def encoded_options(options):
             offset += 1
             continue
         if offset + 2 > len(data):
-            raise ValueError("truncated option encoding")
+            return None
         length = data[offset + 1]
         if length < 2 or offset + length > len(data):
-            raise ValueError("invalid option encoding")
+            return None
         value = data[offset + 2:offset + length]
         if kind == 2 and length == 4:
             result += "M%X" % struct.unpack("!H", value)[0]
@@ -621,13 +627,17 @@ def id_classification(ids, minimum=2, icmp=False):
 
 def standard_sequence(samples, echoes, closed):
     fields = {}
+    # Retries can invert probe order. Do not classify that as a random ID
+    # generator or use it to infer a shared TCP/ICMP counter.
+    samples = [p for p in samples if p.attempts == 1]
+    echoes = [p for p in echoes if p.attempts == 1]
+    closed = [p for p in closed if p.attempts == 1]
     for key, replies, minimum, icmp in (("TI", samples, 3, False), ("CI", closed, 2, False),
                                          ("II", echoes, 2, True)):
         value = id_classification([p.response["id"] for p in replies], minimum, icmp)
         if value is not None:
             fields[key] = value
-    # Retransmitted SYNs cannot produce trustworthy fixed-spacing rate measurements.
-    timed = [p for p in samples if p.attempts == 1]
+    timed = samples
     if len(timed) >= 4:
         deltas, rates = [], []
         for a, b in zip(timed, timed[1:]):
@@ -694,7 +704,10 @@ def standard_fingerprint(probes, target):
     # TG is a guess. If U1 supplies a forward hop estimate, report T separately.
     distance = None
     udp = by_name.get("U1")
-    if target_reply(udp, 1) and (udp.response.get("icmp_type"), udp.response.get("code")) == (3, 3):
+    usable_udp = (target_reply(udp, 1)
+                  and (udp.response.get("icmp_type"), udp.response.get("code")) == (3, 3)
+                  and len(bytes.fromhex(udp.response.get("quote", {}).get("data_hex", ""))) >= 8)
+    if usable_udp:
         sent_ttl = decode_ip(udp.packet)["ttl"]
         quote = udp.response["quote"]
         if 0 < quote["ttl"] <= sent_ttl:
@@ -738,7 +751,7 @@ def standard_fingerprint(probes, target):
         cd = ("Z" if a["code"] == b["code"] == 0 else "S" if a["code"] == 9 and b["code"] == 0
               else "%X" % a["code"] if a["code"] == b["code"] else "O")
         tests["IE"] = {"R": "Y", "DFI": dfi, "CD": cd, **ttl_fields(a)}
-    if distance is not None:
+    if usable_udp:
         response, quote = udp.response, udp.response["quote"]
         quoted_header = bytes.fromhex(quote["header_hex"])
         quoted_body = bytes.fromhex(quote["data_hex"])
@@ -747,12 +760,13 @@ def standard_fingerprint(probes, target):
                        "IPL": "%X" % response["total_length"], "UN": "%X" % response["unused"],
                        "RIPL": "G" if quote["total_length"] == 328 else "%X" % quote["total_length"],
                        "RID": "G" if quote["id"] == 0x1042 else "%X" % quote["id"],
-                       "RIPCK": "G" if checksum(quoted_header) == 0 else "Z" if quoted_header[10:12] == b"\x00\x00" else "I",
+                       "RIPCK": "Z" if quoted_header[10:12] == b"\x00\x00" else "G" if checksum(quoted_header) == 0 else "I",
                        "RUCK": "G" if quoted_body[6:8] == sent_body[6:8] else "%X" % int.from_bytes(quoted_body[6:8], "big"),
                        "RUD": "G" if all(value == 0x43 for value in quoted_body[8:]) else "I"}
+    if distance is not None:
         warnings.append("T uses U1's forward-hop estimate; asymmetric routes can affect it.")
     elif udp:
-        warnings.append("No usable target U1 reply: using guessed initial TTL (TG), not an exact hop count.")
+        warnings.append("No usable U1 hop estimate: using guessed initial TTL (TG), not an exact hop count.")
     if len(samples) < 6:
         warnings.append("Only %d/6 sequence SYN probes answered; version resolution is reduced." % len(samples))
     if "TS" not in tests.get("SEQ", {}) and samples:
@@ -772,6 +786,7 @@ def recover_timestamp_clock(network, battery, timeout):
     late replies on the reused source port; no retries enter timing evidence.
     """
     first = next((p for p in battery if p.name == "S1" and p.response
+                  and p.response["protocol"] == 6
                   and p.response["flags"] & (SYN | ACK | RST) == SYN | ACK
                   and "tsval" in p.response), None)
     if first is None:
@@ -779,9 +794,10 @@ def recover_timestamp_clock(network, battery, timeout):
     options = bytes.fromhex(decode_packet(first.packet)["options_hex"])
     clocks = [make_probe(network.source, network.target, "CLK%d" % n,
                          first.dport, flags=SYN, window=1, options=options,
-                         sport=first.sport, fingerprint=True) for n in range(1, 4)]
+                         sport=first.sport, fingerprint=True, df=False) for n in range(1, 4)]
     network.exchange(clocks, max(timeout, 1.0), 0, 3, 0.2)
-    if any(not p.response or p.response["flags"] & (SYN | ACK | RST) != SYN | ACK
+    if any(not p.response or p.response["protocol"] != 6
+           or p.response["flags"] & (SYN | ACK | RST) != SYN | ACK
            or "tsval" not in p.response or p.attempts != 1 for p in clocks):
         return clocks, None
     rates = []
@@ -853,7 +869,10 @@ def published_match(report, database):
     status, candidate, family = "unknown", None, None
     explanation = "Insufficient positive fingerprint evidence."
     plausible = []
-    complete_timing = (syn_count == 6 and "TS" in tests.get("SEQ", {})
+    complete_timing = (syn_count == 6 and {"SP", "GCD", "ISR", "TS"} <= tests.get("SEQ", {}).keys()
+                       and report.get("implementation_revision", IMPLEMENTATION_REVISION) >= IMPLEMENTATION_REVISION
+                       and report.get("sequence_timing_complete", True)
+                       and not report.get("unstable_fields")
                        and report.get("timestamp_source", "sequence") == "sequence")
     ambiguity_margin = 1.0
     if ranked:
@@ -876,7 +895,7 @@ def published_match(report, database):
                 explanation = "Closest published TCP/IP fingerprint; the label may already cover a version range."
             else:
                 status = "ambiguous"
-                explanation = ("%d published fingerprints remain plausible; incomplete original sequence timing or near matches prevent a unique version answer."
+                explanation = ("%d published fingerprints remain plausible; legacy probes, incomplete sequence evidence, inconsistent rounds, or near matches prevent a unique version answer."
                                if not complete_timing else "%d published fingerprints fit too similarly for a unique version answer.") % len(plausible)
         elif not enough:
             explanation = "Need open/closed TCP ports, at least four SYN replies, and sufficient positive probe evidence."
@@ -959,6 +978,13 @@ def read_report(path):
         if not isinstance(tests, dict) or any(not isinstance(fields, dict) or
             any(not isinstance(k, str) or not isinstance(v, str) for k, v in fields.items()) for fields in tests.values()):
             raise ValueError("Standard report needs its extracted standard_fingerprint")
+        revision = report.setdefault("implementation_revision", 1)
+        if type(revision) is not int or revision < 1:
+            raise ValueError("Invalid scanner implementation_revision")
+        if revision < IMPLEMENTATION_REVISION:
+            note = "Legacy capture predates probe compatibility fixes; rescan for corrected Nmap-compatible packet fields."
+            if note not in report.setdefault("warnings", []):
+                report["warnings"].append(note)
     return report
 
 
@@ -1145,6 +1171,14 @@ def collect_standard_round(network, args, open_port, closed_port):
     return battery, tests, notes
 
 
+def sequence_timing_complete(battery):
+    samples = sorted((p for p in battery if re.fullmatch("S[1-6]", p.name)),
+                     key=lambda p: p.name)
+    return (len(samples) == 6 and all(p.attempts == 1 for p in samples)
+            and all(0.075 <= b.first_sent - a.first_sent <= 0.150
+                    for a, b in zip(samples, samples[1:])))
+
+
 def best_standard_round(network, args, db, ports, open_port, closed_port):
     rounds = []
     alternatives = [p["port"] for p in ports if p["state"] == "open" and p["port"] != open_port]
@@ -1152,11 +1186,16 @@ def best_standard_round(network, args, db, ports, open_port, closed_port):
         selected_open = open_port if attempt == 0 or not alternatives else alternatives[(attempt - 1) % len(alternatives)]
         battery, tests, notes = collect_standard_round(network, args, selected_open, closed_port)
         timestamp_source = "same-tuple" if any("Recovered TS=" in note for note in notes) else "sequence"
+        timing_complete = sequence_timing_complete(battery)
+        if not timing_complete:
+            notes.append("Sequence train had retries or spacing outside 75-150 ms; a unique version is withheld.")
         result = published_match({"ports": ports, "standard_fingerprint": tests,
-                                  "timestamp_source": timestamp_source}, db)
+                                  "timestamp_source": timestamp_source,
+                                  "sequence_timing_complete": timing_complete}, db)
         rounds.append({"battery": battery, "tests": tests, "notes": notes, "result": result,
                        "open_port": selected_open, "closed_port": closed_port,
-                       "timestamp_source": timestamp_source})
+                       "timestamp_source": timestamp_source,
+                       "sequence_timing_complete": timing_complete})
         best = next(iter(result["ranked"]), {})
         if (result["status"] == "candidate" and result["sequence_evidence_complete"]
                 and best.get("score", 0) == 100 and best.get("coverage", 0) >= 75):
@@ -1171,21 +1210,29 @@ def best_standard_round(network, args, db, ports, open_port, closed_port):
     selected = dict(selected)
     selected["tests"] = {category: dict(fields) for category, fields in selected["tests"].items()}
     selected["notes"] = list(selected["notes"])
-    # Remove contradictory response features across rounds; never merge SEQ timing.
+    # Keep an actual captured fingerprint. Deleting conflicting R/DF/window
+    # fields manufactures a partial match and can artificially improve scores.
+    # Record instability separately and withhold a unique version instead.
     unstable = []
     for category, fields in list(selected["tests"].items()):
-        if category == "SEQ":
-            continue
         for key in list(fields):
+            if category == "SEQ" and key in ("SP", "GCD", "ISR"):
+                continue  # Numeric ISN statistics naturally vary across rounds.
             observed = {item["tests"].get(category, {}).get(key) for item in rounds
                         if key in item["tests"].get(category, {})}
             if len(observed) > 1:
-                del fields[key]
                 unstable.append(category + "." + key)
     if unstable:
-        selected["notes"].append("Inconsistent across fingerprint rounds; omitted: " + ", ".join(unstable))
+        selected["notes"].append("Inconsistent across fingerprint rounds; unique version withheld: " + ", ".join(unstable))
+    selected["unstable_fields"] = unstable
+    selected["result"] = published_match({"ports": ports,
+        "standard_fingerprint": selected["tests"],
+        "timestamp_source": selected["timestamp_source"],
+        "sequence_timing_complete": selected["sequence_timing_complete"],
+        "unstable_fields": unstable}, db)
     summaries = [{"open_port": item["open_port"], "closed_port": item["closed_port"],
                   "timestamp_source": item["timestamp_source"],
+                  "sequence_timing_complete": item["sequence_timing_complete"],
                   "syn_replies": item["result"]["syn_replies"],
                   "best_match": item["result"]["ranked"][0]["label"] if item["result"]["ranked"] else None,
                   "standard_fingerprint": item["tests"],
@@ -1241,6 +1288,7 @@ def scan(args):
         if not confirmed_udp:
             warnings.append("UDP port %d was not confirmed closed; its silence contributes no OS evidence." % args.udp_port)
         report = {"format": FORMAT, "probe_set": PUBLISHED_PROBES if published else PROBE_SET,
+                  "implementation_revision": IMPLEMENTATION_REVISION,
                   "capture_id": RNG.getrandbits(128).to_bytes(16, "big").hex(),
                   "captured_at": datetime.now(timezone.utc).isoformat(),
                   "target": target, "source": network.source,
@@ -1256,6 +1304,8 @@ def scan(args):
             tests, notes = chosen["tests"], chosen["notes"]
             report["standard_fingerprint"] = tests
             report["timestamp_source"] = chosen["timestamp_source"]
+            report["sequence_timing_complete"] = chosen["sequence_timing_complete"]
+            report["unstable_fields"] = chosen["unstable_fields"]
             report["fingerprint_rounds"] = rounds
             report["warnings"].extend(notes)
             report["diagnostics"] = {"sequence_samples": len(syns),
