@@ -3,6 +3,7 @@
 
 import argparse
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
@@ -14,6 +15,7 @@ import random
 import re
 import select
 import socket
+import ssl
 import statistics
 import struct
 import sys
@@ -29,6 +31,8 @@ DEFAULT_DB = Path(__file__).with_name("fingerprints.json")
 PUBLISHED_DB = Path(__file__).with_name("nmap-os-db")
 PUBLISHED_PROBES = "standard-ipv4-v2"
 IMPLEMENTATION_REVISION = 2
+SERVICE_BYTE_LIMIT = 8192
+SERVICE_EXCLUDED_PORTS = frozenset(range(9100, 9108))
 
 
 # 1. Packet construction and decoding. No packet/scanning libraries are used.
@@ -913,7 +917,192 @@ def published_match(report, database):
             "sequence_evidence_complete": complete_timing, "ambiguity_margin_percent": ambiguity_margin,
             "confidence_method": "100 * matched_weight / total_weight (published IPv4 MatchPoints)",
             "coverage_meaning": "100 * comparable reference weight / relevant reference weight; measures evidence availability, not correctness.",
-            "score_meaning": "Nmap-style IPv4 confidence: weighted agreement on comparable fields, not a calibrated OS-version probability."}
+            "score_meaning": "Fingerprint similarity: weighted agreement on available comparison fields, not the probability that the OS label is correct."}
+
+
+# Supplemental application evidence. Independent of nmap-os-db MatchPoints.
+
+def banner_os_hints(platform_text, product):
+    """Only explicit platform markers/product restrictions; never version lookup."""
+    hints = []
+    markers = (("Linux", r"Ubuntu|Debian|CentOS|Fedora|Red Hat|Alpine|Linux"),
+               ("Windows", r"Windows(?: NT)?|Win32|Win64"),
+               ("FreeBSD", r"FreeBSD"), ("OpenBSD", r"OpenBSD"),
+               ("NetBSD", r"NetBSD"), ("Mac OS X", r"Mac OS X"))
+    for family, pattern in markers:
+        match = re.search(r"(?:^|[\s(;])(" + pattern + r")(?=$|[\s);/\-])",
+                          platform_text, re.IGNORECASE)
+        if match:
+            hints.append({"family": family, "evidence": match[1], "basis": "explicit platform tag"})
+    if product.lower() in ("microsoft-iis", "microsoft-httpapi", "openssh_for_windows"):
+        if not any(hint["family"] == "Windows" for hint in hints):
+            hints.append({"family": "Windows", "evidence": product,
+                          "basis": "Windows-specific product banner"})
+    return hints
+
+
+def parse_service_banner(data):
+    """Recognize a bounded banner; service versions are not OS release numbers."""
+    text = data[:SERVICE_BYTE_LIMIT].decode("utf-8", errors="replace")
+    # Do not publish a version cut off by a deadline, disconnect, or byte cap.
+    text = text[:text.rfind("\n") + 1]
+    service, product, version, evidence, platform = None, "", "", "", ""
+    # SSH allows informational lines before the identification string.
+    ssh = (re.search(r"(?m)^SSH-(?:2\.0|1\.99|1\.5)-([^\s]+)(?:[ \t]+([^\r\n]*))?\r?$", text)
+           if not text.startswith("HTTP/") else None)
+    if ssh:
+        service, evidence = "ssh", ssh[0].rstrip("\r")
+        software, platform = ssh[1], ssh[2] or ""
+        split = re.fullmatch(r"(.+)[_-](\d[^\s]*)", software)
+        product, version = (split[1], split[2]) if split else (software, "")
+    elif re.match(r"^HTTP/1\.[01] [0-9]{3}(?: |\r?$)", text, re.MULTILINE):
+        service = "http"
+        # Ignore body text and unrelated headers: HTML mentioning an OS is not evidence.
+        headers = re.split(r"\r?\n\r?\n", text, maxsplit=1)[0]
+        server = re.search(r"(?im)^Server:[ \t]*([^\r\n]*)", headers)
+        evidence = server[0] if server else text.splitlines()[0]
+        platform = server[1].strip() if server else ""
+        token = re.match(r"([^\s/();]+)(?:/([^\s();]+))?", platform)
+        if token:
+            product, version = token[1], token[2] or ""
+    else:
+        greeting = text.splitlines()[0] if text else ""
+        if re.match(r"^220[ -]", greeting):
+            if re.search(r"\b(?:ESMTP|SMTP)\b", greeting, re.IGNORECASE):
+                service = "smtp"
+            elif re.search(r"\b(?:FTP|vsFTPd|ProFTPD|Pure-FTPd|FileZilla)\b", greeting, re.IGNORECASE):
+                service = "ftp"
+        elif re.match(r"^\+OK\b.*\b(?:POP3|Dovecot|Courier)\b", greeting, re.IGNORECASE):
+            service = "pop3"
+        elif re.match(r"^\* OK\b.*\b(?:IMAP|Dovecot|Courier)\b", greeting, re.IGNORECASE):
+            service = "imap"
+        if service:
+            evidence = greeting
+            token = re.search(r"\b(vsFTPd|ProFTPD|Pure-FTPd|FileZilla|Postfix|Exim|Sendmail|Dovecot|Courier)"
+                              r"(?:[ /](\d[\w.\-]*))?", greeting, re.IGNORECASE)
+            if token:
+                product, version = token[1], token[2] or ""
+            # Platform hints in mail/FTP greetings must be parenthesized;
+            # hostnames such as ubuntu.example.org must not become OS guesses.
+            platform = " ".join(re.findall(r"\([^)]*\)", greeting))
+    return {"service": service or "unknown", "product": product or None,
+            "version": version or None, "evidence": evidence,
+            "os_hints": banner_os_hints(platform, product) if service else []}
+
+
+def read_service_bytes(connection, deadline, initial=b""):
+    data = initial
+    while len(data) < SERVICE_BYTE_LIMIT:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            break
+        connection.settimeout(remaining)
+        try:
+            chunk = connection.recv(min(2048, SERVICE_BYTE_LIMIT - len(data)))
+        except (socket.timeout, ConnectionResetError):
+            break
+        if not chunk:
+            break
+        data += chunk
+        if data.startswith(b"HTTP/"):
+            if b"\r\n\r\n" in data or b"\n\n" in data:
+                break
+        elif b"\n" in data:
+            # Keep waiting through SSH informational preamble lines.
+            complete = data[:data.rfind(b"\n") + 1]
+            if parse_service_banner(complete)["service"] != "unknown":
+                break
+    return data
+
+
+def probe_service(target, port, timeout=3.0, hostname=None, http_ports=(), tls_ports=()):
+    """One connection, absolute per-port deadline, bounded reads, no login."""
+    row = {"port": port, "transport": "tcp", "service": "unknown", "product": None,
+           "version": None, "os_hints": [], "evidence": "", "probes": [], "response_hex": ""}
+    if port in SERVICE_EXCLUDED_PORTS:
+        row.update(status="skipped", reason="printer port excluded from application probing")
+        return row
+    target = str(ipaddress.IPv4Address(target))  # Use the already-resolved scan endpoint.
+    host = hostname or target
+    if not re.fullmatch(r"[A-Za-z0-9.\-]+", host):
+        raise ValueError("Invalid HTTP Host/TLS server name")
+    deadline = time.monotonic() + timeout
+    data = b""
+    connection = None
+    try:
+        connection = socket.create_connection((target, port), timeout=timeout)
+        if port in tls_ports:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise socket.timeout("service deadline reached")
+            connection.settimeout(remaining)
+            # Inspect self-signed services without claiming certificate authentication.
+            context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+            connection = context.wrap_socket(connection, server_hostname=host)
+            row.update(transport="tls", tls_version=connection.version(), tls_certificate_verified=False)
+            row["probes"].append("TLS")
+        row["probes"].append("NULL")
+        greeting_deadline = (min(deadline, time.monotonic() + min(0.75, timeout / 3))
+                             if port in http_ports else deadline)
+        data = read_service_bytes(connection, greeting_deadline)
+        if not data and port in http_ports:
+            remaining = deadline - time.monotonic()
+            if remaining > 0:
+                connection.settimeout(remaining)
+                request = ("GET / HTTP/1.0\r\nHost: %s:%d\r\nConnection: close\r\n\r\n" % (host, port)).encode("ascii")
+                connection.sendall(request)
+                row["probes"].append("HTTP GET")
+                data = read_service_bytes(connection, deadline)
+        row.update(parse_service_banner(data))
+        row["status"] = "identified" if row["service"] != "unknown" else "unrecognized" if data else "no-banner"
+    except OSError as error:
+        row.update(status="error", reason=str(error))
+        if data:
+            row.update(parse_service_banner(data))
+    finally:
+        if connection is not None:
+            connection.close()
+    row["response_hex"] = data.hex()
+    return row
+
+
+def collect_services(target, ports, timeout=3.0, max_ports=16, hostname=None,
+                     http_ports=(), tls_ports=()):
+    # Give commonly informative services priority if the target has many ports.
+    preferred = {21, 22, 25, 110, 143, *http_ports, *tls_ports}
+    opened = sorted({p["port"] for p in ports if p["state"] == "open"},
+                    key=lambda port: (port not in preferred, port))
+    eligible = [p for p in opened if p not in SERVICE_EXCLUDED_PORTS]
+    selected = eligible[:max_ports]
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        rows = list(pool.map(lambda port: probe_service(target, port, timeout, hostname, http_ports, tls_ports), selected))
+    return {"enabled": True, "ports": sorted(rows, key=lambda row: row["port"]),
+            "excluded_ports": [p for p in opened if p in SERVICE_EXCLUDED_PORTS],
+            "unprobed_ports": eligible[max_ports:], "byte_limit": SERVICE_BYTE_LIMIT,
+            "timeout_per_port": timeout,
+            "note": "Banners describe a service endpoint and may be customized or proxied; application versions do not prove OS releases."}
+
+
+def application_os_assessment(report, stack_result):
+    evidence = [{"port": row["port"], "service": row["service"], **hint}
+                for row in report.get("services", {}).get("ports", [])
+                for hint in row.get("os_hints", [])]
+    families = {hint["family"] for hint in evidence}
+    stack_family = stack_result.get("family")
+    if not stack_family and stack_result.get("candidate") and stack_result.get("ranked"):
+        stack_family = stack_result["ranked"][0].get("family")
+    stack_families = set(stack_family.split("/")) if stack_family else set()
+    status, family = "no-hint", None
+    if len(families) > 1:
+        status = "conflicting-banners"
+    elif families:
+        family = next(iter(families))
+        status = ("corroborates-stack" if family in stack_families else "conflicts-with-stack"
+                  if stack_families else "tentative")
+    return {"status": status, "family": family, "evidence": evidence,
+            "note": "Supplemental, self-reported OS-family evidence; does not change fingerprint scores or establish an OS version."}
 
 
 # 4. Optional local calibration (the original report/probe format remains readable).
@@ -973,6 +1162,21 @@ def read_report(path):
     if not isinstance(report.get("features"), dict) or not isinstance(report.get("ports"), list):
         raise ValueError("Report needs features and ports: " + str(path))
     validate_features(report["features"])
+    if "services" in report:
+        services = report["services"]
+        if (not isinstance(services, dict) or type(services.get("enabled")) is not bool
+                or not isinstance(services.get("ports"), list)):
+            raise ValueError("Invalid application service evidence")
+        for row in services["ports"]:
+            if (not isinstance(row, dict) or type(row.get("port")) is not int
+                    or not 1 <= row["port"] <= 65535
+                    or any(not isinstance(row.get(key), str) for key in ("service", "transport", "status"))
+                    or not isinstance(row.get("os_hints"), list)):
+                raise ValueError("Invalid application service row")
+            for hint in row["os_hints"]:
+                if not isinstance(hint, dict) or any(not isinstance(hint.get(key), str)
+                                                     for key in ("family", "evidence", "basis")):
+                    raise ValueError("Invalid application OS hint")
     if report["probe_set"] == PUBLISHED_PROBES:
         tests = report.get("standard_fingerprint")
         if not isinstance(tests, dict) or any(not isinstance(fields, dict) or
@@ -1031,7 +1235,10 @@ def match_report(report, database):
     if database.get("kind") == "published":
         if report.get("probe_set") != PUBLISHED_PROBES:
             raise ValueError("The old probe set is incompatible with published signatures. Take a new scan using the default database.")
-        return published_match(report, database)
+        result = published_match(report, database)
+        if report.get("services", {}).get("enabled"):
+            result["application_os"] = application_os_assessment(report, result)
+        return result
     if report.get("probe_set") == PUBLISHED_PROBES:
         raise ValueError("Use nmap-os-db to match a standard fingerprint, not a local JSON calibration database")
     observed = report["features"]
@@ -1067,9 +1274,12 @@ def match_report(report, database):
         else:
             status, candidate = "candidate", best["label"]
             explanation = "Closest locally calibrated fingerprint; an unrepresented OS may behave the same."
-    return {"status": status, "candidate": candidate, "explanation": explanation,
+    result = {"status": status, "candidate": candidate, "explanation": explanation,
             "ranked": ranked, "family_hints": family_hints(observed),
             "score_meaning": "Weighted fingerprint agreement, not a probability or verified OS version."}
+    if report.get("services", {}).get("enabled"):
+        result["application_os"] = application_os_assessment(report, result)
+    return result
 
 
 def learn(args):
@@ -1111,21 +1321,41 @@ def show_report(report, debug=False):
     print(result["explanation"])
     for hint in result["family_hints"]:
         print("Family hint: " + hint)
+    if report.get("services", {}).get("enabled"):
+        print("\nApplication service evidence:")
+        for row in report["services"]["ports"]:
+            description = " ".join(str(row.get(key) or "") for key in ("service", "product", "version")).strip()
+            print("  %d/tcp %s %s [%s]" % (row["port"], row["transport"],
+                  json.dumps(description, ensure_ascii=True), row["status"]))
+        assessment = result["application_os"]
+        print("Supplemental OS hint: %s (%s)" % (assessment["family"] or "unknown", assessment["status"]))
+        for item in assessment["evidence"]:
+            print("  %d/tcp: %s" % (item["port"], json.dumps(item["evidence"], ensure_ascii=True)))
+        print(assessment["note"])
+        for key in ("excluded_ports", "unprobed_ports"):
+            if report["services"].get(key):
+                print("  %s: %s" % (key.replace("_", " "), report["services"][key]))
     if result["ranked"]:
         published = "database_count" in result
-        print("\nRANK  %s  COVERAGE  OS LABEL" % ("CONFIDENCE" if published else "MATCH     "))
+        if published and result["status"] == "unknown":
+            print("\nDiagnostic reference similarities only; no OS was identified.")
+        print("\nRANK  %s  COVERAGE  OS LABEL" % ("SIMILARITY" if published else "MATCH     "))
         rows = result["ranked"] if debug else result["ranked"][:5]
         for i, row in enumerate(rows, 1):
             print("%-5d %9.2f%%  %5.1f%%    %s" % (i, row["score"], row["coverage"], row["label"]))
         score = result["ranked"][0]["score"]
-        bars = round(score / 5)
-        print("Best match: [%s%s] %.1f%%" % ("#" * bars, "." * (20 - bars), score))
+        if result["status"] == "unknown":
+            print("Highest diagnostic similarity: %.1f%% (OS identification unavailable)." % score)
+        else:
+            print("Highest fingerprint similarity: %.1f%%." % score)
         print(result["score_meaning"])
         print("Coverage: weighted reference evidence available for comparison; not the percentage of ports scanned.")
         if published:
             top = result["ranked"][0]
             print("Best reference: %d/%d comparable points matched; %d/%d reference points available."
                   % (top["matched_weight"], top["total_weight"], top["total_weight"], top["reference_weight"]))
+            print("Missing reference evidence: %d weighted points; missing fields do not reduce similarity."
+                  % (top["reference_weight"] - top["total_weight"]))
             if result["status"] == "unknown":
                 print("These scores are fingerprint similarities only: detection evidence is insufficient.")
     for warning in report.get("warnings", []):
@@ -1311,6 +1541,11 @@ def scan(args):
             report["diagnostics"] = {"sequence_samples": len(syns),
                                      "sequence_send_offsets_ms": [round((p.first_sent - syns[0].first_sent) * 1000, 3) for p in syns],
                                      "sequence_fields": tests.get("SEQ", {})}
+        if args.service_version:
+            print("Collecting application banners (up to %d open ports)..." % args.version_max_ports, flush=True)
+            report["services"] = collect_services(target, results, args.version_timeout,
+                args.version_max_ports, args.target, args.http_ports, args.tls_ports)
+        report["elapsed_seconds"] = round(time.monotonic() - started, 3)
         report["result"] = match_report(report, db)
         show_report(report, args.debug)
         if args.output:
@@ -1513,6 +1748,18 @@ def make_parser():
     live.add_argument("--db", type=Path, default=PUBLISHED_DB, help="default: bundled published data; use a .json path for legacy local calibration")
     live.add_argument("-o", "--output", type=Path, help="save full scan and packet evidence as JSON")
     live.add_argument("--debug", action="store_true")
+    live.add_argument("-sV", "--service-version", action="store_true",
+                      help="collect bounded application banners and supplemental OS-family hints")
+    live.add_argument("--version-timeout", type=bounded_number(0.1, 30), default=3.0,
+                      help="total application probing budget per port, seconds (default 3)")
+    live.add_argument("--version-max-ports", type=bounded_number(1, 256, True), default=16,
+                      help="maximum open ports to inspect for application banners (default 16)")
+    live.add_argument("--http-ports", type=parse_ports,
+                      default=parse_ports("80,81,443,8000,8008,8080,8081,8443,8888"),
+                      help="ports eligible for an HTTP GET when no greeting arrives; replaces default list")
+    live.add_argument("--tls-ports", type=parse_ports,
+                      default=parse_ports("443,465,636,853,990,993,995,8443"),
+                      help="ports to inspect through TLS; replaces default list")
     train = commands.add_parser("learn", help="add a known-OS capture to the local signature database")
     train.add_argument("report", type=Path)
     train.add_argument("--label", type=nonempty, required=True, help="ground-truth label, e.g. Ubuntu 24.04 / kernel 6.8")

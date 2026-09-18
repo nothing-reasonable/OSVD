@@ -55,6 +55,7 @@ behavior, including the new sequence timing checks.
 | `README.md` | This usage and implementation guide | Documentation |
 | `SCANNER_REVIEW.md` | Nmap comparison, fixes, verification, and remaining work | Documentation |
 | `test_scanner.py` | Offline regressions and opt-in Linux loopback integration tests | Development only |
+| `test_services.py` | Banner parsing, OS-hint consistency, and local TCP/TLS integration tests | Development only |
 
 Earlier design PDFs, demo guides, and captured reports are not bundled.
 Examples below that mention `vm.json`, `scanme.json`, `cases.json`,
@@ -385,6 +386,11 @@ python3 scanner.py scan TARGET [OPTIONS]
 | `--db` | `nmap-os-db` beside script | File path | A `.json` suffix selects legacy local calibration; any other suffix selects published text data |
 | `-o`, `--output` | No saved report | File path | Writes full report; replaces an existing file |
 | `--debug` | Off | Flag | Prints all port states, more rankings, fingerprint fields, and mismatch details |
+| `-sV`, `--service-version` | Off | Flag | Collects application banners and supplemental OS-family hints after fingerprinting |
+| `--version-timeout` | `3` seconds | Number 0.1-30 | Total connection/handshake/read budget per application port |
+| `--version-max-ports` | `16` | Integer 1-256 | Maximum confirmed-open ports to probe for banners; four workers |
+| `--http-ports` | `80,81,443,8000,8008,8080,8081,8443,8888` | Port list/ranges | Allows HTTP GET if no greeting arrives; replaces this list |
+| `--tls-ports` | `443,465,636,853,990,993,995,8443` | Port list/ranges | Wraps connections to these ports in TLS; replaces this list |
 
 `--parallel`, `--delay`, and `--jitter` control discovery. The default published
 fingerprint battery uses its own fixed scheduling: approximately 100 ms for the
@@ -418,6 +424,43 @@ sudo python3 -B scanner.py scan 192.168.56.20 -p 1-65535 -o full.json
 A full search increases time and traffic; it is not required once useful open
 and closed ports are known. No exact duration is promised: unanswered probes,
 timeouts, retries, scheduling, and the number of rounds dominate runtime.
+
+### Application banners and supplemental OS hints
+
+```bash
+sudo python3 scanner.py scan 192.168.56.20 -p 22,80,443,8080,65000 -sV -o evidence.json
+# Custom HTTP port (it must also be in the discovery list):
+sudo python3 scanner.py scan 192.168.56.20 -p 12345,65000 -sV --http-ports 12345
+```
+
+This is a small standard-library banner detector, not the full Nmap `-sV`
+database engine. It recognizes SSH, HTTP, and common FTP/SMTP/POP3/IMAP greetings.
+It first listens for a greeting; selected HTTP ports receive `GET /` when silent.
+Selected TLS ports use a TLS connection. No authentication, redirects, STARTTLS,
+or arbitrary protocol-probe search is performed. TLS certificate verification
+is disabled for inspection of self-signed endpoints and explicitly recorded as
+`tls_certificate_verified=false`; the endpoint's identity is not authenticated.
+
+The collector uses only confirmed-open ports, prioritizes common services,
+caps each response at 8,192 bytes, and records ports omitted by the configured
+limit. Ports 9100-9107 are excluded from application probing. It uses four worker
+threads after the raw fingerprint rounds, so banner exchanges do not disturb
+the sequence timing measurements.
+
+An `OpenSSH_9.6p1 Ubuntu-...` banner suggests a Linux/Ubuntu service endpoint;
+`Microsoft-IIS/10.0` suggests a Windows service endpoint. Neither establishes the
+installed OS release. OpenSSH or Apache alone does not identify an OS. HTTP body
+text and unrelated headers are not used for platform inference. Partial lines
+are excluded so truncated responses cannot create invented version numbers.
+
+JSON saves the bounded response bytes, service product/version, probe names,
+and platform evidence under `services`. `result.application_os` reports
+`tentative`, `corroborates-stack`, `conflicts-with-stack`, `conflicting-banners`,
+or `no-hint`. An unknown stack result can therefore still have a tentative OS
+family hint. These hints do not change database scores or promote an ambiguous
+stack match to a unique OS version. Banners can describe a proxy/backend, can
+be customized, and can disagree across services. Offline `match` recomputes
+the assessment from saved evidence without making connections.
 
 ### `match`: offline reclassification
 
@@ -547,16 +590,18 @@ flowchart TD
     perfect candidate is found, or missing discovery prerequisites make another
     round unhelpful.
 14. Prefer the round with most SYN replies, then most positive comparable weight,
-    then highest match score. Remove contradictory non-SEQ fields across rounds.
-    Never merge sequence timing from different rounds.
-15. Recompute the final result after removing unstable fields. Print it and,
-    if requested, save full discovery and fingerprint evidence as JSON.
+    then highest match score. Preserve its fields and record contradictions
+    across rounds. Never merge sequence timing from different rounds.
+15. If `-sV` is enabled, collect bounded application banners. Recompute the final
+    fingerprint result and supplemental OS assessment. Print them and, if
+    requested, save discovery, fingerprint, and application evidence as JSON.
 16. Close all raw and reserved-port sockets, including on failures.
 
 Open SYN replies receive a reset rather than the ACK that completes a TCP
-handshake. No HTTP/SSH/banner exchange is part of this implementation. Actual
-traffic includes discovery packets, retransmissions, reset packets, fingerprint
-rounds, and any clock probes; a 16-probe battery does not mean 16 packets total.
+handshake. Optional application probing subsequently opens normal TCP
+connections. Traffic includes discovery packets, retransmissions, resets,
+fingerprint rounds, clock probes, and optional banner/TLS/HTTP exchanges;
+a 16-probe battery does not mean 16 packets total.
 
 ## 6. Packets and fingerprint fields
 
@@ -666,6 +711,18 @@ They mean WS10, NOP, MSS265, TS, SACK. T7 changes the window scale to 15.
 When both TCP prerequisites exist, there are 16 original probes. Missing a
 prerequisite reduces the battery. If clock recovery is attempted, up to three
 extra `CLK1`-`CLK3` SYN probes are added to that round's saved evidence.
+
+**Option ordering is already a matching feature.** `encoded_options` preserves
+order and values in `OPS.O1`-`O6` and TCP `O` fields. Reordering otherwise identical
+options changes the fingerprint and its score.
+
+**DF tests are distinct from fragment-overlap experiments.** This scanner
+measures TCP/UDP DF and ICMP DFI behavior. It does not send overlapping fragments
+or classify reassembly policies. Those are not fields in the standard
+`nmap-os-db` battery. Nmap's `-f`/`--mtu` options control outgoing fragmentation
+for evasion, as described in its [fragmentation documentation](https://nmap.org/book/man-bypass-firewalls-ids.html).
+Adding overlap-derived OS labels would require separate calibrated signatures
+and controlled path testing; there is no validated basis for such labels here.
 
 ### Fingerprint groups
 
@@ -797,6 +854,10 @@ can still distort negative TCP responsiveness evidence.
 
 ### Published confidence
 
+The console labels this score **SIMILARITY** to distinguish fingerprint
+agreement from certainty about an OS. JSON retains `confidence_percent` for
+compatibility. An UNKNOWN result shows diagnostic similarities and no match bar.
+
 Each reference test has a weight from the database's `MatchPoints` entry.
 Only fields present in both observed and reference fingerprints can contribute
 to the confidence denominator. Matching fields contribute to its numerator.
@@ -826,6 +887,13 @@ indicator or packet-response rate**.
 Coverage varies by reference because references have different fields. `T` and
 `TG` are alternatives, so the matcher avoids counting both as unavailable.
 Zero-weight tests have no numerical effect even if listed in diagnostics.
+
+For example, 1,610 matching points out of 1,610 available comparison points
+give 100% similarity. If the reference contains 3,265 relevant points, coverage
+is only 49.3% and 1,655 points are unavailable. Missing evidence is excluded
+from the similarity denominator. This can yield several 100% similarities
+while detection remains UNKNOWN because no open TCP port or sequence replies
+were obtained. The OS result takes precedence over diagnostic rankings.
 
 ### Ranking
 
@@ -1137,6 +1205,9 @@ sudo env SCANNER_LIVE_TEST=1 python3 -B -m unittest -v
 The suite checks packet fields/checksums, database expressions, sequence and
 matching safeguards, malformed replies, and report compatibility. Opt-in live
 tests cover SYN discovery, the full fingerprint battery, and scan/save/rematch.
+Application tests additionally use local greeting/HTTP/TLS listeners. The TLS
+test generates a temporary self-signed certificate with `openssl` and is skipped
+if that executable is absent; runtime scanning itself does not require it.
 These are correctness checks, not a multi-OS accuracy benchmark. See the review
 for results and the remaining validation work.
 
@@ -1225,8 +1296,9 @@ under one fingerprint. The best older label can be a better match than the
 database's closest chronological version. Published matching percentages are
 not empirically calibrated correctness estimates.
 
-This implementation covers IPv4 fingerprinting, not IPv6 classification,
-service/banner version detection, authentication, vulnerability checks, decoys,
+This implementation covers IPv4 fingerprinting and optional limited banner
+detection, not IPv6 classification, the full Nmap service-probe engine,
+authentication, vulnerability checks, decoys,
 automated firewall blocking, or Nmap's complete adaptive scan engine. Its packet
 parser checks lengths and rejects fragments; it does not reassemble fragmented
 packets or validate every incoming transport checksum. Measuring a quoted U1
@@ -1817,9 +1889,9 @@ No packets or remote version queries occur.
 Print source/target, state counts, and discovery rows. Print all ports when debug
 or the scan is small (<=20 ports); otherwise print open ports. Display default DB
 count/SYN evidence, decision, explanation, and family hints. Show up to five
-rankings normally, all retained rows in debug. Use CONFIDENCE for default mode
-and MATCH for local mode. The bar is a visualization of the best match score,
-not a separate confidence estimate.
+rankings normally, all retained rows in debug. Use SIMILARITY for default mode
+and MATCH for local mode. Print the highest similarity without a match bar;
+UNKNOWN rankings are explicitly diagnostic and do not identify an OS.
 
 Print the score definition, coverage definition, and default raw point ratios.
 An UNKNOWN result additionally cautions that displayed scores lack sufficient
