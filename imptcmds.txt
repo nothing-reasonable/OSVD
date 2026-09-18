@@ -1,0 +1,2 @@
+netsh advfirewall firewall add rule name="OSFP Lab Ping" dir=in action=allow protocol=icmpv4:8,any remoteip=192.168.56.10 profile=any
+netsh advfirewall firewall delete rule name="OSFP Lab Ping"
