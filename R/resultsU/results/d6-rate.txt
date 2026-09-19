@@ -1,0 +1,144 @@
+Scanning 192.168.56.20 from 192.168.56.10 (34 TCP ports)...
+Fingerprinting (open TCP=None, closed TCP=8002)...
+Target: 192.168.56.20    Source: 192.168.56.10
+TCP ports: 10 closed, 24 filtered
+PORT     STATE      REASON
+8000/tcp filtered   no reply (filtering, loss, or unreachable host)
+8001/tcp filtered   no reply (filtering, loss, or unreachable host)
+8002/tcp closed     RST
+8003/tcp filtered   no reply (filtering, loss, or unreachable host)
+8004/tcp filtered   no reply (filtering, loss, or unreachable host)
+8005/tcp filtered   no reply (filtering, loss, or unreachable host)
+8006/tcp filtered   no reply (filtering, loss, or unreachable host)
+8007/tcp closed     RST
+8008/tcp closed     RST
+8009/tcp closed     RST
+8010/tcp closed     RST
+8011/tcp filtered   no reply (filtering, loss, or unreachable host)
+8012/tcp filtered   no reply (filtering, loss, or unreachable host)
+8013/tcp filtered   no reply (filtering, loss, or unreachable host)
+8014/tcp filtered   no reply (filtering, loss, or unreachable host)
+8015/tcp filtered   no reply (filtering, loss, or unreachable host)
+8016/tcp filtered   no reply (filtering, loss, or unreachable host)
+8017/tcp closed     RST
+8018/tcp filtered   no reply (filtering, loss, or unreachable host)
+8019/tcp filtered   no reply (filtering, loss, or unreachable host)
+8020/tcp filtered   no reply (filtering, loss, or unreachable host)
+8021/tcp filtered   no reply (filtering, loss, or unreachable host)
+8022/tcp filtered   no reply (filtering, loss, or unreachable host)
+8023/tcp closed     RST
+8024/tcp filtered   no reply (filtering, loss, or unreachable host)
+8025/tcp filtered   no reply (filtering, loss, or unreachable host)
+8026/tcp closed     RST
+8027/tcp filtered   no reply (filtering, loss, or unreachable host)
+8028/tcp filtered   no reply (filtering, loss, or unreachable host)
+8029/tcp closed     RST
+8030/tcp filtered   no reply (filtering, loss, or unreachable host)
+8080/tcp filtered   no reply (filtering, loss, or unreachable host)
+8081/tcp closed     RST
+8082/tcp filtered   no reply (filtering, loss, or unreachable host)
+Database: 6108 published fingerprints; 0/6 SYN replies
+
+                                         OS Detection Results for 192.168.56.20                                         
++------+----------------------------------------------------------------+------------+----------+----------------------+
+| Rank | Operating System                                               | Confidence | Coverage | Match Bar            |
++------+----------------------------------------------------------------+------------+----------+----------------------+
+|    1 | Linux 3.2.0                                                    |    100.00% |    63.5% | #################### |
+|    2 | Asus RT-N10 router or AXIS 211A Network Camera (Linux 2.6)     |    100.00% |    63.0% | #################### |
+|    3 | Linux 2.6.18                                                   |    100.00% |    63.0% | #################### |
+|    4 | MikroTik RouterOS 6.15 (Linux 3.3.5)                           |    100.00% |    60.6% | #################### |
+|    5 | Linux 2.6.31 - 2.6.32                                          |    100.00% |    56.8% | #################### |
+|    6 | DD-WRT (Linux 2.4.35s)                                         |    100.00% |    55.0% | #################### |
+|    7 | Linux 3.14                                                     |    100.00% |    54.7% | #################### |
+|    8 | Linux 4.8                                                      |    100.00% |    54.7% | #################### |
+|    9 | HP Onboard Administrator 2.04                                  |    100.00% |    53.8% | #################### |
+|   10 | HP Onboard Administrator 2.25 - 3.31                           |    100.00% |    53.8% | #################### |
+|   11 | Linux 2.6.33                                                   |    100.00% |    53.3% | #################### |
+|   12 | HP Onboard Administrator 4.01                                  |    100.00% |    53.0% | #################### |
+|   13 | HP Onboard Administrator 4.12 - 4.40                           |    100.00% |    53.0% | #################### |
+|   14 | Linux 3.2.38                                                   |    100.00% |    53.0% | #################### |
+|   15 | Linux 3.7                                                      |    100.00% |    53.0% | #################### |
+|   16 | Netgear Prosafe UTM9S                                          |    100.00% |    53.0% | #################### |
+|   17 | ZoneAlarm Z100G WAP                                            |    100.00% |    53.0% | #################### |
+|   18 | Linux 2.4.21                                                   |    100.00% |    51.9% | #################### |
+|   19 | AVM FRITZ!Box (FritzOS 6.03)                                   |    100.00% |    51.6% | #################### |
+|   20 | AVM Fritz!Box 7360 (Linux 3.10)                                |    100.00% |    51.6% | #################### |
+|   21 | Android 4.1                                                    |    100.00% |    51.6% | #################### |
+|   22 | Android 4.1.2                                                  |    100.00% |    51.6% | #################### |
+|   23 | Android 5.1.1                                                  |    100.00% |    51.6% | #################### |
+|   24 | Android 7.0 (Linux 3.18)                                       |    100.00% |    51.6% | #################### |
+|   25 | Android 7.1.2 (Linux 3.4)                                      |    100.00% |    51.6% | #################### |
+|   26 | HIKVISION DS-7600 Linux Embedded NVR (Linux 2.6.10)            |    100.00% |    51.6% | #################### |
+|   27 | Linux 3.10                                                     |    100.00% |    51.6% | #################### |
+|   28 | Linux 3.11 - 3.13                                              |    100.00% |    51.6% | #################### |
+|   29 | Linux 3.13                                                     |    100.00% |    51.6% | #################### |
+|   30 | Linux 3.16                                                     |    100.00% |    51.6% | #################### |
+|   31 | Linux 4.1                                                      |    100.00% |    51.6% | #################### |
+|   32 | Linux 4.19                                                     |    100.00% |    51.6% | #################### |
+|   33 | Linux 4.4                                                      |    100.00% |    51.6% | #################### |
+|   34 | Linux 4.9                                                      |    100.00% |    51.6% | #################### |
+|   35 | Linux 5.10 - 5.11                                              |    100.00% |    51.6% | #################### |
+|   36 | Linux 5.4                                                      |    100.00% |    51.6% | #################### |
+|   37 | Linux 5.7                                                      |    100.00% |    51.6% | #################### |
+|   38 | MikroTik RouterOS 6.33                                         |    100.00% |    51.6% | #################### |
+|   39 | MikroTik RouterOS 6.34                                         |    100.00% |    51.6% | #################### |
+|   40 | MikroTik RouterOS 6.37                                         |    100.00% |    51.6% | #################### |
++------+----------------------------------------------------------------+------------+----------+----------------------+
+Source IP: 192.168.56.10
+Confidence and bars show fingerprint similarity, not a calibrated OS probability.
+Coverage shows how much reference evidence was available for comparison.
+
++ Summary -------------------------------------------------------------------------------------------------------------+
+| Status: UNKNOWN                                                                                                      |
+| Closest reference: Linux 3.2.0                                                                                       |
+| Confidence: 100.00%    Coverage: 63.5%                                                                               |
+| Need open/closed TCP ports, at least four SYN replies, and sufficient positive probe evidence.                       |
+| Showing: 40 of 40 retained matches                                                                                   |
+| Compared: 3990 distinct OS labels                                                                                    |
+| Diagnostic rankings only; no OS identified.                                                                          |
++----------------------------------------------------------------------------------------------------------------------+
+
+Diagnostic reference similarities only; no OS was identified.
+Fingerprint similarity: weighted agreement on available comparison fields, not the probability that the OS label is correct.
+Coverage: weighted reference evidence available for comparison; not the percentage of ports scanned.
+Best reference: 1660/1660 comparable points matched; 1660/2615 reference points available.
+Missing reference evidence: 955 weighted points; missing fields do not reduce similarity.
+These scores are fingerprint similarities only: detection evidence is insufficient.
+Note: An open AND a closed TCP port were not found. Broaden -p or configure the lab firewall.
+Note: Filtered/no reply does not prove a firewall: loss and unreachable hosts can look the same.
+Note: T uses U1's forward-hop estimate; asymmetric routes can affect it.
+Note: Only 0/6 sequence SYN probes answered; version resolution is reduced.
+Note: Sequence train had retries or spacing outside 75-150 ms; a unique version is withheld.
+
+Fingerprint:
+{}
+Diagnostics:
+{
+  "sequence_samples": 0,
+  "sequence_send_offsets_ms": [],
+  "sequence_fields": {}
+}
+
+Standard fingerprint:
+T5(R=Y%DF=Y%T=40%W=0%Q=%O=%S=Z%A=S+%F=AR%RD=0)
+T6(R=Y%DF=Y%T=40%W=0%Q=%O=%S=A%A=Z%F=R%RD=0)
+T7(R=Y%DF=Y%T=40%W=0%Q=%O=%S=Z%A=S+%F=AR%RD=0)
+IE(R=Y%DFI=N%CD=S%T=40)
+U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)
+
+Linux 3.2.0 differences:
+None on comparable fields
+
+Asus RT-N10 router or AXIS 211A Network Camera (Linux 2.6) differences:
+None on comparable fields
+
+Linux 2.6.18 differences:
+None on comparable fields
+
+MikroTik RouterOS 6.15 (Linux 3.3.5) differences:
+None on comparable fields
+
+Linux 2.6.31 - 2.6.32 differences:
+None on comparable fields
+
+Saved: results/d6-rate.json

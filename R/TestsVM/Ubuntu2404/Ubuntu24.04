@@ -1,0 +1,48 @@
+date -Is
+cat /etc/os-release
+uname -r
+uname -m
+ip -br address
+ss -ltn
+ss -lun
+sudo ufw status verbose
+sudo iptables -S
+sudo nft list ruleset
+-------------------------------------------------
+2026-09-19T06:39:52+06:00
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.5 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+7.0.0-31-generic
+x86_64
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             192.168.56.10/24 192.168.56.101/24 
+enp0s8           UP             10.0.3.15/24 fe80::2ff2:2922:5d53:6c5d/64 
+State    Recv-Q   Send-Q     Local Address:Port     Peer Address:Port  Process  
+LISTEN   0        4096       127.0.0.53%lo:53            0.0.0.0:*              
+LISTEN   0        4096          127.0.0.54:53            0.0.0.0:*              
+LISTEN   0        4096           127.0.0.1:631           0.0.0.0:*              
+LISTEN   0        4096               [::1]:631              [::]:*              
+State   Recv-Q   Send-Q     Local Address:Port      Peer Address:Port  Process  
+UNCONN  0        0                0.0.0.0:5353           0.0.0.0:*              
+UNCONN  0        0                0.0.0.0:42476          0.0.0.0:*              
+UNCONN  0        0             127.0.0.54:53             0.0.0.0:*              
+UNCONN  0        0          127.0.0.53%lo:53             0.0.0.0:*              
+UNCONN  0        0                   [::]:50366             [::]:*              
+UNCONN  0        0                   [::]:5353              [::]:*              
+Status: inactive
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+---------------------------------------------------------
+

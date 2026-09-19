@@ -1,0 +1,137 @@
+Scanning 192.168.56.30 from 192.168.56.10 (3 TCP ports)...
+Fingerprinting (open TCP=8080, closed TCP=None)...
+Target: 192.168.56.30    Source: 192.168.56.10
+TCP ports: 2 filtered, 1 open
+PORT     STATE      REASON
+8080/tcp open       SYN-ACK
+8081/tcp filtered   no reply (filtering, loss, or unreachable host)
+8082/tcp filtered   no reply (filtering, loss, or unreachable host)
+Database: 6108 published fingerprints; 6/6 SYN replies
+
+                                         OS Detection Results for 192.168.56.30                                         
++------+----------------------------------------------------------------+------------+----------+----------------------+
+| Rank | Operating System                                               | Confidence | Coverage | Match Bar            |
++------+----------------------------------------------------------------+------------+----------+----------------------+
+|    1 | Microsoft Windows Phone 7.5 or 8.0                             |    100.00% |    83.4% | #################### |
+|    2 | Microsoft Windows 7 Professional or Windows 8                  |    100.00% |    59.2% | #################### |
+|    3 | Microsoft Windows 7 or Windows Server 2008 R2                  |    100.00% |    59.2% | #################### |
+|    4 | Microsoft Windows Vista SP0 or SP1, Windows Server 2008 SP1,   |    100.00% |    59.2% | #################### |
+|      | or Windows 7                                                   |            |          |                      |
+|    5 | Microsoft Windows Server 2008 R2 or Windows 8.1                |    100.00% |    51.6% | #################### |
+|    6 | Microsoft Windows Embedded Standard 7                          |    100.00% |    81.8% | #################### |
+|    7 | Microsoft Windows Vista SP2, Windows 7 SP1, or Windows Server  |    100.00% |    58.6% | #################### |
+|      | 2008                                                           |            |          |                      |
+|    8 | Microsoft Windows Server 2008 SP1                              |     97.53% |    59.2% | #################### |
+|    9 | Microsoft Windows 7                                            |     97.29% |    59.2% | ###################. |
+|   10 | Microsoft Windows 8.1 R1                                       |     96.36% |    54.6% | ###################. |
+|   11 | Microsoft Windows Server 2008 R2 or Windows 7 SP1              |     96.36% |    54.6% | ###################. |
+|   12 | Microsoft Windows 8 Enterprise                                 |     95.18% |    48.9% | ###################. |
+|   13 | Microsoft Windows Vista or Windows 7                           |     95.06% |    56.2% | ###################. |
+|   14 | Microsoft Windows 10 1607                                      |     93.98% |    59.2% | ###################. |
+|   15 | Microsoft Windows Server 2012 R2                               |     93.98% |    59.2% | ###################. |
+|   16 | Microsoft Windows Server 2012 or Windows Server 2012 R2        |     93.98% |    59.2% | ###################. |
+|   17 | Microsoft Windows Vista Home Premium SP1, Windows 7, or        |     93.98% |    51.6% | ###################. |
+|      | Windows Server 2008                                            |            |          |                      |
+|   18 | Microsoft Windows 7 SP1                                        |     93.98% |    48.9% | ###################. |
+|   19 | Microsoft Windows Vista Home Premium SP1                       |     93.22% |    56.3% | ###################. |
+|   20 | Microsoft Windows 7 SP1 or Windows Server 2008 SP2 or 2008 R2  |     93.07% |    59.2% | ###################. |
+|      | SP1                                                            |            |          |                      |
+|   21 | Microsoft Windows Server 2008 R2                               |     93.07% |    51.6% | ###################. |
+|   22 | Microsoft Windows Vista SP2                                    |     92.90% |    59.2% | ###################. |
+|   23 | Microsoft Windows 8.1 Update 1                                 |     91.87% |    76.5% | ##################.. |
+|   24 | Microsoft Windows Server 2008 R2 SP1 or Windows 8              |     91.87% |    59.2% | ##################.. |
+|   25 | Microsoft Windows 8.1 Enterprise                               |     91.27% |    51.6% | ##################.. |
+|   26 | Microsoft Windows Server 2008 R2 SP1                           |     90.88% |    56.4% | ##################.. |
+|   27 | Microsoft Windows Server 2008 or 2008 Beta 3                   |     89.16% |    59.2% | ##################.. |
+|   28 | Microsoft Windows 10 1511 - 1607                               |     89.16% |    55.6% | ##################.. |
+|   29 | Microsoft Windows 7 Professional                               |     89.16% |    55.6% | ##################.. |
+|   30 | Microsoft Windows Vista Enterprise                             |     89.16% |    49.6% | ##################.. |
+|   31 | Microsoft Windows 8                                            |     89.16% |    48.9% | ##################.. |
+|   32 | Microsoft Windows 7 or Windows Server 2008 R2 or Windows 8.1   |     89.16% |    46.4% | ##################.. |
+|   33 | Microsoft Windows 7 SP1 or Windows Server 2008 R2 or Windows   |     89.09% |    46.9% | ##################.. |
+|      | 8.1                                                            |            |          |                      |
+|   34 | Microsoft Windows Server 2016                                  |     87.95% |    59.2% | ##################.. |
+|   35 | Microsoft Windows 10 1511                                      |     87.95% |    51.6% | ##################.. |
+|   36 | Microsoft Windows 11 21H2                                      |     87.65% |    59.2% | ##################.. |
+|   37 | Microsoft Windows 11 24H2                                      |     87.65% |    59.2% | ##################.. |
+|   38 | Microsoft Windows 7 SP1 or Windows Server 2008 SP2             |     87.05% |    51.6% | #################... |
+|   39 | Microsoft Windows 11                                           |     86.75% |    83.4% | #################... |
+|   40 | Microsoft Windows Server 2008                                  |     86.55% |    54.6% | #################... |
++------+----------------------------------------------------------------+------------+----------+----------------------+
+Source IP: 192.168.56.10
+Confidence and bars show fingerprint similarity, not a calibrated OS probability.
+Coverage shows how much reference evidence was available for comparison.
+
++ Summary -------------------------------------------------------------------------------------------------------------+
+| Status: UNKNOWN                                                                                                      |
+| Closest reference: Microsoft Windows Phone 7.5 or 8.0                                                                |
+| Confidence: 100.00%    Coverage: 83.4%                                                                               |
+| Need open/closed TCP ports, at least four SYN replies, and sufficient positive probe evidence.                       |
+| Showing: 40 of 40 retained matches                                                                                   |
+| Compared: 3990 distinct OS labels                                                                                    |
+| Diagnostic rankings only; no OS identified.                                                                          |
++----------------------------------------------------------------------------------------------------------------------+
+
+Diagnostic reference similarities only; no OS was identified.
+Fingerprint similarity: weighted agreement on available comparison fields, not the probability that the OS label is correct.
+Coverage: weighted reference evidence available for comparison; not the percentage of ports scanned.
+Best reference: 1660/1660 comparable points matched; 1660/1990 reference points available.
+Missing reference evidence: 330 weighted points; missing fields do not reduce similarity.
+These scores are fingerprint similarities only: detection evidence is insufficient.
+Note: An open AND a closed TCP port were not found. Broaden -p or configure the lab firewall.
+Note: Filtered/no reply does not prove a firewall: loss and unreachable hosts can look the same.
+Note: Requested closed port 8081 was not confirmed; used another if available.
+Note: UDP port 33434 was not confirmed closed; its silence contributes no OS evidence.
+Note: No usable U1 hop estimate: using guessed initial TTL (TG), not an exact hop count.
+
+Fingerprint:
+{}
+Diagnostics:
+{
+  "sequence_samples": 6,
+  "sequence_send_offsets_ms": [
+    0.0,
+    100.411,
+    212.404,
+    339.375,
+    444.805,
+    545.059
+  ],
+  "sequence_fields": {
+    "TI": "I",
+    "II": "I",
+    "GCD": "1",
+    "ISR": "10B",
+    "SP": "106",
+    "TS": "7",
+    "SS": "S"
+  }
+}
+
+Standard fingerprint:
+SEQ(TI=I%II=I%GCD=1%ISR=10B%SP=106%TS=7%SS=S)
+OPS(O1=M5B4NW8ST11%O2=M5B4NW8ST11%O3=M5B4NW8NNT11%O4=M5B4NW8ST11%O5=M5B4NW8ST11%O6=M5B4ST11)
+WIN(W1=2000%W2=2000%W3=2000%W4=2000%W5=2000%W6=2000)
+T1(R=Y%DF=Y%TG=80%W=2000%Q=%O=M5B4NW8ST11%S=O%A=S+%F=AS%RD=0)
+ECN(R=Y%DF=Y%TG=80%W=2000%Q=%O=M5B4NW8NNS%CC=N)
+T2(R=N)
+T3(R=N)
+T4(R=N)
+IE(R=Y%DFI=N%CD=Z%TG=80)
+
+Microsoft Windows Phone 7.5 or 8.0 differences:
+None on comparable fields
+
+Microsoft Windows 7 Professional or Windows 8 differences:
+None on comparable fields
+
+Microsoft Windows 7 or Windows Server 2008 R2 differences:
+None on comparable fields
+
+Microsoft Windows Vista SP0 or SP1, Windows Server 2008 SP1, or Windows 7 differences:
+None on comparable fields
+
+Microsoft Windows Server 2008 R2 or Windows 8.1 differences:
+None on comparable fields
+
+Saved: results/win7-baseline-01.json

@@ -1,0 +1,55 @@
+date -Is
+cat /etc/os-release
+uname -r
+uname -m
+ip -br address
+ss -ltn
+ss -lun
+sudo ufw status verbose
+sudo iptables -S
+sudo nft list ruleset
+-----------------------------------------------------------
+2026-09-19T06:42:17+06:00
+PRETTY_NAME="Zorin OS 18.1"
+NAME="Zorin OS"
+VERSION_ID="18"
+VERSION="18.1"
+VERSION_CODENAME=noble
+ID=zorin
+ID_LIKE="ubuntu debian"
+HOME_URL="https://zorin.com/os/"
+SUPPORT_URL="https://help.zorin.com/"
+BUG_REPORT_URL="https://zorin.com/os/feedback/"
+PRIVACY_POLICY_URL="https://zorin.com/legal/privacy/"
+UBUNTU_CODENAME=noble
+LOGO=zorin-logo
+7.0.0-31-generic
+x86_64
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             192.168.56.20/24 fe80::cb4c:a45b:7ad9:3a9c/64 
+enp0s8           UP             10.0.3.15/24 fe80::fc69:ea32:f287:9402/64 
+State    Recv-Q   Send-Q     Local Address:Port     Peer Address:Port  Process  
+LISTEN   0        4096       127.0.0.53%lo:53            0.0.0.0:*              
+LISTEN   0        4096           127.0.0.1:631           0.0.0.0:*              
+LISTEN   0        4096          127.0.0.54:53            0.0.0.0:*              
+LISTEN   0        4096               [::1]:631              [::]:*              
+State   Recv-Q   Send-Q     Local Address:Port      Peer Address:Port  Process  
+UNCONN  0        0             127.0.0.54:53             0.0.0.0:*              
+UNCONN  0        0          127.0.0.53%lo:53             0.0.0.0:*              
+UNCONN  0        0                0.0.0.0:58566          0.0.0.0:*              
+UNCONN  0        0                0.0.0.0:5353           0.0.0.0:*              
+UNCONN  0        0                   [::]:5353              [::]:*              
+UNCONN  0        0                   [::]:48628             [::]:*              
+Status: inactive
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+------------------------------------------------------------
+
+zorin@zorin-VirtualBox:~/Downloads$ ls
+NMAP-DATABASE-LICENSE.txt  nmap-os-db  scanner.py
+zorin@zorin-VirtualBox:~/Downloads$ mkdir lab-web
+zorin@zorin-VirtualBox:~/Downloads$ touch lab-web/index.html
+zorin@zorin-VirtualBox:~/Downloads$ echo "Working" > lab-web/index.html
+zorin@zorin-VirtualBox:~/Downloads$ python3 -m http.server 8080 --bind 192.168.56.20 --directory lab-web
+Serving HTTP on 192.168.56.20 port 8080 (http://192.168.56.20:8080/) ...

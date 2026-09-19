@@ -8,8 +8,12 @@ the closest supported version or version range.
 The scanning and OS matching implementation is in **[scanner.py](scanner.py)**;
 **[windows_transport.py](windows_transport.py)** adds native Windows packet I/O.
 The victim-side **[defender.py](defender.py)** runs continuously on Linux or
-Windows to normalize outgoing IPv4 responses while keeping new TCP connections
-accessible by default. See **[the defense guide](DEFENSE.md)** for foreground and
+Windows. **`sudo python3 defender.py run` now starts full Linux defense by default**:
+normalization, scan detection, temporary source blocks, probe filtering, and
+per-source SYN limits on all non-loopback interfaces. Use `--profile normalize`
+for the earlier normalization-only behavior. Windows defaults to the strongest
+implemented stateless filters; dynamic source blocking requires Linux.
+See **[the defense guide](DEFENSE.md)** for foreground and
 background commands, limitations, cleanup, and before/after testing.
 The Python code uses only the standard library. Windows live scans additionally
 require the WinDivert driver and DLL. It does not invoke Nmap, import a Nmap wrapper,
@@ -57,9 +61,9 @@ behavior, including the new sequence timing checks.
 | --- | --- | --- |
 | `scanner.py` | Packet construction, transport, extraction, matching, CLI, and optional monitoring | Yes |
 | `windows_transport.py` | WinDivert transport through standard-library ctypes | Windows live scans only |
-| `defender.py` | Victim-side response normalization using nftables (Linux) or WinDivert (Windows) | Defense only |
+| `defender.py` | IPv4 normalization and Linux active scan detection, filtering, limits, and timed blocks | Defense only |
 | `DEFENSE.md` | Defense setup, background operation, cleanup, and evaluation | Documentation |
-| `test_defender.py`, `test_defender_linux.py` | Defense regression and isolated Linux packet tests | Development only |
+| `test_defender.py`, `test_defender_active.py`, `test_defender_linux.py` | Defense regression and isolated Linux packet tests | Development only |
 | `test_windows_transport.py` | Driver simulation, platform selection, and opt-in Windows loopback test | Development only |
 | `nmap-os-db` | 6,108 reference fingerprints and their matching weights | Yes, unless you supply another compatible database |
 | `NMAP-DATABASE-LICENSE.txt` | License terms supplied with the published database | Keep with the database |
@@ -1342,12 +1346,35 @@ is not strictly JSON Lines from its first line.
 
 ### Active response normalization on the victim
 
-The separate **[defender.py](defender.py)** changes outbound IPv4 TTL to 64 and
-normalizes the ID field only on atomic (DF=1, MF=0, offset=0) packets. By default,
-it neither blocks new TCP connections nor suppresses replies. It runs on Linux
-with nftables and native Windows with WinDivert, with optional peer scoping and
-explicit opt-in probe/reply suppression. This reduces selected fingerprint clues;
-it does not guarantee OS concealment or make Windows fully imitate Linux.
+The separate **[defender.py](defender.py)** defaults to its hardened profile. On
+Linux it applies normalization, detects scans, installs timed source blocks, and
+filters fingerprint probes/replies. Normalization changes outbound IPv4 TTL to
+64 and IDs to zero only for atomic (DF=1, MF=0, offset=0) packets. Select
+`--profile normalize` for header changes without automatic blocking. Native
+Windows uses WinDivert for stateless filtering/normalization. Neither profile
+guarantees OS concealment or makes Windows fully imitate Linux.
+
+For full Linux defense inside the target VM or physical machine:
+
+```bash
+sudo python3 -B defender.py run
+```
+
+This defaults to all non-loopback interfaces (`--interface any`). It detects
+distinct-port sweeps and incomplete handshakes, and blocks scan sources for
+60 seconds. Abnormal TCP flags, initial SYN windows below 1024 bytes, and excess
+SYN rates trigger blocks directly in the kernel. It also filters ICMP/UDP probes,
+suppresses resets, and drops invalid flows. The per-source allowance defaults to
+20 SYNs/second with burst 20; `--syn-rate 2 --syn-burst 2` selects the stricter lab
+example. Use `--peer` to restrict protection to
+the lab attacker and `--allow-peer` to exempt trusted administration addresses.
+Detection alone (`--profile normalize --detect`), static source blocks, connection limits, kernel SYN
+cookies, and optional decoy greeting services are separately configurable.
+`--profile normalize --mode filter-only` disables the automatic profile and
+TTL/ID rewriting for individual experiments. The less restrictive `--active`
+profile omits the small-window heuristic and blanket RST suppression.
+SYN cookies use the kernel's existing implementation; TCP ISNs/options are not
+rewritten. The guide explicitly excludes unsafe TCP-option stripping/reordering.
 
 See **[DEFENSE.md](DEFENSE.md)** for commands, background execution, cleanup,
 and a repeatable before/after demonstration using this scanner.

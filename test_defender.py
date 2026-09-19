@@ -30,8 +30,8 @@ def packet(flags=s.SYN | s.ACK, source=LOCAL, target=PEER, df=True, ttl=128):
 
 
 class PolicyTests(unittest.TestCase):
-    def test_default_preserves_connections_and_all_replies(self):
-        args = d.make_parser().parse_args(["preview"])
+    def test_explicit_normalization_preserves_connections_and_all_replies(self):
+        args = d.make_parser().parse_args(["preview", "--profile", "normalize"])
         policy = d.Policy.from_args(args)
         self.assertIsNone(d.divert_filters(policy)[0])
         self.assertNotIn("drop", d.nft_rules(policy))
@@ -262,6 +262,17 @@ class NativeWindowsFilterTests(unittest.TestCase):
         self.assertFalse(self.matches(ttl_only, packet(ttl=64), outbound=True))
         for target in ("224.0.0.251", "239.255.255.250", "255.255.255.255"):
             self.assertFalse(self.matches(rewrite, packet(target=target), outbound=True))
+
+    def test_small_syn_window_filter_covers_sequence_probes_not_normal_clients(self):
+        drop, _ = d.divert_filters(d.Policy(min_syn_window=1024))
+        for probe in s.standard_probes(PEER, LOCAL, 8080, 8081, 33434):
+            if probe.name in ("S1", "S2", "S3", "S4", "S5", "S6", "ECN"):
+                self.assertTrue(self.matches(drop, probe.packet), probe.name)
+        self.assertFalse(self.matches(drop, packet(s.SYN)))
+        self.assertFalse(self.matches(drop, packet(s.SYN | s.ECE | s.CWR)))
+        # A zero window in an established connection is valid flow control.
+        tcp = s.tcp_segment(PEER, LOCAL, 45000, 8080, 123, flags=s.ACK, window=0)
+        self.assertFalse(self.matches(drop, s.ip_packet(PEER, LOCAL, 6, tcp, 123)))
 
     def test_real_checksum_helper_preserves_fragment_payload(self):
         helper = self.dll.WinDivertHelperCalcChecksums

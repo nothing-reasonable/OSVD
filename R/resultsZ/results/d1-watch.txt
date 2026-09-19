@@ -1,0 +1,5 @@
+Watching enp0s3; alerts only. Ctrl+C stops.
+{"source": "192.168.56.10", "target": "192.168.56.20", "reason": "distinct-port SYN sweep", "distinct_ports": 20, "time": "2026-09-19T01:56:53.861443+00:00"}
+{"source": "192.168.56.10", "target": "192.168.56.20", "reason": "unusual TCP flags 0x00", "distinct_ports": 34, "time": "2026-09-19T01:56:56.282586+00:00"}
+{"source": "192.168.56.10", "target": "192.168.56.20", "reason": "unusual TCP flags 0x2b", "distinct_ports": 34, "time": "2026-09-19T01:56:56.308689+00:00"}
+{"source": "192.168.56.10", "target": "192.168.56.20", "reason": "unusual TCP flags 0x29", "distinct_ports": 34, "time": "2026-09-19T01:56:56.412910+00:00"}

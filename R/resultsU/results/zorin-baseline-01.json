@@ -1,0 +1,4631 @@
+{
+  "format": 1,
+  "probe_set": "standard-ipv4-v2",
+  "implementation_revision": 2,
+  "capture_id": "04bc783e805635626cdb6444eda5ad0a",
+  "captured_at": "2026-09-19T01:39:10.767380+00:00",
+  "target": "192.168.56.20",
+  "source": "192.168.56.10",
+  "elapsed_seconds": 23.653,
+  "ports": [
+    {
+      "port": 8080,
+      "state": "open",
+      "reason": "SYN-ACK",
+      "attempts": 1,
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 44,
+        "header_hex": "4500002c000040004006495dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 39480,
+        "seq": 3938818646,
+        "ack": 1568448609,
+        "flags": 18,
+        "reserved": 0,
+        "window": 64240,
+        "urgent": 0,
+        "options": "MSS",
+        "options_hex": "020405b4",
+        "data_hex": "",
+        "mss": 1460,
+        "rtt_ms": 3.786,
+        "received_at": 7020.529445452
+      }
+    },
+    {
+      "port": 8081,
+      "state": "closed",
+      "reason": "RST",
+      "attempts": 1,
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 40,
+        "header_hex": "450000280000400040064961c0a83814c0a8380a",
+        "sport": 8081,
+        "dport": 39944,
+        "seq": 0,
+        "ack": 2675133712,
+        "flags": 20,
+        "reserved": 0,
+        "window": 0,
+        "urgent": 0,
+        "options": "",
+        "options_hex": "",
+        "data_hex": "",
+        "rtt_ms": 7.701,
+        "received_at": 7020.516345945
+      }
+    },
+    {
+      "port": 8082,
+      "state": "filtered",
+      "reason": "no reply (filtering, loss, or unreachable host)",
+      "attempts": 2,
+      "response": null
+    }
+  ],
+  "open_port": 8080,
+  "closed_port": 8081,
+  "udp_port": 33434,
+  "udp_closed_confirmed": true,
+  "features": {},
+  "probes": [
+    {
+      "name": "S1",
+      "attempts": 1,
+      "first_sent": 7024.739616401,
+      "sent_packet_hex": "4500003c95f800004006f354c0a8380ac0a83814ebe91f908797512afff0e04ca0020001891c000003030a01020405b4080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 60393,
+        "seq": 1150345347,
+        "ack": 2274840875,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080ad28746b5ffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 3532080821,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 1.581,
+        "received_at": 7024.741197269
+      }
+    },
+    {
+      "name": "S2",
+      "attempts": 1,
+      "first_sent": 7024.840472516,
+      "sent_packet_hex": "4500003c6245000040062708c0a8380ac0a83814c5b51f90e42e6c3cff338ec9a002003f93e60000020405780303000402080affffffff0000000000",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 50613,
+        "seq": 2783950932,
+        "ack": 3828247613,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080a6f4de500ffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 1867375872,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 3.004,
+        "received_at": 7024.843476919
+      }
+    },
+    {
+      "name": "S3",
+      "attempts": 1,
+      "first_sent": 7024.966378539,
+      "sent_packet_hex": "4500003c8aa300004006fea9c0a8380ac0a83814e4991f90a9143a531cb37a0ba0020004da770000080affffffff0000000001010303050102040280",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 58521,
+        "seq": 4218583188,
+        "ack": 2836675156,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,NOP,NOP,TS,NOP,WS",
+        "options_hex": "020405b40101080ad849b67affffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 3628709498,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 2.774,
+        "received_at": 7024.969152575
+      }
+    },
+    {
+      "name": "S4",
+      "attempts": 1,
+      "first_sent": 7025.087493006,
+      "sent_packet_hex": "450000387049000040061908c0a8380ac0a838149cb51f906f92f65ce60ab37690020004a99900000402080affffffff0000000003030a00",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 40117,
+        "seq": 1837778238,
+        "ack": 1871902301,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080a5c08e500ffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 1544086784,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 2.78,
+        "received_at": 7025.090273193
+      }
+    },
+    {
+      "name": "S5",
+      "attempts": 1,
+      "first_sent": 7025.195905865,
+      "sent_packet_hex": "4500003cf77c0000400691d0c0a8380ac0a8381483e51f9030182055e207292ca0020010520d0000020402180402080affffffff0000000003030a00",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 33765,
+        "seq": 2114361654,
+        "ack": 806887510,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080a35c25a02ffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 901929474,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 2.369,
+        "received_at": 7025.198274789
+      }
+    },
+    {
+      "name": "S6",
+      "attempts": 1,
+      "first_sent": 7025.299965599,
+      "sent_packet_hex": "450000389ed500004006ea7bc0a8380ac0a8381498e11f9009d109ddf24e98199002020016c20000020401090402080affffffff00000000",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 56,
+        "header_hex": "450000380000400040064951c0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 39137,
+        "seq": 2145520731,
+        "ack": 164694494,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS",
+        "options_hex": "020405b40402080aa0c050c0ffffffff",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 2696958144,
+        "tsecr": 4294967295,
+        "rtt_ms": 1.618,
+        "received_at": 7025.301583277
+      }
+    },
+    {
+      "name": "IE1",
+      "attempts": 1,
+      "first_sent": 7025.407077475,
+      "sent_packet_hex": "45000094035c40004001459ec0a8380ac0a838140809d10425cb0127000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 1,
+        "id": 46708,
+        "df": false,
+        "tos": 0,
+        "total_length": 148,
+        "header_hex": "45000094b67400004001d285c0a83814c0a8380a",
+        "icmp_type": 0,
+        "code": 9,
+        "icmp_id": 9675,
+        "icmp_seq": 295,
+        "rtt_ms": 1.817,
+        "received_at": 7025.408894774
+      }
+    },
+    {
+      "name": "IE2",
+      "attempts": 1,
+      "first_sent": 7025.519979982,
+      "sent_packet_hex": "450400b22dca000040015b0ec0a8380ac0a838140800d10b25cc0128000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 1,
+        "id": 46757,
+        "df": false,
+        "tos": 4,
+        "total_length": 178,
+        "header_hex": "450400b2b6a500004001d232c0a83814c0a8380a",
+        "icmp_type": 0,
+        "code": 0,
+        "icmp_id": 9676,
+        "icmp_seq": 296,
+        "rtt_ms": 1.478,
+        "received_at": 7025.521457587
+      }
+    },
+    {
+      "name": "ECN",
+      "attempts": 1,
+      "first_sent": 7025.521516167,
+      "sent_packet_hex": "45000034683c000040062119c0a8380ac0a83814c9491f90372610f00000000088c2000342fff7f503030a01020405b404020101",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 52,
+        "header_hex": "450000340000400040064955c0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 51529,
+        "seq": 140377620,
+        "ack": 925241585,
+        "flags": 82,
+        "reserved": 0,
+        "window": 64240,
+        "urgent": 0,
+        "options": "MSS,NOP,NOP,SACK,NOP,WS",
+        "options_hex": "020405b40101040201030309",
+        "data_hex": "",
+        "mss": 1460,
+        "ws": 9,
+        "rtt_ms": 1.834,
+        "received_at": 7025.523350288
+      }
+    },
+    {
+      "name": "T2",
+      "attempts": 2,
+      "first_sent": 7025.550180923,
+      "sent_packet_hex": "4500003cd994400040066fb8c0a8380ac0a83814e90f1f9024c916af4ed1fa36a0000080c4a3000003030a0102040109080affffffff000000000402",
+      "response": null
+    },
+    {
+      "name": "T3",
+      "attempts": 2,
+      "first_sent": 7025.576319869,
+      "sent_packet_hex": "4500003c354d000040065400c0a8380ac0a83814dc451f909989cd1fcdc4510ba02b0100cfc9000003030a0102040109080affffffff000000000402",
+      "response": null
+    },
+    {
+      "name": "T4",
+      "attempts": 1,
+      "first_sent": 7025.604184239,
+      "sent_packet_hex": "4500003cbe3b400040068b11c0a8380ac0a83814ccb51f90634f02c0758c5be1a01004002a71000003030a0102040109080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 40,
+        "header_hex": "450000280000400040064961c0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 52405,
+        "seq": 1972132833,
+        "ack": 0,
+        "flags": 4,
+        "reserved": 0,
+        "window": 0,
+        "urgent": 0,
+        "options": "",
+        "options_hex": "",
+        "data_hex": "",
+        "rtt_ms": 1.333,
+        "received_at": 7025.605517102
+      }
+    },
+    {
+      "name": "T5",
+      "attempts": 1,
+      "first_sent": 7025.630611467,
+      "sent_packet_hex": "4500003c12c100004006768cc0a8380ac0a83814ad231f9173baed57788711d2a0027a691fb8000003030a0102040109080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 40,
+        "header_hex": "450000280000400040064961c0a83814c0a8380a",
+        "sport": 8081,
+        "dport": 44323,
+        "seq": 0,
+        "ack": 1941630296,
+        "flags": 20,
+        "reserved": 0,
+        "window": 0,
+        "urgent": 0,
+        "options": "",
+        "options_hex": "",
+        "data_hex": "",
+        "rtt_ms": 1.291,
+        "received_at": 7025.631902361
+      }
+    },
+    {
+      "name": "T6",
+      "attempts": 1,
+      "first_sent": 7025.659228509,
+      "sent_packet_hex": "4500003cefef40004006595dc0a8380ac0a83814a7e11f91aa1ed8daa0f926b0a0108000c01d000003030a0102040109080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 40,
+        "header_hex": "450000280000400040064961c0a83814c0a8380a",
+        "sport": 8081,
+        "dport": 42977,
+        "seq": 2700682928,
+        "ack": 0,
+        "flags": 4,
+        "reserved": 0,
+        "window": 0,
+        "urgent": 0,
+        "options": "",
+        "options_hex": "",
+        "data_hex": "",
+        "rtt_ms": 5.893,
+        "received_at": 7025.665121582
+      }
+    },
+    {
+      "name": "T7",
+      "attempts": 1,
+      "first_sent": 7025.690219473,
+      "sent_packet_hex": "4500003cd45600004006b4f6c0a8380ac0a8381487011f9156b8f215219f20c7a029ffff1b54000003030f0102040109080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 40,
+        "header_hex": "450000280000400040064961c0a83814c0a8380a",
+        "sport": 8081,
+        "dport": 34561,
+        "seq": 0,
+        "ack": 1454961174,
+        "flags": 20,
+        "reserved": 0,
+        "window": 0,
+        "urgent": 0,
+        "options": "",
+        "options_hex": "",
+        "data_hex": "",
+        "rtt_ms": 1.169,
+        "received_at": 7025.691388241
+      }
+    },
+    {
+      "name": "U1",
+      "attempts": 1,
+      "first_sent": 7025.715520113,
+      "sent_packet_hex": "4500014810420000401177f4c0a8380ac0a83814cab4829a0134555e434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 1,
+        "id": 46787,
+        "df": false,
+        "tos": 192,
+        "total_length": 356,
+        "header_hex": "45c00164b6c300004001d0a6c0a83814c0a8380a",
+        "icmp_type": 3,
+        "code": 3,
+        "icmp_id": 0,
+        "icmp_seq": 0,
+        "quote": {
+          "source": "192.168.56.10",
+          "target": "192.168.56.20",
+          "ttl": 64,
+          "protocol": 17,
+          "id": 4162,
+          "df": false,
+          "tos": 0,
+          "total_length": 328,
+          "header_hex": "4500014810420000401177f4c0a8380ac0a83814",
+          "payload": "cab4829a0134555e",
+          "data_hex": "cab4829a0134555e434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+        },
+        "unused": 0,
+        "rtt_ms": 2.816,
+        "received_at": 7025.718335941
+      }
+    },
+    {
+      "name": "CLK1",
+      "attempts": 1,
+      "first_sent": 7029.694202284,
+      "sent_packet_hex": "4500003c5a43000040062f0ac0a8380ac0a83814ebe91f90b945c15591ee6565a0020001d02c000003030a01020405b4080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 60393,
+        "seq": 1227773032,
+        "ack": 3108356438,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080ad2875a11ffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 3532085777,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 2.698,
+        "received_at": 7029.6969004
+      }
+    },
+    {
+      "name": "CLK2",
+      "attempts": 1,
+      "first_sent": 7029.899567871,
+      "sent_packet_hex": "4500003c4970000040063fddc0a8380ac0a83814ebe91f9037bbf44ce7de2a11a00200010424000003030a01020405b4080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 60393,
+        "seq": 1230970386,
+        "ack": 935064653,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080ad2875addffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 3532085981,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 1.511,
+        "received_at": 7029.901078508
+      }
+    },
+    {
+      "name": "CLK3",
+      "attempts": 1,
+      "first_sent": 7030.100503716,
+      "sent_packet_hex": "4500003c584000004006310dc0a8380ac0a83814ebe91f90b5f6118aa259b2f5a0020001254c000003030a01020405b4080affffffff000000000402",
+      "response": {
+        "source": "192.168.56.20",
+        "target": "192.168.56.10",
+        "ttl": 64,
+        "protocol": 6,
+        "id": 0,
+        "df": true,
+        "tos": 0,
+        "total_length": 60,
+        "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+        "sport": 8080,
+        "dport": 60393,
+        "seq": 1234118505,
+        "ack": 3052802443,
+        "flags": 18,
+        "reserved": 0,
+        "window": 65160,
+        "urgent": 0,
+        "options": "MSS,SACK,TS,NOP,WS",
+        "options_hex": "020405b40402080ad2875ba7ffffffff01030309",
+        "data_hex": "",
+        "mss": 1460,
+        "tsval": 3532086183,
+        "tsecr": 4294967295,
+        "ws": 9,
+        "rtt_ms": 2.279,
+        "received_at": 7030.102782826
+      }
+    }
+  ],
+  "diagnostics": {
+    "sequence_samples": 6,
+    "sequence_send_offsets_ms": [
+      0.0,
+      100.856,
+      226.762,
+      347.877,
+      456.289,
+      560.349
+    ],
+    "sequence_fields": {
+      "TI": "Z",
+      "CI": "Z",
+      "GCD": "1",
+      "ISR": "109",
+      "SP": "106",
+      "TS": "A"
+    }
+  },
+  "warnings": [
+    "Filtered/no reply does not prove a firewall: loss and unreachable hosts can look the same.",
+    "T uses U1's forward-hop estimate; asymmetric routes can affect it.",
+    "Recovered TS=A using three additional SYNs on one tuple; original sequence clock evidence remains incomplete."
+  ],
+  "standard_fingerprint": {
+    "SEQ": {
+      "TI": "Z",
+      "CI": "Z",
+      "GCD": "1",
+      "ISR": "109",
+      "SP": "106",
+      "TS": "A"
+    },
+    "OPS": {
+      "O1": "M5B4ST11NW9",
+      "O2": "M5B4ST11NW9",
+      "O3": "M5B4NNT11NW9",
+      "O4": "M5B4ST11NW9",
+      "O5": "M5B4ST11NW9",
+      "O6": "M5B4ST11"
+    },
+    "WIN": {
+      "W1": "FE88",
+      "W2": "FE88",
+      "W3": "FE88",
+      "W4": "FE88",
+      "W5": "FE88",
+      "W6": "FE88"
+    },
+    "T1": {
+      "R": "Y",
+      "DF": "Y",
+      "T": "40",
+      "W": "FE88",
+      "Q": "",
+      "O": "M5B4ST11NW9",
+      "S": "O",
+      "A": "S+",
+      "F": "AS",
+      "RD": "0"
+    },
+    "ECN": {
+      "R": "Y",
+      "DF": "Y",
+      "T": "40",
+      "W": "FAF0",
+      "Q": "",
+      "O": "M5B4NNSNW9",
+      "CC": "Y"
+    },
+    "T2": {
+      "R": "N"
+    },
+    "T3": {
+      "R": "N"
+    },
+    "T4": {
+      "R": "Y",
+      "DF": "Y",
+      "T": "40",
+      "W": "0",
+      "Q": "",
+      "O": "",
+      "S": "A",
+      "A": "Z",
+      "F": "R",
+      "RD": "0"
+    },
+    "T5": {
+      "R": "Y",
+      "DF": "Y",
+      "T": "40",
+      "W": "0",
+      "Q": "",
+      "O": "",
+      "S": "Z",
+      "A": "S+",
+      "F": "AR",
+      "RD": "0"
+    },
+    "T6": {
+      "R": "Y",
+      "DF": "Y",
+      "T": "40",
+      "W": "0",
+      "Q": "",
+      "O": "",
+      "S": "A",
+      "A": "Z",
+      "F": "R",
+      "RD": "0"
+    },
+    "T7": {
+      "R": "Y",
+      "DF": "Y",
+      "T": "40",
+      "W": "0",
+      "Q": "",
+      "O": "",
+      "S": "Z",
+      "A": "S+",
+      "F": "AR",
+      "RD": "0"
+    },
+    "IE": {
+      "R": "Y",
+      "DFI": "N",
+      "CD": "S",
+      "T": "40"
+    },
+    "U1": {
+      "R": "Y",
+      "DF": "N",
+      "T": "40",
+      "IPL": "164",
+      "UN": "0",
+      "RIPL": "G",
+      "RID": "G",
+      "RIPCK": "G",
+      "RUCK": "G",
+      "RUD": "G"
+    }
+  },
+  "timestamp_source": "same-tuple",
+  "sequence_timing_complete": true,
+  "unstable_fields": [],
+  "fingerprint_rounds": [
+    {
+      "open_port": 8080,
+      "closed_port": 8081,
+      "timestamp_source": "same-tuple",
+      "sequence_timing_complete": true,
+      "syn_replies": 6,
+      "best_match": "Linux 4.15 - 5.19",
+      "standard_fingerprint": {
+        "SEQ": {
+          "TI": "Z",
+          "CI": "Z",
+          "GCD": "1",
+          "ISR": "109",
+          "SP": "106",
+          "TS": "A"
+        },
+        "OPS": {
+          "O1": "M5B4ST11NW9",
+          "O2": "M5B4ST11NW9",
+          "O3": "M5B4NNT11NW9",
+          "O4": "M5B4ST11NW9",
+          "O5": "M5B4ST11NW9",
+          "O6": "M5B4ST11"
+        },
+        "WIN": {
+          "W1": "FE88",
+          "W2": "FE88",
+          "W3": "FE88",
+          "W4": "FE88",
+          "W5": "FE88",
+          "W6": "FE88"
+        },
+        "T1": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "FE88",
+          "Q": "",
+          "O": "M5B4ST11NW9",
+          "S": "O",
+          "A": "S+",
+          "F": "AS",
+          "RD": "0"
+        },
+        "ECN": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "FAF0",
+          "Q": "",
+          "O": "M5B4NNSNW9",
+          "CC": "Y"
+        },
+        "T2": {
+          "R": "N"
+        },
+        "T3": {
+          "R": "N"
+        },
+        "T4": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "A",
+          "A": "Z",
+          "F": "R",
+          "RD": "0"
+        },
+        "T5": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "Z",
+          "A": "S+",
+          "F": "AR",
+          "RD": "0"
+        },
+        "T6": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "A",
+          "A": "Z",
+          "F": "R",
+          "RD": "0"
+        },
+        "T7": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "Z",
+          "A": "S+",
+          "F": "AR",
+          "RD": "0"
+        },
+        "IE": {
+          "R": "Y",
+          "DFI": "N",
+          "CD": "S",
+          "T": "40"
+        },
+        "U1": {
+          "R": "Y",
+          "DF": "N",
+          "T": "40",
+          "IPL": "164",
+          "UN": "0",
+          "RIPL": "G",
+          "RID": "G",
+          "RIPCK": "G",
+          "RUCK": "G",
+          "RUD": "G"
+        }
+      },
+      "probes": [
+        {
+          "name": "S1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 60393,
+            "seq": 1150345347,
+            "ack": 2274840875,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080ad28746b5ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 3532080821,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 1.581,
+            "received_at": 7024.741197269
+          },
+          "attempts": 1,
+          "first_sent": 7024.739616401,
+          "sent_packet_hex": "4500003c95f800004006f354c0a8380ac0a83814ebe91f908797512afff0e04ca0020001891c000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "S2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 50613,
+            "seq": 2783950932,
+            "ack": 3828247613,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a6f4de500ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 1867375872,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 3.004,
+            "received_at": 7024.843476919
+          },
+          "attempts": 1,
+          "first_sent": 7024.840472516,
+          "sent_packet_hex": "4500003c6245000040062708c0a8380ac0a83814c5b51f90e42e6c3cff338ec9a002003f93e60000020405780303000402080affffffff0000000000"
+        },
+        {
+          "name": "S3",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 58521,
+            "seq": 4218583188,
+            "ack": 2836675156,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,NOP,NOP,TS,NOP,WS",
+            "options_hex": "020405b40101080ad849b67affffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 3628709498,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.774,
+            "received_at": 7024.969152575
+          },
+          "attempts": 1,
+          "first_sent": 7024.966378539,
+          "sent_packet_hex": "4500003c8aa300004006fea9c0a8380ac0a83814e4991f90a9143a531cb37a0ba0020004da770000080affffffff0000000001010303050102040280"
+        },
+        {
+          "name": "S4",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 40117,
+            "seq": 1837778238,
+            "ack": 1871902301,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a5c08e500ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 1544086784,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.78,
+            "received_at": 7025.090273193
+          },
+          "attempts": 1,
+          "first_sent": 7025.087493006,
+          "sent_packet_hex": "450000387049000040061908c0a8380ac0a838149cb51f906f92f65ce60ab37690020004a99900000402080affffffff0000000003030a00"
+        },
+        {
+          "name": "S5",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 33765,
+            "seq": 2114361654,
+            "ack": 806887510,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a35c25a02ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 901929474,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.369,
+            "received_at": 7025.198274789
+          },
+          "attempts": 1,
+          "first_sent": 7025.195905865,
+          "sent_packet_hex": "4500003cf77c0000400691d0c0a8380ac0a8381483e51f9030182055e207292ca0020010520d0000020402180402080affffffff0000000003030a00"
+        },
+        {
+          "name": "S6",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 56,
+            "header_hex": "450000380000400040064951c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 39137,
+            "seq": 2145520731,
+            "ack": 164694494,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS",
+            "options_hex": "020405b40402080aa0c050c0ffffffff",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2696958144,
+            "tsecr": 4294967295,
+            "rtt_ms": 1.618,
+            "received_at": 7025.301583277
+          },
+          "attempts": 1,
+          "first_sent": 7025.299965599,
+          "sent_packet_hex": "450000389ed500004006ea7bc0a8380ac0a8381498e11f9009d109ddf24e98199002020016c20000020401090402080affffffff00000000"
+        },
+        {
+          "name": "IE1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 46708,
+            "df": false,
+            "tos": 0,
+            "total_length": 148,
+            "header_hex": "45000094b67400004001d285c0a83814c0a8380a",
+            "icmp_type": 0,
+            "code": 9,
+            "icmp_id": 9675,
+            "icmp_seq": 295,
+            "rtt_ms": 1.817,
+            "received_at": 7025.408894774
+          },
+          "attempts": 1,
+          "first_sent": 7025.407077475,
+          "sent_packet_hex": "45000094035c40004001459ec0a8380ac0a838140809d10425cb0127000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "name": "IE2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 46757,
+            "df": false,
+            "tos": 4,
+            "total_length": 178,
+            "header_hex": "450400b2b6a500004001d232c0a83814c0a8380a",
+            "icmp_type": 0,
+            "code": 0,
+            "icmp_id": 9676,
+            "icmp_seq": 296,
+            "rtt_ms": 1.478,
+            "received_at": 7025.521457587
+          },
+          "attempts": 1,
+          "first_sent": 7025.519979982,
+          "sent_packet_hex": "450400b22dca000040015b0ec0a8380ac0a838140800d10b25cc0128000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "name": "ECN",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 52,
+            "header_hex": "450000340000400040064955c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 51529,
+            "seq": 140377620,
+            "ack": 925241585,
+            "flags": 82,
+            "reserved": 0,
+            "window": 64240,
+            "urgent": 0,
+            "options": "MSS,NOP,NOP,SACK,NOP,WS",
+            "options_hex": "020405b40101040201030309",
+            "data_hex": "",
+            "mss": 1460,
+            "ws": 9,
+            "rtt_ms": 1.834,
+            "received_at": 7025.523350288
+          },
+          "attempts": 1,
+          "first_sent": 7025.521516167,
+          "sent_packet_hex": "45000034683c000040062119c0a8380ac0a83814c9491f90372610f00000000088c2000342fff7f503030a01020405b404020101"
+        },
+        {
+          "name": "T2",
+          "response": null,
+          "attempts": 2,
+          "first_sent": 7025.550180923,
+          "sent_packet_hex": "4500003cd994400040066fb8c0a8380ac0a83814e90f1f9024c916af4ed1fa36a0000080c4a3000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T3",
+          "response": null,
+          "attempts": 2,
+          "first_sent": 7025.576319869,
+          "sent_packet_hex": "4500003c354d000040065400c0a8380ac0a83814dc451f909989cd1fcdc4510ba02b0100cfc9000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T4",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 52405,
+            "seq": 1972132833,
+            "ack": 0,
+            "flags": 4,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.333,
+            "received_at": 7025.605517102
+          },
+          "attempts": 1,
+          "first_sent": 7025.604184239,
+          "sent_packet_hex": "4500003cbe3b400040068b11c0a8380ac0a83814ccb51f90634f02c0758c5be1a01004002a71000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T5",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 44323,
+            "seq": 0,
+            "ack": 1941630296,
+            "flags": 20,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.291,
+            "received_at": 7025.631902361
+          },
+          "attempts": 1,
+          "first_sent": 7025.630611467,
+          "sent_packet_hex": "4500003c12c100004006768cc0a8380ac0a83814ad231f9173baed57788711d2a0027a691fb8000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T6",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 42977,
+            "seq": 2700682928,
+            "ack": 0,
+            "flags": 4,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 5.893,
+            "received_at": 7025.665121582
+          },
+          "attempts": 1,
+          "first_sent": 7025.659228509,
+          "sent_packet_hex": "4500003cefef40004006595dc0a8380ac0a83814a7e11f91aa1ed8daa0f926b0a0108000c01d000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T7",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 34561,
+            "seq": 0,
+            "ack": 1454961174,
+            "flags": 20,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.169,
+            "received_at": 7025.691388241
+          },
+          "attempts": 1,
+          "first_sent": 7025.690219473,
+          "sent_packet_hex": "4500003cd45600004006b4f6c0a8380ac0a8381487011f9156b8f215219f20c7a029ffff1b54000003030f0102040109080affffffff000000000402"
+        },
+        {
+          "name": "U1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 46787,
+            "df": false,
+            "tos": 192,
+            "total_length": 356,
+            "header_hex": "45c00164b6c300004001d0a6c0a83814c0a8380a",
+            "icmp_type": 3,
+            "code": 3,
+            "icmp_id": 0,
+            "icmp_seq": 0,
+            "quote": {
+              "source": "192.168.56.10",
+              "target": "192.168.56.20",
+              "ttl": 64,
+              "protocol": 17,
+              "id": 4162,
+              "df": false,
+              "tos": 0,
+              "total_length": 328,
+              "header_hex": "4500014810420000401177f4c0a8380ac0a83814",
+              "payload": "cab4829a0134555e",
+              "data_hex": "cab4829a0134555e434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+            },
+            "unused": 0,
+            "rtt_ms": 2.816,
+            "received_at": 7025.718335941
+          },
+          "attempts": 1,
+          "first_sent": 7025.715520113,
+          "sent_packet_hex": "4500014810420000401177f4c0a8380ac0a83814cab4829a0134555e434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+        },
+        {
+          "name": "CLK1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 60393,
+            "seq": 1227773032,
+            "ack": 3108356438,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080ad2875a11ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 3532085777,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.698,
+            "received_at": 7029.6969004
+          },
+          "attempts": 1,
+          "first_sent": 7029.694202284,
+          "sent_packet_hex": "4500003c5a43000040062f0ac0a8380ac0a83814ebe91f90b945c15591ee6565a0020001d02c000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "CLK2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 60393,
+            "seq": 1230970386,
+            "ack": 935064653,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080ad2875addffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 3532085981,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 1.511,
+            "received_at": 7029.901078508
+          },
+          "attempts": 1,
+          "first_sent": 7029.899567871,
+          "sent_packet_hex": "4500003c4970000040063fddc0a8380ac0a83814ebe91f9037bbf44ce7de2a11a00200010424000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "CLK3",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 60393,
+            "seq": 1234118505,
+            "ack": 3052802443,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080ad2875ba7ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 3532086183,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.279,
+            "received_at": 7030.102782826
+          },
+          "attempts": 1,
+          "first_sent": 7030.100503716,
+          "sent_packet_hex": "4500003c584000004006310dc0a8380ac0a83814ebe91f90b5f6118aa259b2f5a0020001254c000003030a01020405b4080affffffff000000000402"
+        }
+      ]
+    },
+    {
+      "open_port": 8080,
+      "closed_port": 8081,
+      "timestamp_source": "same-tuple",
+      "sequence_timing_complete": true,
+      "syn_replies": 6,
+      "best_match": "Linux 4.15 - 5.19",
+      "standard_fingerprint": {
+        "SEQ": {
+          "TI": "Z",
+          "CI": "Z",
+          "GCD": "2",
+          "ISR": "FF",
+          "SP": "FD",
+          "TS": "A"
+        },
+        "OPS": {
+          "O1": "M5B4ST11NW9",
+          "O2": "M5B4ST11NW9",
+          "O3": "M5B4NNT11NW9",
+          "O4": "M5B4ST11NW9",
+          "O5": "M5B4ST11NW9",
+          "O6": "M5B4ST11"
+        },
+        "WIN": {
+          "W1": "FE88",
+          "W2": "FE88",
+          "W3": "FE88",
+          "W4": "FE88",
+          "W5": "FE88",
+          "W6": "FE88"
+        },
+        "T1": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "FE88",
+          "Q": "",
+          "O": "M5B4ST11NW9",
+          "S": "O",
+          "A": "S+",
+          "F": "AS",
+          "RD": "0"
+        },
+        "ECN": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "FAF0",
+          "Q": "",
+          "O": "M5B4NNSNW9",
+          "CC": "Y"
+        },
+        "T2": {
+          "R": "N"
+        },
+        "T3": {
+          "R": "N"
+        },
+        "T4": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "A",
+          "A": "Z",
+          "F": "R",
+          "RD": "0"
+        },
+        "T5": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "Z",
+          "A": "S+",
+          "F": "AR",
+          "RD": "0"
+        },
+        "T6": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "A",
+          "A": "Z",
+          "F": "R",
+          "RD": "0"
+        },
+        "T7": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "Z",
+          "A": "S+",
+          "F": "AR",
+          "RD": "0"
+        },
+        "IE": {
+          "R": "Y",
+          "DFI": "N",
+          "CD": "S",
+          "T": "40"
+        },
+        "U1": {
+          "R": "Y",
+          "DF": "N",
+          "T": "40",
+          "IPL": "164",
+          "UN": "0",
+          "RIPL": "G",
+          "RID": "G",
+          "RIPCK": "G",
+          "RUCK": "G",
+          "RUD": "G"
+        }
+      },
+      "probes": [
+        {
+          "name": "S1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 45801,
+            "seq": 3317729957,
+            "ack": 3369131076,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a2538c6ecffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 624477932,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 3.058,
+            "received_at": 7030.987751173
+          },
+          "attempts": 1,
+          "first_sent": 7030.984693212,
+          "sent_packet_hex": "4500003c2e73000040065adac0a8380ac0a83814b2e91f90c8d0dc43c1c6f9eba00200011a55000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "S2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 54911,
+            "seq": 2320291239,
+            "ack": 2152413299,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080aaa6c5b17ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2859227927,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.556,
+            "received_at": 7031.097807092
+          },
+          "attempts": 1,
+          "first_sent": 7031.095250903,
+          "sent_packet_hex": "4500003c69c4000040061f89c0a8380ac0a83814d67f1f90804b387268c4065ea002003f39a50000020405780303000402080affffffff0000000000"
+        },
+        {
+          "name": "S3",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 52837,
+            "seq": 2778969971,
+            "ack": 618494317,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,NOP,NOP,TS,NOP,WS",
+            "options_hex": "020405b40101080a0671e805ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 108128261,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 1.447,
+            "received_at": 7031.236553499
+          },
+          "attempts": 1,
+          "first_sent": 7031.235106362,
+          "sent_packet_hex": "4500003c468c0000400642c1c0a8380ac0a83814ce651f9024dd796c3e7efe7ba00200048f8e0000080affffffff0000000001010303050102040280"
+        },
+        {
+          "name": "S4",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 36587,
+            "seq": 3300796951,
+            "ack": 286246338,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a249ead5fffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 614378847,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.252,
+            "received_at": 7031.343777616
+          },
+          "attempts": 1,
+          "first_sent": 7031.34152596,
+          "sent_packet_hex": "45000038266e0000400662e3c0a8380ac0a838148eeb1f90110fc5c15ae6e4d090020004a04c00000402080affffffff0000000003030a00"
+        },
+        {
+          "name": "S5",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 50253,
+            "seq": 3269198099,
+            "ack": 626991035,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a73337a65ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 1932753509,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 1.744,
+            "received_at": 7031.443624163
+          },
+          "attempts": 1,
+          "first_sent": 7031.441880455,
+          "sent_packet_hex": "4500003cdc1600004006ad36c0a8380ac0a83814c44d1f90255f1fba0b3eb6c3a0020010662b0000020402180402080affffffff0000000003030a00"
+        },
+        {
+          "name": "S6",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 56,
+            "header_hex": "450000380000400040064951c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 44577,
+            "seq": 3508383885,
+            "ack": 255906790,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS",
+            "options_hex": "020405b40402080a601911e3ffffffff",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 1612255715,
+            "tsecr": 4294967295,
+            "rtt_ms": 1.198,
+            "received_at": 7031.575857959
+          },
+          "attempts": 1,
+          "first_sent": 7031.574659754,
+          "sent_packet_hex": "45000038d6a500004006b2abc0a8380ac0a83814ae211f900f40d3e577ffa879900202009bf90000020401090402080affffffff00000000"
+        },
+        {
+          "name": "IE1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 47876,
+            "df": false,
+            "tos": 0,
+            "total_length": 148,
+            "header_hex": "45000094bb0400004001cdf5c0a83814c0a8380a",
+            "icmp_type": 0,
+            "code": 9,
+            "icmp_id": 46536,
+            "icmp_seq": 295,
+            "rtt_ms": 1.051,
+            "received_at": 7031.676827096
+          },
+          "attempts": 1,
+          "first_sent": 7031.675776043,
+          "sent_packet_hex": "450000944f6c40004001f98dc0a8380ac0a8381408094107b5c80127000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "name": "IE2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 47957,
+            "df": false,
+            "tos": 4,
+            "total_length": 178,
+            "header_hex": "450400b2bb5500004001cd82c0a83814c0a8380a",
+            "icmp_type": 0,
+            "code": 0,
+            "icmp_id": 46537,
+            "icmp_seq": 296,
+            "rtt_ms": 1.546,
+            "received_at": 7031.797317862
+          },
+          "attempts": 1,
+          "first_sent": 7031.795771636,
+          "sent_packet_hex": "450400b232aa00004001562ec0a8380ac0a838140800410eb5c90128000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "name": "ECN",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 52,
+            "header_hex": "450000340000400040064955c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 47111,
+            "seq": 296779036,
+            "ack": 4004725086,
+            "flags": 82,
+            "reserved": 0,
+            "window": 64240,
+            "urgent": 0,
+            "options": "MSS,NOP,NOP,SACK,NOP,WS",
+            "options_hex": "020405b40101040201030309",
+            "data_hex": "",
+            "mss": 1460,
+            "ws": 9,
+            "rtt_ms": 0.989,
+            "received_at": 7031.798360711
+          },
+          "attempts": 1,
+          "first_sent": 7031.797371722,
+          "sent_packet_hex": "4500003400e5000040068870c0a8380ac0a83814b8071f90eeb3415d0000000088c200036c46f7f503030a01020405b404020101"
+        },
+        {
+          "name": "T2",
+          "response": null,
+          "attempts": 2,
+          "first_sent": 7031.8229984,
+          "sent_packet_hex": "4500003cad8f400040069bbdc0a8380ac0a83814e3f91f9089b34325f80d0785a000008081ce000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T3",
+          "response": null,
+          "attempts": 2,
+          "first_sent": 7031.869271995,
+          "sent_packet_hex": "4500003c3b2b000040064e22c0a8380ac0a83814df151f90bccbdbe4b954fe63a02b0100020a000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T4",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 57809,
+            "seq": 153643496,
+            "ack": 0,
+            "flags": 4,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.286,
+            "received_at": 7031.89651589
+          },
+          "attempts": 1,
+          "first_sent": 7031.895229495,
+          "sent_packet_hex": "4500003c025f4000400646eec0a8380ac0a83814e1d11f90d40b1bb8092869e8a0100400e9fd000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T5",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 32969,
+            "seq": 0,
+            "ack": 823896310,
+            "flags": 20,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.998,
+            "received_at": 7031.922579821
+          },
+          "attempts": 1,
+          "first_sent": 7031.920581858,
+          "sent_packet_hex": "4500003cdd6f00004006abddc0a8380ac0a8381480c91f91311ba8f52a1ee61aa0027a694d34000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T6",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 50401,
+            "seq": 1933946301,
+            "ack": 0,
+            "flags": 4,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.618,
+            "received_at": 7031.947426204
+          },
+          "attempts": 1,
+          "first_sent": 7031.945808379,
+          "sent_packet_hex": "4500003caeb5400040069a97c0a8380ac0a83814c4e11f91d02d3aae7345adbda0108000c1e1000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T7",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 34849,
+            "seq": 0,
+            "ack": 3381632800,
+            "flags": 20,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 2.03,
+            "received_at": 7031.985205044
+          },
+          "attempts": 1,
+          "first_sent": 7031.983175361,
+          "sent_packet_hex": "4500003c5b76000040062dd7c0a8380ac0a8381488211f91c98f9f1fce23b59aa029ffffb8fa000003030f0102040109080affffffff000000000402"
+        },
+        {
+          "name": "U1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 48166,
+            "df": false,
+            "tos": 192,
+            "total_length": 356,
+            "header_hex": "45c00164bc2600004001cb43c0a83814c0a8380a",
+            "icmp_type": 3,
+            "code": 3,
+            "icmp_id": 0,
+            "icmp_seq": 0,
+            "quote": {
+              "source": "192.168.56.10",
+              "target": "192.168.56.20",
+              "ttl": 64,
+              "protocol": 17,
+              "id": 4162,
+              "df": false,
+              "tos": 0,
+              "total_length": 328,
+              "header_hex": "4500014810420000401177f4c0a8380ac0a83814",
+              "payload": "8c13829a013493ff",
+              "data_hex": "8c13829a013493ff434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+            },
+            "unused": 0,
+            "rtt_ms": 1.729,
+            "received_at": 7032.010164681
+          },
+          "attempts": 1,
+          "first_sent": 7032.008435578,
+          "sent_packet_hex": "4500014810420000401177f4c0a8380ac0a838148c13829a013493ff434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+        },
+        {
+          "name": "CLK1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 45801,
+            "seq": 3395198426,
+            "ack": 834515368,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a2538da4affffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 624482890,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.669,
+            "received_at": 7035.948445734
+          },
+          "attempts": 1,
+          "first_sent": 7035.945777156,
+          "sent_packet_hex": "4500003c5d85000040062bc8c0a8380ac0a83814b2e91f9031bdb1a73f81aaeaa0020001ad4b000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "CLK2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 45801,
+            "seq": 3398476165,
+            "ack": 1742689841,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a2538db1cffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 624483100,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 3.009,
+            "received_at": 7036.15866319
+          },
+          "attempts": 1,
+          "first_sent": 7036.155653956,
+          "sent_packet_hex": "4500003cba8200004006cecac0a8380ac0a83814b2e91f9067df5630a6dbac39a002000169f7000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "CLK3",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 45801,
+            "seq": 3401593702,
+            "ack": 2505529353,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a2538dbe4ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 624483300,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 3.17,
+            "received_at": 7036.359137408
+          },
+          "attempts": 1,
+          "first_sent": 7036.355967094,
+          "sent_packet_hex": "4500003cd41f00004006b52dc0a8380ac0a83814b2e91f9095575808238387e7a0020001e251000003030a01020405b4080affffffff000000000402"
+        }
+      ]
+    },
+    {
+      "open_port": 8080,
+      "closed_port": 8081,
+      "timestamp_source": "same-tuple",
+      "sequence_timing_complete": true,
+      "syn_replies": 6,
+      "best_match": "Linux 4.15 - 5.19",
+      "standard_fingerprint": {
+        "SEQ": {
+          "TI": "Z",
+          "CI": "Z",
+          "GCD": "1",
+          "ISR": "105",
+          "SP": "102",
+          "TS": "A"
+        },
+        "OPS": {
+          "O1": "M5B4ST11NW9",
+          "O2": "M5B4ST11NW9",
+          "O3": "M5B4NNT11NW9",
+          "O4": "M5B4ST11NW9",
+          "O5": "M5B4ST11NW9",
+          "O6": "M5B4ST11"
+        },
+        "WIN": {
+          "W1": "FE88",
+          "W2": "FE88",
+          "W3": "FE88",
+          "W4": "FE88",
+          "W5": "FE88",
+          "W6": "FE88"
+        },
+        "T1": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "FE88",
+          "Q": "",
+          "O": "M5B4ST11NW9",
+          "S": "O",
+          "A": "S+",
+          "F": "AS",
+          "RD": "0"
+        },
+        "ECN": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "FAF0",
+          "Q": "",
+          "O": "M5B4NNSNW9",
+          "CC": "Y"
+        },
+        "T2": {
+          "R": "N"
+        },
+        "T3": {
+          "R": "N"
+        },
+        "T4": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "A",
+          "A": "Z",
+          "F": "R",
+          "RD": "0"
+        },
+        "T5": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "Z",
+          "A": "S+",
+          "F": "AR",
+          "RD": "0"
+        },
+        "T6": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "A",
+          "A": "Z",
+          "F": "R",
+          "RD": "0"
+        },
+        "T7": {
+          "R": "Y",
+          "DF": "Y",
+          "T": "40",
+          "W": "0",
+          "Q": "",
+          "O": "",
+          "S": "Z",
+          "A": "S+",
+          "F": "AR",
+          "RD": "0"
+        },
+        "IE": {
+          "R": "Y",
+          "DFI": "N",
+          "CD": "S",
+          "T": "40"
+        },
+        "U1": {
+          "R": "Y",
+          "DF": "N",
+          "T": "40",
+          "IPL": "164",
+          "UN": "0",
+          "RIPL": "G",
+          "RID": "G",
+          "RIPCK": "G",
+          "RUCK": "G",
+          "RUD": "G"
+        }
+      },
+      "probes": [
+        {
+          "name": "S1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 54107,
+            "seq": 2889978190,
+            "ack": 924321494,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080aa4a97beeffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2762570734,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 1.77,
+            "received_at": 7037.182240514
+          },
+          "attempts": 1,
+          "first_sent": 7037.18047079,
+          "sent_packet_hex": "4500003c427f0000400646cec0a8380ac0a83814d35b1f90371806d5118417d3a0020001f365000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "S2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 50469,
+            "seq": 2124209157,
+            "ack": 2048433724,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a2eb42c7bffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 783559803,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.188,
+            "received_at": 7037.286233719
+          },
+          "attempts": 1,
+          "first_sent": 7037.284045451,
+          "sent_packet_hex": "4500003c5e11000040062b3cc0a8380ac0a83814c5251f907a189e3b4aec2771a002003fe82d0000020405780303000402080affffffff0000000000"
+        },
+        {
+          "name": "S3",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 52805,
+            "seq": 2054795361,
+            "ack": 3255390080,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,NOP,NOP,TS,NOP,WS",
+            "options_hex": "020405b40101080ad63bda99ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 3594246809,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.092,
+            "received_at": 7037.38703498
+          },
+          "attempts": 1,
+          "first_sent": 7037.38494288,
+          "sent_packet_hex": "4500003c602e00004006291fc0a8380ac0a83814ce451f90c2094f7fd3a3b17aa0020004d44a0000080affffffff0000000001010303050102040280"
+        },
+        {
+          "name": "S4",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 55223,
+            "seq": 3120391429,
+            "ack": 1831950297,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a353ccd33ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 893177139,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 3.523,
+            "received_at": 7037.489468821
+          },
+          "attempts": 1,
+          "first_sent": 7037.485945908,
+          "sent_packet_hex": "45000038ae5800004006daf8c0a8380ac0a83814d7b71f906d3157d8c7f58e409002000452c800000402080affffffff0000000003030a00"
+        },
+        {
+          "name": "S5",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 39131,
+            "seq": 3361298374,
+            "ack": 942959939,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080a337fc34bffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 864011083,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.175,
+            "received_at": 7037.591703331
+          },
+          "attempts": 1,
+          "first_sent": 7037.58952836,
+          "sent_packet_hex": "4500003cf94c000040069000c0a8380ac0a8381498db1f9038346d4278ded346a0020010a71c0000020402180402080affffffff0000000003030a00"
+        },
+        {
+          "name": "S6",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 56,
+            "header_hex": "450000380000400040064951c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 58297,
+            "seq": 333407688,
+            "ack": 2395192425,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS",
+            "options_hex": "020405b40402080aa2ddba87ffffffff",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2732440199,
+            "tsecr": 4294967295,
+            "rtt_ms": 1.67,
+            "received_at": 7037.695499806
+          },
+          "attempts": 1,
+          "first_sent": 7037.693830278,
+          "sent_packet_hex": "450000382a82000040065ecfc0a8380ac0a83814e3b91f908ec3bc683af6e2af90020200012e0000020401090402080affffffff00000000"
+        },
+        {
+          "name": "IE1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 52849,
+            "df": false,
+            "tos": 0,
+            "total_length": 148,
+            "header_hex": "45000094ce7100004001ba88c0a83814c0a8380a",
+            "icmp_type": 0,
+            "code": 9,
+            "icmp_id": 21755,
+            "icmp_seq": 295,
+            "rtt_ms": 1.992,
+            "received_at": 7037.800706084
+          },
+          "attempts": 1,
+          "first_sent": 7037.798714262,
+          "sent_packet_hex": "45000094c04e4000400188abc0a8380ac0a838140809a1d454fb0127000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "name": "IE2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 52870,
+            "df": false,
+            "tos": 4,
+            "total_length": 178,
+            "header_hex": "450400b2ce8600004001ba51c0a83814c0a8380a",
+            "icmp_type": 0,
+            "code": 0,
+            "icmp_id": 21756,
+            "icmp_seq": 296,
+            "rtt_ms": 1.763,
+            "received_at": 7037.902218089
+          },
+          "attempts": 1,
+          "first_sent": 7037.900455126,
+          "sent_packet_hex": "450400b24c2f000040013ca9c0a8380ac0a838140800a1db54fc0128000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "name": "ECN",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 52,
+            "header_hex": "450000340000400040064955c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 44213,
+            "seq": 1703655953,
+            "ack": 2073977071,
+            "flags": 82,
+            "reserved": 0,
+            "window": 64240,
+            "urgent": 0,
+            "options": "MSS,NOP,NOP,SACK,NOP,WS",
+            "options_hex": "020405b40101040201030309",
+            "data_hex": "",
+            "mss": 1460,
+            "ws": 9,
+            "rtt_ms": 1.991,
+            "received_at": 7037.904267674
+          },
+          "attempts": 1,
+          "first_sent": 7037.902276798,
+          "sent_packet_hex": "45000034ee08000040069b4cc0a8380ac0a83814acb51f907b9e60ee0000000088c20003cb1cf7f503030a01020405b404020101"
+        },
+        {
+          "name": "T2",
+          "response": null,
+          "attempts": 2,
+          "first_sent": 7037.934411562,
+          "sent_packet_hex": "4500003c329d4000400616b0c0a8380ac0a838148daf1f901b212636a33cdf2fa0000080e0c0000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T3",
+          "response": null,
+          "attempts": 2,
+          "first_sent": 7037.991108876,
+          "sent_packet_hex": "4500003c4b08000040063e45c0a8380ac0a83814a0b91f9016d9ddefc62120caa02b0100b51a000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T4",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 56095,
+            "seq": 1104958376,
+            "ack": 0,
+            "flags": 4,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 1.193,
+            "received_at": 7038.02095385
+          },
+          "attempts": 1,
+          "first_sent": 7038.019760651,
+          "sent_packet_hex": "4500003c42cf40004006067ec0a8380ac0a83814db1f1f90ab52087b41dc53a8a01004000a32000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T5",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 54815,
+            "seq": 0,
+            "ack": 4224297290,
+            "flags": 20,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 2.435,
+            "received_at": 7038.050935923
+          },
+          "attempts": 1,
+          "first_sent": 7038.048500874,
+          "sent_packet_hex": "4500003c6cc0000040061c8dc0a8380ac0a83814d61f1f91fbc9a949f0e26a1ba0027a69e215000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T6",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 34359,
+            "seq": 117642348,
+            "ack": 0,
+            "flags": 4,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 2.385,
+            "received_at": 7038.098560452
+          },
+          "attempts": 1,
+          "first_sent": 7038.096175839,
+          "sent_packet_hex": "4500003c483e40004006010fc0a8380ac0a8381486371f916156cdb90703146ca0108000e1eb000003030a0102040109080affffffff000000000402"
+        },
+        {
+          "name": "T7",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 40,
+            "header_hex": "450000280000400040064961c0a83814c0a8380a",
+            "sport": 8081,
+            "dport": 53727,
+            "seq": 0,
+            "ack": 2530901343,
+            "flags": 20,
+            "reserved": 0,
+            "window": 0,
+            "urgent": 0,
+            "options": "",
+            "options_hex": "",
+            "data_hex": "",
+            "rtt_ms": 2.486,
+            "received_at": 7038.156230819
+          },
+          "attempts": 1,
+          "first_sent": 7038.153744993,
+          "sent_packet_hex": "4500003c9ccd00004006ec7fc0a8380ac0a83814d1df1f9196da7d5e7bf7022aa029ffffc94f000003030f0102040109080affffffff000000000402"
+        },
+        {
+          "name": "U1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 1,
+            "id": 53157,
+            "df": false,
+            "tos": 192,
+            "total_length": 356,
+            "header_hex": "45c00164cfa500004001b7c4c0a83814c0a8380a",
+            "icmp_type": 3,
+            "code": 3,
+            "icmp_id": 0,
+            "icmp_seq": 0,
+            "quote": {
+              "source": "192.168.56.10",
+              "target": "192.168.56.20",
+              "ttl": 64,
+              "protocol": 17,
+              "id": 4162,
+              "df": false,
+              "tos": 0,
+              "total_length": 328,
+              "header_hex": "4500014810420000401177f4c0a8380ac0a83814",
+              "payload": "c00b829a01346007",
+              "data_hex": "c00b829a01346007434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+            },
+            "unused": 0,
+            "rtt_ms": 2.189,
+            "received_at": 7038.199087134
+          },
+          "attempts": 1,
+          "first_sent": 7038.196898046,
+          "sent_packet_hex": "4500014810420000401177f4c0a8380ac0a83814c00b829a01346007434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343"
+        },
+        {
+          "name": "CLK1",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 54107,
+            "seq": 2966058450,
+            "ack": 62270289,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080aa4a98ef3ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2762575603,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.378,
+            "received_at": 7042.04942487
+          },
+          "attempts": 1,
+          "first_sent": 7042.047046968,
+          "sent_packet_hex": "4500003c2517000040066436c0a8380ac0a83814d35b1f9003b62b5089532964a002000178ec000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "CLK2",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 54107,
+            "seq": 2969186052,
+            "ack": 1464076278,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080aa4a98fbbffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2762575803,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 2.582,
+            "received_at": 7042.250469127
+          },
+          "attempts": 1,
+          "first_sent": 7042.247886744,
+          "sent_packet_hex": "4500003c53700000400635ddc0a8380ac0a83814d35b1f90574407f5d5fea908a00200017c69000003030a01020405b4080affffffff000000000402"
+        },
+        {
+          "name": "CLK3",
+          "response": {
+            "source": "192.168.56.20",
+            "target": "192.168.56.10",
+            "ttl": 64,
+            "protocol": 6,
+            "id": 0,
+            "df": true,
+            "tos": 0,
+            "total_length": 60,
+            "header_hex": "4500003c000040004006494dc0a83814c0a8380a",
+            "sport": 8080,
+            "dport": 54107,
+            "seq": 2972346526,
+            "ack": 3085857605,
+            "flags": 18,
+            "reserved": 0,
+            "window": 65160,
+            "urgent": 0,
+            "options": "MSS,SACK,TS,NOP,WS",
+            "options_hex": "020405b40402080aa4a99085ffffffff01030309",
+            "data_hex": "",
+            "mss": 1460,
+            "tsval": 2762576005,
+            "tsecr": 4294967295,
+            "ws": 9,
+            "rtt_ms": 1.831,
+            "received_at": 7042.451688774
+          },
+          "attempts": 1,
+          "first_sent": 7042.449858095,
+          "sent_packet_hex": "4500003c7a0c000040060f41c0a8380ac0a83814d35b1f90b7ee7344f891c1bda00200017527000003030a01020405b4080affffffff000000000402"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "status": "ambiguous",
+    "candidate": null,
+    "family": "Linux",
+    "explanation": "10 published fingerprints remain plausible; legacy probes, incomplete sequence evidence, inconsistent rounds, or near matches prevent a unique version answer.",
+    "ranked": [
+      {
+        "label": "Linux 4.15 - 5.19",
+        "family": "Linux",
+        "version": "4.X/5.X",
+        "score": 100.0,
+        "confidence_percent": 100.0,
+        "coverage": 96.9,
+        "positive_weight": 3005,
+        "negative_weight": 160,
+        "matched_weight": 3165,
+        "total_weight": 3165,
+        "reference_weight": 3265,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:4",
+          "cpe:/o:linux:linux_kernel:5"
+        ],
+        "line": 71007,
+        "differences": [],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "OpenWrt 22.03 (Linux 5.10)",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 96.89,
+        "confidence_percent": 96.89,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3115,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5.10"
+        ],
+        "line": 73156,
+        "differences": [
+          "ECN.CC: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Android 9 - 11 (Linux 4.9 - 4.14)",
+        "family": "Android/Linux",
+        "version": "10.X/11.X/4.X/9.X",
+        "score": 96.73,
+        "confidence_percent": 96.73,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3110,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "9.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "10.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "11.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "phone"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:google:android:9",
+          "cpe:/o:google:android:10",
+          "cpe:/o:google:android:11",
+          "cpe:/o:linux:linux_kernel:4"
+        ],
+        "line": 34699,
+        "differences": [
+          "WIN.W1: FE88 != FFFF",
+          "WIN.W2: FE88 != FFFF",
+          "WIN.W3: FE88 != FFFF",
+          "WIN.W4: FE88 != FFFF",
+          "WIN.W5: FE88 != FFFF",
+          "WIN.W6: FE88 != FFFF",
+          "ECN.W: FAF0 != FFFF"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 2.6.32",
+        "family": "Linux",
+        "version": "2.6.X",
+        "score": 96.73,
+        "confidence_percent": 96.73,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3110,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6.32"
+        ],
+        "line": 59132,
+        "differences": [
+          "WIN.W1: FE88 != 16A0",
+          "WIN.W2: FE88 != 16A0",
+          "WIN.W3: FE88 != 16A0",
+          "WIN.W4: FE88 != 16A0",
+          "WIN.W5: FE88 != 16A0",
+          "WIN.W6: FE88 != 16A0",
+          "ECN.W: FAF0 != 16D0"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.10 - 5.19",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 96.73,
+        "confidence_percent": 96.73,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3110,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5"
+        ],
+        "line": 72453,
+        "differences": [
+          "WIN.W1: FE88 != A9B0",
+          "WIN.W2: FE88 != A9B0",
+          "WIN.W3: FE88 != A9B0",
+          "WIN.W4: FE88 != A9B0",
+          "WIN.W5: FE88 != A9B0",
+          "WIN.W6: FE88 != A9B0",
+          "ECN.W: FAF0 != A564"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 3.2 - 4.14",
+        "family": "Linux",
+        "version": "3.X/4.X",
+        "score": 96.68,
+        "confidence_percent": 96.68,
+        "coverage": 96.9,
+        "positive_weight": 3005,
+        "negative_weight": 160,
+        "matched_weight": 3060,
+        "total_weight": 3165,
+        "reference_weight": 3265,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:3",
+          "cpe:/o:linux:linux_kernel:4"
+        ],
+        "line": 68905,
+        "differences": [
+          "WIN.W1: FE88 != 7120",
+          "WIN.W2: FE88 != 7120",
+          "WIN.W3: FE88 != 7120",
+          "WIN.W4: FE88 != 7120",
+          "WIN.W5: FE88 != 7120",
+          "WIN.W6: FE88 != 7120",
+          "ECN.W: FAF0 != 7210"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 2.6.32 - 3.10",
+        "family": "Linux",
+        "version": "2.6.X/3.X",
+        "score": 96.51,
+        "confidence_percent": 96.51,
+        "coverage": 96.8,
+        "positive_weight": 2845,
+        "negative_weight": 160,
+        "matched_weight": 2900,
+        "total_weight": 3005,
+        "reference_weight": 3105,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6",
+          "cpe:/o:linux:linux_kernel:3"
+        ],
+        "line": 60347,
+        "differences": [
+          "WIN.W1: FE88 != 3890",
+          "WIN.W2: FE88 != 3890",
+          "WIN.W3: FE88 != 3890",
+          "WIN.W4: FE88 != 3890",
+          "WIN.W5: FE88 != 3890",
+          "WIN.W6: FE88 != 3890",
+          "ECN.W: FAF0 != 3908"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)",
+        "family": "Linux/RouterOS",
+        "version": "5.X/7.X",
+        "score": 96.42,
+        "confidence_percent": 96.42,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3100,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "MikroTik",
+            "family": "RouterOS",
+            "generation": "7.X",
+            "device_type": "router"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "router"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:mikrotik:routeros:7",
+          "cpe:/o:linux:linux_kernel:5.6.3"
+        ],
+        "line": 92909,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M[54E-5B4]ST11NW[2|3|5|7]",
+          "OPS.O2: M5B4ST11NW9 != M[54E-5B4]ST11NW[2|3|5|7]",
+          "OPS.O3: M5B4NNT11NW9 != M[54E-5B4]NNT11NW[2|3|5|7]",
+          "OPS.O4: M5B4ST11NW9 != M[54E-5B4]ST11NW[2|3|5|7]",
+          "OPS.O5: M5B4ST11NW9 != M[54E-5B4]ST11NW[2|3|5|7]",
+          "ECN.O: M5B4NNSNW9 != M[54E-5B4]NNSNW[2|3|5|7]"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "OpenWrt 21.02 (Linux 5.4)",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 96.42,
+        "confidence_percent": 96.42,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3100,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5.4"
+        ],
+        "line": 73083,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW[3-7]",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW[3-7]",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW[3-7]",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW[3-7]",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW[3-7]",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW[3-7]"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 6.0",
+        "family": "Linux",
+        "version": "6.X",
+        "score": 95.65,
+        "confidence_percent": 95.65,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3075,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:6.0"
+        ],
+        "line": 73210,
+        "differences": [
+          "SEQ.SP: 106 != E3-F1",
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW7",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW7"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 4.19",
+        "family": "Linux",
+        "version": "4.X",
+        "score": 94.87,
+        "confidence_percent": 94.87,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3050,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:4.19"
+        ],
+        "line": 71117,
+        "differences": [
+          "SEQ.CI: Z != RI",
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW7",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW7"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.10",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 94.56,
+        "confidence_percent": 94.56,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3040,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5.10"
+        ],
+        "line": 72316,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5ACST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5ACST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5ACNNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5ACST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5ACST11NW7",
+          "OPS.O6: M5B4ST11 != M5ACST11",
+          "ECN.O: M5B4NNSNW9 != M5ACNNSNW7",
+          "IE.DFI: N != S"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 2.6.32 - 2.6.35",
+        "family": "Linux",
+        "version": "2.6.X",
+        "score": 93.94,
+        "confidence_percent": 93.94,
+        "coverage": 92.2,
+        "positive_weight": 2895,
+        "negative_weight": 160,
+        "matched_weight": 2870,
+        "total_weight": 3055,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6"
+        ],
+        "line": 60113,
+        "differences": [
+          "WIN.W1: FE88 != 16A0",
+          "WIN.W2: FE88 != 16A0",
+          "WIN.W3: FE88 != 16A0",
+          "WIN.W4: FE88 != 16A0",
+          "WIN.W5: FE88 != 16A0",
+          "WIN.W6: FE88 != 16A0",
+          "ECN.W: FAF0 != 16D0",
+          "T3.R: N != Y"
+        ],
+        "missing": [
+          "SEQ.II",
+          "T3.DF",
+          "T3.TG",
+          "T3.W",
+          "T3.S",
+          "T3.A",
+          "T3.F",
+          "T3.O",
+          "T3.RD"
+        ]
+      },
+      {
+        "label": "Linux 2.6.32 - 3.5",
+        "family": "Linux",
+        "version": "2.6.X/3.X",
+        "score": 93.94,
+        "confidence_percent": 93.94,
+        "coverage": 92.2,
+        "positive_weight": 2895,
+        "negative_weight": 160,
+        "matched_weight": 2870,
+        "total_weight": 3055,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6",
+          "cpe:/o:linux:linux_kernel:3"
+        ],
+        "line": 60557,
+        "differences": [
+          "WIN.W1: FE88 != 3890",
+          "WIN.W2: FE88 != 3890",
+          "WIN.W3: FE88 != 3890",
+          "WIN.W4: FE88 != 3890",
+          "WIN.W5: FE88 != 3890",
+          "WIN.W6: FE88 != 3890",
+          "ECN.W: FAF0 != 3908",
+          "T3.R: N != Y"
+        ],
+        "missing": [
+          "SEQ.II",
+          "T3.DF",
+          "T3.TG",
+          "T3.W",
+          "T3.S",
+          "T3.A",
+          "T3.F",
+          "T3.O",
+          "T3.RD"
+        ]
+      },
+      {
+        "label": "Linux 2.6.32 - 3.13",
+        "family": "Linux",
+        "version": "2.6.X/3.X",
+        "score": 93.9,
+        "confidence_percent": 93.9,
+        "coverage": 96.8,
+        "positive_weight": 2875,
+        "negative_weight": 160,
+        "matched_weight": 2850,
+        "total_weight": 3035,
+        "reference_weight": 3135,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6",
+          "cpe:/o:linux:linux_kernel:3"
+        ],
+        "line": 60380,
+        "differences": [
+          "WIN.W1: FE88 != 3890",
+          "WIN.W2: FE88 != 3890",
+          "WIN.W3: FE88 != 3890",
+          "WIN.W4: FE88 != 3890",
+          "WIN.W5: FE88 != 3890",
+          "WIN.W6: FE88 != 3890",
+          "ECN.W: FAF0 != 3908",
+          "T7.R: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 4.15",
+        "family": "Linux",
+        "version": "4.X",
+        "score": 93.9,
+        "confidence_percent": 93.9,
+        "coverage": 96.8,
+        "positive_weight": 2875,
+        "negative_weight": 160,
+        "matched_weight": 2850,
+        "total_weight": 3035,
+        "reference_weight": 3135,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:4.15"
+        ],
+        "line": 70932,
+        "differences": [
+          "WIN.W1: FE88 != A9B0",
+          "WIN.W2: FE88 != A9B0",
+          "WIN.W3: FE88 != A9B0",
+          "WIN.W4: FE88 != A9B0",
+          "WIN.W5: FE88 != A9B0",
+          "WIN.W6: FE88 != A9B0",
+          "ECN.W: FAF0 != A564",
+          "T7.R: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.0 - 5.14",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 93.57,
+        "confidence_percent": 93.57,
+        "coverage": 96.8,
+        "positive_weight": 2875,
+        "negative_weight": 160,
+        "matched_weight": 2840,
+        "total_weight": 3035,
+        "reference_weight": 3135,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5"
+        ],
+        "line": 72205,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M[500-5B4]ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M[500-5B4]ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M[500-5B4]NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M[500-5B4]ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M[500-5B4]ST11NW7",
+          "ECN.O: M5B4NNSNW9 != M[500-5B4]NNSNW7",
+          "T7.R: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 6.18",
+        "family": "Linux",
+        "version": "6.X",
+        "score": 93.57,
+        "confidence_percent": 93.57,
+        "coverage": 96.8,
+        "positive_weight": 2875,
+        "negative_weight": 160,
+        "matched_weight": 2840,
+        "total_weight": 3035,
+        "reference_weight": 3135,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:6.18"
+        ],
+        "line": 73499,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NWA",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NWA",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NWA",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NWA",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NWA",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNWA",
+          "T7.R: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.4",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 93.31,
+        "confidence_percent": 93.31,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3000,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5.4"
+        ],
+        "line": 72786,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW7",
+          "ECN.O: M5B4NNSNW9 != M5B4",
+          "ECN.CC: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.4 - 5.10",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 93.31,
+        "confidence_percent": 93.31,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 3000,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5"
+        ],
+        "line": 72914,
+        "differences": [
+          "SEQ.TS: A != C",
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW[6|7]",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW[6|7]",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW[6|7]",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW[6|7]",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW[6|7]",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW[6|7]"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Android 10 - 11 (Linux 4.9 - 4.14)",
+        "family": "Android/Linux",
+        "version": "10.X/11.X/4.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "10.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "11.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:google:android:10",
+          "cpe:/o:google:android:11",
+          "cpe:/o:linux:linux_kernel:4"
+        ],
+        "line": 33087,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW6",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW6",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW6",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW6",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW6",
+          "WIN.W1: FE88 != A9B0",
+          "WIN.W2: FE88 != A9B0",
+          "WIN.W3: FE88 != A9B0",
+          "WIN.W4: FE88 != A9B0",
+          "WIN.W5: FE88 != A9B0",
+          "WIN.W6: FE88 != A9B0",
+          "ECN.W: FAF0 != A564",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW6"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Android 10 - 12 (Linux 4.14 - 4.19)",
+        "family": "Android/Linux",
+        "version": "10.X/11.X/12.X/4.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "10.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "11.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "12.X",
+            "device_type": "phone"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:4",
+          "cpe:/o:google:android:10",
+          "cpe:/o:google:android:11",
+          "cpe:/o:google:android:12"
+        ],
+        "line": 72082,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M[4E2-5B4]ST11NW[8|A|C]",
+          "OPS.O2: M5B4ST11NW9 != M[4E2-5B4]ST11NW[8|A|C]",
+          "OPS.O3: M5B4NNT11NW9 != M[4E2-5B4]NNT11NW[8|A|C]",
+          "OPS.O4: M5B4ST11NW9 != M[4E2-5B4]ST11NW[8|A|C]",
+          "OPS.O5: M5B4ST11NW9 != M[4E2-5B4]ST11NW[8|A|C]",
+          "WIN.W1: FE88 != FFFF",
+          "WIN.W2: FE88 != FFFF",
+          "WIN.W3: FE88 != FFFF",
+          "WIN.W4: FE88 != FFFF",
+          "WIN.W5: FE88 != FFFF",
+          "WIN.W6: FE88 != FFFF",
+          "ECN.W: FAF0 != FFFF",
+          "ECN.O: M5B4NNSNW9 != M[4E2-5B4]NNSNW[8|A|C]"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Android 12 (Linux 5.4)",
+        "family": "Android/Linux",
+        "version": "12.X/5.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Google",
+            "family": "Android",
+            "generation": "12.X",
+            "device_type": "phone"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "phone"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:google:android:12",
+          "cpe:/o:linux:linux_kernel:5.4"
+        ],
+        "line": 33210,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NWA",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NWA",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NWA",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NWA",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NWA",
+          "WIN.W1: FE88 != FFFF",
+          "WIN.W2: FE88 != FFFF",
+          "WIN.W3: FE88 != FFFF",
+          "WIN.W4: FE88 != FFFF",
+          "WIN.W5: FE88 != FFFF",
+          "WIN.W6: FE88 != FFFF",
+          "ECN.W: FAF0 != FFFF",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNWA"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 3.3",
+        "family": "Linux",
+        "version": "3.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:3.3"
+        ],
+        "line": 69015,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW7",
+          "WIN.W1: FE88 != 3890",
+          "WIN.W2: FE88 != 3890",
+          "WIN.W3: FE88 != 3890",
+          "WIN.W4: FE88 != 3890",
+          "WIN.W5: FE88 != 3890",
+          "WIN.W6: FE88 != 3890",
+          "ECN.W: FAF0 != 3908",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW7"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.14 - 6.8",
+        "family": "Linux",
+        "version": "5.X/6.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5",
+          "cpe:/o:linux:linux_kernel:6"
+        ],
+        "line": 72603,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M[4E2-5B4]ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M[4E2-5B4]ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M[4E2-5B4]NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M[4E2-5B4]ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M[4E2-5B4]ST11NW7",
+          "WIN.W1: FE88 != 7C70",
+          "WIN.W2: FE88 != 7C70",
+          "WIN.W3: FE88 != 7C70",
+          "WIN.W4: FE88 != 7C70",
+          "WIN.W5: FE88 != 7C70",
+          "WIN.W6: FE88 != 7C70",
+          "ECN.W: FAF0 != 7D78",
+          "ECN.O: M5B4NNSNW9 != M[4E2-5B4]NNSNW7"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 6.6",
+        "family": "Linux",
+        "version": "6.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:6.6"
+        ],
+        "line": 73519,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW7",
+          "WIN.W1: FE88 != 8218",
+          "WIN.W2: FE88 != 8218",
+          "WIN.W3: FE88 != 8218",
+          "WIN.W4: FE88 != 8218",
+          "WIN.W5: FE88 != 8218",
+          "WIN.W6: FE88 != 8218",
+          "ECN.W: FAF0 != 832C",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW7"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Netgear ReadyNAS 2100 (RAIDiator 4.2.24)",
+        "family": "RAIDiator",
+        "version": "4.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Netgear",
+            "family": "RAIDiator",
+            "generation": "4.X",
+            "device_type": "storage-misc"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:netgear:raidiator:4.2.24"
+        ],
+        "line": 95820,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW6",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW6",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW6",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW6",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW6",
+          "WIN.W1: FE88 != 10F8",
+          "WIN.W2: FE88 != 10F8",
+          "WIN.W3: FE88 != 10F8",
+          "WIN.W4: FE88 != 10F8",
+          "WIN.W5: FE88 != 10F8",
+          "WIN.W6: FE88 != 10F8",
+          "ECN.W: FAF0 != 111C",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW6"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Nintendo Switch",
+        "family": "embedded",
+        "version": "",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Nintendo",
+            "family": "embedded",
+            "generation": "",
+            "device_type": "game console"
+          }
+        ],
+        "cpe": [],
+        "line": 96345,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != NNT11|M5B4ST11NW8",
+          "OPS.O2: M5B4ST11NW9 != NNT11|M5B4ST11NW8",
+          "OPS.O3: M5B4NNT11NW9 != NNT11|M5B4NNT11NW8",
+          "OPS.O4: M5B4ST11NW9 != NNT11|M5B4ST11NW8",
+          "OPS.O5: M5B4ST11NW9 != NNT11|M5B4ST11NW8",
+          "WIN.W1: FE88 != 153|FFFF",
+          "WIN.W2: FE88 != 153|FFFF",
+          "WIN.W3: FE88 != 153|FFFF",
+          "WIN.W4: FE88 != 153|FFFF",
+          "WIN.W5: FE88 != 153|FFFF",
+          "WIN.W6: FE88 != 5360|FFFF",
+          "ECN.W: FAF0 != 156|FFFF",
+          "ECN.O: M5B4NNSNW9 != |M5B4NNSNW8"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Ubiquiti AirOS 5.6.2 (Linux 2.6.32)",
+        "family": "AirOS/Linux",
+        "version": "2.6.X/5.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Ubiquiti",
+            "family": "AirOS",
+            "generation": "5.X",
+            "device_type": "WAP"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "WAP"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:ubnt:airos:5.6.2",
+          "cpe:/o:linux:linux_kernel:2.6.32"
+        ],
+        "line": 111453,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW1",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW1",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW1",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW1",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW1",
+          "WIN.W1: FE88 != 16A0",
+          "WIN.W2: FE88 != 16A0",
+          "WIN.W3: FE88 != 16A0",
+          "WIN.W4: FE88 != 16A0",
+          "WIN.W5: FE88 != 16A0",
+          "WIN.W6: FE88 != 16A0",
+          "ECN.W: FAF0 != 16D0",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW1"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Ubiquiti Dream Machine Pro gateway (Linux 4.19)",
+        "family": "Linux/embedded",
+        "version": "4.X",
+        "score": 93.16,
+        "confidence_percent": 93.16,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2995,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Ubiquiti",
+            "family": "embedded",
+            "generation": "",
+            "device_type": "router"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "router"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:4.19"
+        ],
+        "line": 111491,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NWC",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NWC",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NWC",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NWC",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NWC",
+          "WIN.W1: FE88 != A9B0",
+          "WIN.W2: FE88 != A9B0",
+          "WIN.W3: FE88 != A9B0",
+          "WIN.W4: FE88 != A9B0",
+          "WIN.W5: FE88 != A9B0",
+          "WIN.W6: FE88 != A9B0",
+          "ECN.W: FAF0 != A564",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNWC"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Oracle VM Server 3.4.2 (Linux 4.1)",
+        "family": "Linux/VM Server",
+        "version": "3.X/4.X",
+        "score": 93.05,
+        "confidence_percent": 93.05,
+        "coverage": 96.9,
+        "positive_weight": 3005,
+        "negative_weight": 160,
+        "matched_weight": 2945,
+        "total_weight": 3165,
+        "reference_weight": 3265,
+        "classes": [
+          {
+            "vendor": "Oracle",
+            "family": "VM Server",
+            "generation": "3.X",
+            "device_type": "specialized"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "specialized"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:oracle:vm_server:3.4.2",
+          "cpe:/o:linux:linux_kernel:4.1"
+        ],
+        "line": 100022,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NWC",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NWC",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NWC",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NWC",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NWC",
+          "WIN.W1: FE88 != A9B0",
+          "WIN.W2: FE88 != A9B0",
+          "WIN.W3: FE88 != A9B0",
+          "WIN.W4: FE88 != A9B0",
+          "WIN.W5: FE88 != A9B0",
+          "WIN.W6: FE88 != 7120",
+          "ECN.W: FAF0 != A564",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNWC"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 5.0",
+        "family": "Linux",
+        "version": "5.X",
+        "score": 92.92,
+        "confidence_percent": 92.92,
+        "coverage": 96.8,
+        "positive_weight": 2875,
+        "negative_weight": 160,
+        "matched_weight": 2820,
+        "total_weight": 3035,
+        "reference_weight": 3135,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "5.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:5.0"
+        ],
+        "line": 72181,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M53CST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M53CST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M53CNNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M53CST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M53CST11NW7",
+          "OPS.O6: M5B4ST11 != M53CST11",
+          "ECN.O: M5B4NNSNW9 != M53CNNSNW7",
+          "T7.R: Y != N"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 6.15",
+        "family": "Linux",
+        "version": "6.X",
+        "score": 92.69,
+        "confidence_percent": 92.69,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2980,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:6.15"
+        ],
+        "line": 73426,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M5B4ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M5B4ST11NW7",
+          "ECN.T: 40 != 7C-86",
+          "ECN.O: M5B4NNSNW9 != M5B4NNSNW7",
+          "T1.T: 40 != 7C-86",
+          "T4.T: 40 != 7C-86",
+          "T5.T: 40 != 7C-86",
+          "T6.T: 40 != 7C-86",
+          "T7.T: 40 != 7C-86",
+          "U1.T: 40 != 7C-86",
+          "IE.T: 40 != 7C-86"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 2.6.24 - 2.6.36",
+        "family": "Linux",
+        "version": "2.6.X",
+        "score": 92.69,
+        "confidence_percent": 92.69,
+        "coverage": 92.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2980,
+        "total_weight": 3215,
+        "reference_weight": 3495,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6"
+        ],
+        "line": 56335,
+        "differences": [
+          "SEQ.SP: 106 != B1-D1",
+          "SEQ.ISR: 109 != BE-DA",
+          "WIN.W1: FE88 != 16A0",
+          "WIN.W2: FE88 != 16A0",
+          "WIN.W3: FE88 != 16A0",
+          "WIN.W4: FE88 != 16A0",
+          "WIN.W5: FE88 != 16A0",
+          "WIN.W6: FE88 != 16A0",
+          "ECN.W: FAF0 != 16D0",
+          "T3.R: N != Y"
+        ],
+        "missing": [
+          "SEQ.II",
+          "T3.DF",
+          "T3.TG",
+          "T3.W",
+          "T3.S",
+          "T3.A",
+          "T3.F",
+          "T3.O",
+          "T3.RD",
+          "T3.Q"
+        ]
+      },
+      {
+        "label": "Linux 2.6.36 - 2.6.37",
+        "family": "Linux",
+        "version": "2.6.X",
+        "score": 92.69,
+        "confidence_percent": 92.69,
+        "coverage": 92.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2980,
+        "total_weight": 3215,
+        "reference_weight": 3495,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6"
+        ],
+        "line": 61151,
+        "differences": [
+          "SEQ.SP: 106 != BA-D0",
+          "SEQ.ISR: 109 != BB-D7",
+          "WIN.W1: FE88 != 10F8",
+          "WIN.W2: FE88 != 10F8",
+          "WIN.W3: FE88 != 10F8",
+          "WIN.W4: FE88 != 10F8",
+          "WIN.W5: FE88 != 10F8",
+          "WIN.W6: FE88 != 10F8",
+          "ECN.W: FAF0 != 111C",
+          "T3.R: N != Y"
+        ],
+        "missing": [
+          "SEQ.II",
+          "T3.DF",
+          "T3.TG",
+          "T3.W",
+          "T3.S",
+          "T3.A",
+          "T3.F",
+          "T3.O",
+          "T3.RD",
+          "T3.Q"
+        ]
+      },
+      {
+        "label": "Adtran 424RG FTTH gateway",
+        "family": "embedded",
+        "version": "",
+        "score": 92.53,
+        "confidence_percent": 92.53,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2975,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Adtran",
+            "family": "embedded",
+            "generation": "",
+            "device_type": "specialized"
+          }
+        ],
+        "cpe": [
+          "cpe:/h:adtran:424rg"
+        ],
+        "line": 1543,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M7A8ST11NW5",
+          "OPS.O2: M5B4ST11NW9 != M7A8ST11NW5",
+          "OPS.O3: M5B4NNT11NW9 != M7A8NNT11NW5",
+          "OPS.O4: M5B4ST11NW9 != M7A8ST11NW5",
+          "OPS.O5: M5B4ST11NW9 != M7A8ST11NW5",
+          "OPS.O6: M5B4ST11 != M7A8ST11",
+          "WIN.W1: FE88 != 3544",
+          "WIN.W2: FE88 != 3544",
+          "WIN.W3: FE88 != 3544",
+          "WIN.W4: FE88 != 3544",
+          "WIN.W5: FE88 != 3544",
+          "WIN.W6: FE88 != 3544",
+          "ECN.W: FAF0 != 3598",
+          "ECN.O: M5B4NNSNW9 != M7A8NNSNW5"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 2.6.39 - 3.2",
+        "family": "Linux",
+        "version": "2.6.X/3.X",
+        "score": 92.53,
+        "confidence_percent": 92.53,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2975,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "2.6.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:2.6",
+          "cpe:/o:linux:linux_kernel:3"
+        ],
+        "line": 62026,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M400CST11NW4",
+          "OPS.O2: M5B4ST11NW9 != M400CST11NW4",
+          "OPS.O3: M5B4NNT11NW9 != M400CNNT11NW4",
+          "OPS.O4: M5B4ST11NW9 != M400CST11NW4",
+          "OPS.O5: M5B4ST11NW9 != M400CST11NW4",
+          "OPS.O6: M5B4ST11 != M400CST11",
+          "WIN.W1: FE88 != 8000",
+          "WIN.W2: FE88 != 8000",
+          "WIN.W3: FE88 != 8000",
+          "WIN.W4: FE88 != 8000",
+          "WIN.W5: FE88 != 8000",
+          "WIN.W6: FE88 != 8000",
+          "ECN.W: FAF0 != 8018",
+          "ECN.O: M5B4NNSNW9 != M400CNNSNW4"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 3.1 - 3.2",
+        "family": "Linux",
+        "version": "3.X",
+        "score": 92.53,
+        "confidence_percent": 92.53,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2975,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:3"
+        ],
+        "line": 66603,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M2300ST11NW[1-9]",
+          "OPS.O2: M5B4ST11NW9 != M2300ST11NW[1-9]",
+          "OPS.O3: M5B4NNT11NW9 != M2300NNT11NW[1-9]",
+          "OPS.O4: M5B4ST11NW9 != M2300ST11NW[1-9]",
+          "OPS.O5: M5B4ST11NW9 != M2300ST11NW[1-9]",
+          "OPS.O6: M5B4ST11 != M2300ST11",
+          "WIN.W1: FE88 != 45E8",
+          "WIN.W2: FE88 != 45E8",
+          "WIN.W3: FE88 != 45E8",
+          "WIN.W4: FE88 != 45E8",
+          "WIN.W5: FE88 != 45E8",
+          "WIN.W6: FE88 != 45E8",
+          "ECN.W: FAF0 != 4600",
+          "ECN.O: M5B4NNSNW9 != M2300NNSNW[1-9]"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 3.7 - 4.19",
+        "family": "Linux",
+        "version": "3.X/4.X",
+        "score": 92.53,
+        "confidence_percent": 92.53,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2975,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "3.X",
+            "device_type": "general purpose"
+          },
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:3",
+          "cpe:/o:linux:linux_kernel:4"
+        ],
+        "line": 69589,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != MFFD7ST11NW[5-A]",
+          "OPS.O2: M5B4ST11NW9 != MFFD7ST11NW[5-A]",
+          "OPS.O3: M5B4NNT11NW9 != MFFD7NNT11NW[5-A]",
+          "OPS.O4: M5B4ST11NW9 != MFFD7ST11NW[5-A]",
+          "OPS.O5: M5B4ST11NW9 != MFFD7ST11NW[5-A]",
+          "OPS.O6: M5B4ST11 != MFFD7ST11",
+          "WIN.W1: FE88 != AAAA",
+          "WIN.W2: FE88 != AAAA",
+          "WIN.W3: FE88 != AAAA",
+          "WIN.W4: FE88 != AAAA",
+          "WIN.W5: FE88 != AAAA",
+          "WIN.W6: FE88 != AAAA",
+          "ECN.W: FAF0 != AAAA",
+          "ECN.O: M5B4NNSNW9 != MFFD7NNSNW[5-A]"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      },
+      {
+        "label": "Linux 4.12",
+        "family": "Linux",
+        "version": "4.X",
+        "score": 92.53,
+        "confidence_percent": 92.53,
+        "coverage": 97.0,
+        "positive_weight": 3055,
+        "negative_weight": 160,
+        "matched_weight": 2975,
+        "total_weight": 3215,
+        "reference_weight": 3315,
+        "classes": [
+          {
+            "vendor": "Linux",
+            "family": "Linux",
+            "generation": "4.X",
+            "device_type": "general purpose"
+          }
+        ],
+        "cpe": [
+          "cpe:/o:linux:linux_kernel:4.12"
+        ],
+        "line": 70805,
+        "differences": [
+          "OPS.O1: M5B4ST11NW9 != M2300ST11NW7",
+          "OPS.O2: M5B4ST11NW9 != M2300ST11NW7",
+          "OPS.O3: M5B4NNT11NW9 != M2300NNT11NW7",
+          "OPS.O4: M5B4ST11NW9 != M2300ST11NW7",
+          "OPS.O5: M5B4ST11NW9 != M2300ST11NW7",
+          "OPS.O6: M5B4ST11 != M2300ST11",
+          "WIN.W1: FE88 != 68DC",
+          "WIN.W2: FE88 != 68DC",
+          "WIN.W3: FE88 != 68DC",
+          "WIN.W4: FE88 != 68DC",
+          "WIN.W5: FE88 != 68DC",
+          "WIN.W6: FE88 != 68DC",
+          "ECN.W: FAF0 != 6900",
+          "ECN.O: M5B4NNSNW9 != M2300NNSNW7"
+        ],
+        "missing": [
+          "SEQ.II"
+        ]
+      }
+    ],
+    "family_hints": [
+      "Consistent published OS family: Linux"
+    ],
+    "plausible_count": 10,
+    "database_count": 6108,
+    "compared_labels": 3990,
+    "database_sha256": "133f6c908a404e6cd5cf221bee4b82a91fe50bac19a47a1cbda4cb32d4a061e9",
+    "syn_replies": 6,
+    "responsive_tests": [
+      "T1",
+      "ECN",
+      "T4",
+      "T5",
+      "T6",
+      "T7",
+      "IE",
+      "U1"
+    ],
+    "sequence_evidence_complete": false,
+    "ambiguity_margin_percent": 5.0,
+    "confidence_method": "100 * matched_weight / total_weight (published IPv4 MatchPoints)",
+    "coverage_meaning": "100 * comparable reference weight / relevant reference weight; measures evidence availability, not correctness.",
+    "score_meaning": "Fingerprint similarity: weighted agreement on available comparison fields, not the probability that the OS label is correct."
+  }
+}

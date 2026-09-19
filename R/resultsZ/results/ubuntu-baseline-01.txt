@@ -1,0 +1,98 @@
+Scanning 192.168.56.10 from 192.168.56.20 (3 TCP ports)...
+Fingerprinting (open TCP=8080, closed TCP=8081)...
+Target: 192.168.56.10    Source: 192.168.56.20
+TCP ports: 1 closed, 1 filtered, 1 open
+PORT     STATE      REASON
+8080/tcp open       SYN-ACK
+8081/tcp closed     RST
+8082/tcp filtered   no reply (filtering, loss, or unreachable host)
+Database: 6108 published fingerprints; 6/6 SYN replies
+
+OS result: AMBIGUOUS
+10 published fingerprints remain plausible; legacy probes, incomplete sequence evidence, inconsistent rounds, or near matches prevent a unique version answer.
+Family hint: Consistent published OS family: Linux
+
+RANK  SIMILARITY  COVERAGE  OS LABEL
+1        100.00%   96.9%    Linux 4.15 - 5.19
+2         96.73%   97.0%    Android 9 - 11 (Linux 4.9 - 4.14)
+3         96.68%   96.9%    Linux 3.2 - 4.14
+4         96.51%   96.8%    Linux 2.6.32 - 3.10
+5         96.42%   97.0%    OpenWrt 21.02 (Linux 5.4)
+6         96.11%   97.0%    OpenWrt 22.03 (Linux 5.10)
+7         95.96%   97.0%    Linux 2.6.32
+8         95.96%   97.0%    Linux 5.10 - 5.19
+9         95.65%   97.0%    Linux 6.0
+10        95.65%   97.0%    MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
+11        94.09%   97.0%    Linux 4.19
+12        93.94%   92.2%    Linux 2.6.32 - 2.6.35
+13        93.94%   92.2%    Linux 2.6.32 - 3.5
+14        93.90%   96.8%    Linux 2.6.32 - 3.13
+15        93.78%   97.0%    Linux 5.10
+16        93.57%   96.8%    Linux 5.0 - 5.14
+17        93.31%   97.0%    Linux 5.4 - 5.10
+18        93.16%   97.0%    Android 10 - 11 (Linux 4.9 - 4.14)
+19        93.16%   97.0%    Android 10 - 12 (Linux 4.14 - 4.19)
+20        93.16%   97.0%    Linux 5.14 - 6.8
+Highest fingerprint similarity: 100.0%.
+Fingerprint similarity: weighted agreement on available comparison fields, not the probability that the OS label is correct.
+Coverage: weighted reference evidence available for comparison; not the percentage of ports scanned.
+Best reference: 3165/3165 comparable points matched; 3165/3265 reference points available.
+Missing reference evidence: 100 weighted points; missing fields do not reduce similarity.
+Note: Filtered/no reply does not prove a firewall: loss and unreachable hosts can look the same.
+Note: T uses U1's forward-hop estimate; asymmetric routes can affect it.
+Note: Recovered TS=A using three additional SYNs on one tuple; original sequence clock evidence remains incomplete.
+
+Fingerprint:
+{}
+Diagnostics:
+{
+  "sequence_samples": 6,
+  "sequence_send_offsets_ms": [
+    0.0,
+    125.261,
+    225.432,
+    328.136,
+    436.45,
+    538.562
+  ],
+  "sequence_fields": {
+    "TI": "Z",
+    "CI": "Z",
+    "GCD": "1",
+    "ISR": "10E",
+    "SP": "FB",
+    "TS": "A"
+  }
+}
+
+Standard fingerprint:
+SEQ(TI=Z%CI=Z%GCD=1%ISR=10E%SP=FB%TS=A)
+OPS(O1=M5B4ST11NW9%O2=M5B4ST11NW9%O3=M5B4NNT11NW9%O4=M5B4ST11NW9%O5=M5B4ST11NW9%O6=M5B4ST11)
+WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE88%W6=FE88)
+T1(R=Y%DF=Y%T=40%W=FE88%Q=%O=M5B4ST11NW9%S=O%A=S+%F=AS%RD=0)
+ECN(R=Y%DF=Y%T=40%W=FAF0%Q=%O=M5B4NNSNW9%CC=Y)
+T2(R=N)
+T3(R=N)
+T4(R=Y%DF=Y%T=40%W=0%Q=%O=%S=A%A=Z%F=R%RD=0)
+T5(R=Y%DF=Y%T=40%W=0%Q=%O=%S=Z%A=S+%F=AR%RD=0)
+T6(R=Y%DF=Y%T=40%W=0%Q=%O=%S=A%A=Z%F=R%RD=0)
+T7(R=Y%DF=Y%T=40%W=0%Q=%O=%S=Z%A=S+%F=AR%RD=0)
+IE(R=Y%DFI=N%CD=S%T=40)
+U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)
+
+Linux 4.15 - 5.19 differences:
+None on comparable fields
+
+Android 9 - 11 (Linux 4.9 - 4.14) differences:
+WIN.W1: FE88 != FFFF; WIN.W2: FE88 != FFFF; WIN.W3: FE88 != FFFF; WIN.W4: FE88 != FFFF; WIN.W5: FE88 != FFFF; WIN.W6: FE88 != FFFF; ECN.W: FAF0 != FFFF
+
+Linux 3.2 - 4.14 differences:
+WIN.W1: FE88 != 7120; WIN.W2: FE88 != 7120; WIN.W3: FE88 != 7120; WIN.W4: FE88 != 7120; WIN.W5: FE88 != 7120; WIN.W6: FE88 != 7120; ECN.W: FAF0 != 7210
+
+Linux 2.6.32 - 3.10 differences:
+WIN.W1: FE88 != 3890; WIN.W2: FE88 != 3890; WIN.W3: FE88 != 3890; WIN.W4: FE88 != 3890; WIN.W5: FE88 != 3890; WIN.W6: FE88 != 3890; ECN.W: FAF0 != 3908
+
+OpenWrt 21.02 (Linux 5.4) differences:
+OPS.O1: M5B4ST11NW9 != M5B4ST11NW[3-7]; OPS.O2: M5B4ST11NW9 != M5B4ST11NW[3-7]; OPS.O3: M5B4NNT11NW9 != M5B4NNT11NW[3-7]; OPS.O4: M5B4ST11NW9 != M5B4ST11NW[3-7]; OPS.O5: M5B4ST11NW9 != M5B4ST11NW[3-7]; ECN.O: M5B4NNSNW9 != M5B4NNSNW[3-7]
+
+Saved: results/ubuntu-baseline-01.json

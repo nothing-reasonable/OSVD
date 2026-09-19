@@ -1,0 +1,6 @@
+ver
+wmic os get Caption,Version,BuildNumber,OSArchitecture,ServicePackMajorVersion
+ipconfig
+netstat -ano -p tcp
+netsh advfirewall show allprofiles
+

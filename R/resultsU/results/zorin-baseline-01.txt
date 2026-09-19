@@ -1,0 +1,132 @@
+Scanning 192.168.56.20 from 192.168.56.10 (3 TCP ports)...
+Fingerprinting (open TCP=8080, closed TCP=8081)...
+Target: 192.168.56.20    Source: 192.168.56.10
+TCP ports: 1 closed, 1 filtered, 1 open
+PORT     STATE      REASON
+8080/tcp open       SYN-ACK
+8081/tcp closed     RST
+8082/tcp filtered   no reply (filtering, loss, or unreachable host)
+Database: 6108 published fingerprints; 6/6 SYN replies
+
+                                         OS Detection Results for 192.168.56.20                                         
++------+----------------------------------------------------------------+------------+----------+----------------------+
+| Rank | Operating System                                               | Confidence | Coverage | Match Bar            |
++------+----------------------------------------------------------------+------------+----------+----------------------+
+|    1 | Linux 4.15 - 5.19                                              |    100.00% |    96.9% | #################### |
+|    2 | OpenWrt 22.03 (Linux 5.10)                                     |     96.89% |    97.0% | ###################. |
+|    3 | Android 9 - 11 (Linux 4.9 - 4.14)                              |     96.73% |    97.0% | ###################. |
+|    4 | Linux 2.6.32                                                   |     96.73% |    97.0% | ###################. |
+|    5 | Linux 5.10 - 5.19                                              |     96.73% |    97.0% | ###################. |
+|    6 | Linux 3.2 - 4.14                                               |     96.68% |    96.9% | ###################. |
+|    7 | Linux 2.6.32 - 3.10                                            |     96.51% |    96.8% | ###################. |
+|    8 | MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)                      |     96.42% |    97.0% | ###################. |
+|    9 | OpenWrt 21.02 (Linux 5.4)                                      |     96.42% |    97.0% | ###################. |
+|   10 | Linux 6.0                                                      |     95.65% |    97.0% | ###################. |
+|   11 | Linux 4.19                                                     |     94.87% |    97.0% | ###################. |
+|   12 | Linux 5.10                                                     |     94.56% |    97.0% | ###################. |
+|   13 | Linux 2.6.32 - 2.6.35                                          |     93.94% |    92.2% | ###################. |
+|   14 | Linux 2.6.32 - 3.5                                             |     93.94% |    92.2% | ###################. |
+|   15 | Linux 2.6.32 - 3.13                                            |     93.90% |    96.8% | ###################. |
+|   16 | Linux 4.15                                                     |     93.90% |    96.8% | ###################. |
+|   17 | Linux 5.0 - 5.14                                               |     93.57% |    96.8% | ###################. |
+|   18 | Linux 6.18                                                     |     93.57% |    96.8% | ###################. |
+|   19 | Linux 5.4                                                      |     93.31% |    97.0% | ###################. |
+|   20 | Linux 5.4 - 5.10                                               |     93.31% |    97.0% | ###################. |
+|   21 | Android 10 - 11 (Linux 4.9 - 4.14)                             |     93.16% |    97.0% | ###################. |
+|   22 | Android 10 - 12 (Linux 4.14 - 4.19)                            |     93.16% |    97.0% | ###################. |
+|   23 | Android 12 (Linux 5.4)                                         |     93.16% |    97.0% | ###################. |
+|   24 | Linux 3.3                                                      |     93.16% |    97.0% | ###################. |
+|   25 | Linux 5.14 - 6.8                                               |     93.16% |    97.0% | ###################. |
+|   26 | Linux 6.6                                                      |     93.16% |    97.0% | ###################. |
+|   27 | Netgear ReadyNAS 2100 (RAIDiator 4.2.24)                       |     93.16% |    97.0% | ###################. |
+|   28 | Nintendo Switch                                                |     93.16% |    97.0% | ###################. |
+|   29 | Ubiquiti AirOS 5.6.2 (Linux 2.6.32)                            |     93.16% |    97.0% | ###################. |
+|   30 | Ubiquiti Dream Machine Pro gateway (Linux 4.19)                |     93.16% |    97.0% | ###################. |
+|   31 | Oracle VM Server 3.4.2 (Linux 4.1)                             |     93.05% |    96.9% | ###################. |
+|   32 | Linux 5.0                                                      |     92.92% |    96.8% | ###################. |
+|   33 | Linux 6.15                                                     |     92.69% |    97.0% | ###################. |
+|   34 | Linux 2.6.24 - 2.6.36                                          |     92.69% |    92.0% | ###################. |
+|   35 | Linux 2.6.36 - 2.6.37                                          |     92.69% |    92.0% | ###################. |
+|   36 | Adtran 424RG FTTH gateway                                      |     92.53% |    97.0% | ###################. |
+|   37 | Linux 2.6.39 - 3.2                                             |     92.53% |    97.0% | ###################. |
+|   38 | Linux 3.1 - 3.2                                                |     92.53% |    97.0% | ###################. |
+|   39 | Linux 3.7 - 4.19                                               |     92.53% |    97.0% | ###################. |
+|   40 | Linux 4.12                                                     |     92.53% |    97.0% | ###################. |
++------+----------------------------------------------------------------+------------+----------+----------------------+
+Source IP: 192.168.56.10
+Confidence and bars show fingerprint similarity, not a calibrated OS probability.
+Coverage shows how much reference evidence was available for comparison.
+
++ Summary -------------------------------------------------------------------------------------------------------------+
+| Status: AMBIGUOUS                                                                                                    |
+| Closest reference: Linux 4.15 - 5.19                                                                                 |
+| Confidence: 100.00%    Coverage: 96.9%                                                                               |
+| OS family: Linux                                                                                                     |
+| 10 published fingerprints remain plausible; legacy probes, incomplete sequence evidence, inconsistent rounds, or     |
+| near matches prevent a unique version answer.                                                                        |
+| Showing: 40 of 40 retained matches                                                                                   |
+| Compared: 3990 distinct OS labels                                                                                    |
+| Several possibilities or incomplete evidence; no unique OS version identified.                                       |
++----------------------------------------------------------------------------------------------------------------------+
+Fingerprint similarity: weighted agreement on available comparison fields, not the probability that the OS label is correct.
+Coverage: weighted reference evidence available for comparison; not the percentage of ports scanned.
+Best reference: 3165/3165 comparable points matched; 3165/3265 reference points available.
+Missing reference evidence: 100 weighted points; missing fields do not reduce similarity.
+Note: Filtered/no reply does not prove a firewall: loss and unreachable hosts can look the same.
+Note: T uses U1's forward-hop estimate; asymmetric routes can affect it.
+Note: Recovered TS=A using three additional SYNs on one tuple; original sequence clock evidence remains incomplete.
+
+Fingerprint:
+{}
+Diagnostics:
+{
+  "sequence_samples": 6,
+  "sequence_send_offsets_ms": [
+    0.0,
+    100.856,
+    226.762,
+    347.877,
+    456.289,
+    560.349
+  ],
+  "sequence_fields": {
+    "TI": "Z",
+    "CI": "Z",
+    "GCD": "1",
+    "ISR": "109",
+    "SP": "106",
+    "TS": "A"
+  }
+}
+
+Standard fingerprint:
+SEQ(TI=Z%CI=Z%GCD=1%ISR=109%SP=106%TS=A)
+OPS(O1=M5B4ST11NW9%O2=M5B4ST11NW9%O3=M5B4NNT11NW9%O4=M5B4ST11NW9%O5=M5B4ST11NW9%O6=M5B4ST11)
+WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE88%W6=FE88)
+T1(R=Y%DF=Y%T=40%W=FE88%Q=%O=M5B4ST11NW9%S=O%A=S+%F=AS%RD=0)
+ECN(R=Y%DF=Y%T=40%W=FAF0%Q=%O=M5B4NNSNW9%CC=Y)
+T2(R=N)
+T3(R=N)
+T4(R=Y%DF=Y%T=40%W=0%Q=%O=%S=A%A=Z%F=R%RD=0)
+T5(R=Y%DF=Y%T=40%W=0%Q=%O=%S=Z%A=S+%F=AR%RD=0)
+T6(R=Y%DF=Y%T=40%W=0%Q=%O=%S=A%A=Z%F=R%RD=0)
+T7(R=Y%DF=Y%T=40%W=0%Q=%O=%S=Z%A=S+%F=AR%RD=0)
+IE(R=Y%DFI=N%CD=S%T=40)
+U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)
+
+Linux 4.15 - 5.19 differences:
+None on comparable fields
+
+OpenWrt 22.03 (Linux 5.10) differences:
+ECN.CC: Y != N
+
+Android 9 - 11 (Linux 4.9 - 4.14) differences:
+WIN.W1: FE88 != FFFF; WIN.W2: FE88 != FFFF; WIN.W3: FE88 != FFFF; WIN.W4: FE88 != FFFF; WIN.W5: FE88 != FFFF; WIN.W6: FE88 != FFFF; ECN.W: FAF0 != FFFF
+
+Linux 2.6.32 differences:
+WIN.W1: FE88 != 16A0; WIN.W2: FE88 != 16A0; WIN.W3: FE88 != 16A0; WIN.W4: FE88 != 16A0; WIN.W5: FE88 != 16A0; WIN.W6: FE88 != 16A0; ECN.W: FAF0 != 16D0
+
+Linux 5.10 - 5.19 differences:
+WIN.W1: FE88 != A9B0; WIN.W2: FE88 != A9B0; WIN.W3: FE88 != A9B0; WIN.W4: FE88 != A9B0; WIN.W5: FE88 != A9B0; WIN.W6: FE88 != A9B0; ECN.W: FAF0 != A564
+
+Saved: results/zorin-baseline-01.json
