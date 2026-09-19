@@ -5,8 +5,14 @@ probes, extracts the target's network-stack behavior, and compares that behavior
 with a published OS fingerprint database. It aims to identify an OS family and
 the closest supported version or version range.
 
-The entire implementation is in **[scanner.py](scanner.py)**. It uses only
-Python's standard library. It does not invoke Nmap, import a Nmap wrapper,
+The scanning and OS matching implementation is in **[scanner.py](scanner.py)**;
+**[windows_transport.py](windows_transport.py)** adds native Windows packet I/O.
+The victim-side **[defender.py](defender.py)** runs continuously on Linux or
+Windows to normalize outgoing IPv4 responses while keeping new TCP connections
+accessible by default. See **[the defense guide](DEFENSE.md)** for foreground and
+background commands, limitations, cleanup, and before/after testing.
+The Python code uses only the standard library. Windows live scans additionally
+require the WinDivert driver and DLL. It does not invoke Nmap, import a Nmap wrapper,
 use Scapy, or require a Python scanning package. The bundled **nmap-os-db is
 third-party reference data**, not the scanning implementation.
 
@@ -50,6 +56,11 @@ behavior, including the new sequence timing checks.
 | File | Purpose | Required for normal scanning? |
 | --- | --- | --- |
 | `scanner.py` | Packet construction, transport, extraction, matching, CLI, and optional monitoring | Yes |
+| `windows_transport.py` | WinDivert transport through standard-library ctypes | Windows live scans only |
+| `defender.py` | Victim-side response normalization using nftables (Linux) or WinDivert (Windows) | Defense only |
+| `DEFENSE.md` | Defense setup, background operation, cleanup, and evaluation | Documentation |
+| `test_defender.py`, `test_defender_linux.py` | Defense regression and isolated Linux packet tests | Development only |
+| `test_windows_transport.py` | Driver simulation, platform selection, and opt-in Windows loopback test | Development only |
 | `nmap-os-db` | 6,108 reference fingerprints and their matching weights | Yes, unless you supply another compatible database |
 | `NMAP-DATABASE-LICENSE.txt` | License terms supplied with the published database | Keep with the database |
 | `README.md` | This usage and implementation guide | Documentation |
@@ -66,14 +77,17 @@ or `fingerprints.json` refer to files **you create**, not bundled files.
 | Operation | Operating system | Privileges | Network needed? |
 | --- | --- | --- | --- |
 | `scan` | Linux, including a suitable WSL2 Linux environment | Root or raw-socket permissions such as `CAP_NET_RAW` | Yes |
+| `scan` | Native Windows with WinDivert 2.x | Administrator | Yes |
 | `watch` | Linux, with an Ethernet interface visible to the process | Root or raw-socket permissions | Yes, to observe traffic |
 | `match` | Linux or Windows | Normal file access | No |
 | `learn` | Linux or Windows | Write access to the local database | No |
 | `evaluate` | Linux or Windows | Read access to reports/database; write access if saving results | No |
 
-Use **Python 3.10 or newer**. No `pip install` step is needed. Live operations
-use Linux raw sockets; native Windows Python cannot perform this tool's live
-packet transport. The target itself may run Linux, Windows, BSD, or another OS
+Use **Python 3.10 or newer**. No `pip install` step is needed. Linux live operations
+use raw sockets; native Windows scans use WinDivert. Windows raw sockets restrict
+TCP sending, so Administrator privileges alone are insufficient without a packet
+driver ([Microsoft documentation](https://learn.microsoft.com/en-us/windows/win32/winsock/tcp-ip-raw-sockets-2)).
+The target itself may run Linux, Windows, BSD, or another OS
 represented in the database.
 
 The scanner accepts **one IPv4 address or hostname at a time**. It does not
@@ -132,9 +146,47 @@ sudo python3 -B scanner.py scan scanme.nmap.org -p 22,80,443,9929,31337 --timeou
 Check [scanme's current permission notice](http://scanme.nmap.org/) before public
 testing and keep scans small and infrequent. Use your own VMs for repeated tests.
 
-### Windows with WSL2
+### Native Windows
 
-Live scanning runs inside Linux. Microsoft documents WSL installation in its
+1. Install Python 3.10+ (64-bit recommended for an x64 Windows host).
+2. Download the official **WinDivert 2.x binary release** from
+   [WinDivert](https://reqrypt.org/windivert.html) and extract it. Keep its license.
+3. Use the extracted `x64` folder for 64-bit Python, or `x86` for 32-bit Python.
+   Keep `WinDivert.dll` and the supplied `.sys` driver files together.
+4. Open PowerShell **as Administrator** and run, replacing the paths and target:
+
+```powershell
+python -B scanner.py scan 192.168.56.20 -p 8080-8082 --windivert-dir 'C:\Tools\WinDivert-2.2.2-A\x64' -o vm.json --debug
+```
+
+Alternatively, copy the contents of the appropriate WinDivert architecture folder
+into a `WinDivert` folder beside `scanner.py`, then omit `--windivert-dir`:
+
+```powershell
+python -B scanner.py scan 192.168.56.20 -p 8080-8082 -o vm.json --debug
+```
+
+WinDivert loads its driver when the first scan opens the transport; a driver
+installation command is not needed. Use a trusted official release. Windows
+must permit loading its signed driver. See the
+[WinDivert installation and API documentation](https://reqrypt.org/windivert-doc.html).
+Npcap is not used by this transport. The scanner does not download drivers.
+
+The same TCP, ICMP, and UDP probe bytes, retry logic, fingerprint database, and
+JSON reports are used on both platforms. A background receiver copies replies
+without consuming their normal delivery. Windows chooses the outbound route;
+the target must be reachable from the Windows host. `-sV` is available as usual.
+The passive `watch` command still requires Linux. Offline commands do not load
+WinDivert or require Administrator privileges.
+
+The transport has automated tests using a simulated driver. Verify real driver
+and firewall behavior on your host with the opt-in loopback test below, then
+scan a known lab VM. Live Windows accuracy has not been validated by those
+simulated tests.
+
+### Windows with WSL2 (alternative)
+
+For this alternative, live scanning runs inside Linux. Microsoft documents WSL installation in its
 [official installation guide](https://learn.microsoft.com/en-us/windows/wsl/install).
 If WSL is not installed, run the installation command in an administrator
 PowerShell terminal and follow any restart instructions:
@@ -373,6 +425,7 @@ python3 scanner.py scan TARGET [OPTIONS]
 | Argument/option | Default | Accepted values | Effect |
 | --- | --- | --- | --- |
 | `TARGET` | Required | One unicast IPv4 address or hostname | Hostname resolution chooses the first IPv4 result |
+| `--windivert-dir` | `WinDivert` beside script | Folder containing WinDivert 2.x DLL and driver | Native Windows transport; rejected on Linux |
 | `-p`, `--ports` | `1-1024,3389,5900,8000,8080,8443` | Comma-separated ports/inclusive ranges, 1-65535 | Discovery ports; duplicates are removed |
 | `--open-port` | Automatic | Integer 1-65535 | Preferred open TCP port; added to discovery and verified |
 | `--closed-port` | Automatic | Integer 1-65535 | Preferred closed TCP port; added to discovery and verified |
@@ -854,9 +907,24 @@ can still distort negative TCP responsiveness evidence.
 
 ### Published confidence
 
-The console labels this score **SIMILARITY** to distinguish fingerprint
-agreement from certainty about an OS. JSON retains `confidence_percent` for
-compatibility. An UNKNOWN result shows diagnostic similarities and no match bar.
+The console displays a ranked **OS Detection Results** table with rank, operating
+system, **Confidence**, coverage, and a horizontal **Match Bar**. Confidence and
+bar length represent fingerprint similarity. JSON retains `score` and
+`confidence_percent`. An UNKNOWN result still shows diagnostic reference scores
+and bars, but its summary explicitly says that no OS was identified.
+
+The summary shows the detection status, best match (or closest reference when
+unknown/ambiguous), confidence, coverage, OS family when available, and the number
+of displayed results. Color is automatic on supported interactive Windows/Linux
+terminals; redirected output is plain text. Set `NO_COLOR` to disable color.
+Long OS names wrap rather than being cut off. No extra Python package is needed.
+
+Existing saved reports can use the new display without another network scan:
+
+```powershell
+python -B scanner.py match result.json
+python -B scanner.py match result.json --debug
+```
 
 Each reference test has a weight from the database's `MatchPoints` entry.
 Only fields present in both observed and reference fingerprints can contribute
@@ -908,10 +976,12 @@ not mean correct or matched; conflicting actual replies still provide positive
 evidence about the target. These measures prevent silence alone from earning a
 usable OS answer.
 
-Normal console output shows up to five ranked labels. Debug output shows the
-retained ranking, which normally includes up to 20 labels or more when the
-plausible-count limit requires it. The JSON is a compact ranking rather than
-all 6,108 database entries.
+Normal console output shows up to **25 ranked labels**. Debug output shows the
+entire retained ranking, which normally includes up to **40 labels**, or more
+when needed to preserve all plausible matches. The JSON remains a compact
+ranking rather than all 6,108 database entries. `compared_labels` records how
+many distinct labels had comparable evidence before retaining the top results.
+Changing the display limit does not change the scores or OS decision.
 
 ### Evidence gates
 
@@ -1202,6 +1272,20 @@ python3 -B -m unittest -v
 sudo env SCANNER_LIVE_TEST=1 python3 -B -m unittest -v
 ```
 
+For a real native Windows loopback check, run in Administrator PowerShell after
+extracting WinDivert. This checks local open/closed ports and scan/save/rematch:
+
+```powershell
+$env:SCANNER_WINDOWS_LIVE_TEST = '1'
+$env:SCANNER_WINDIVERT_DIR = 'C:\Tools\WinDivert-2.2.2-A\x64'
+python -B -m unittest -v test_windows_transport.WindowsLiveTests
+Remove-Item Env:SCANNER_WINDOWS_LIVE_TEST
+Remove-Item Env:SCANNER_WINDIVERT_DIR
+```
+
+Leave `SCANNER_WINDIVERT_DIR` unset if using the default `WinDivert` folder.
+The normal test suite simulates WinDivert without loading a driver.
+
 The suite checks packet fields/checksums, database expressions, sequence and
 matching safeguards, malformed replies, and report compatibility. Opt-in live
 tests cover SYN discovery, the full fingerprint battery, and scan/save/rematch.
@@ -1256,11 +1340,27 @@ the Ethernet assumptions make loopback or non-Ethernet links unsuitable for this
 implementation. The startup line is plain text, so the complete stdout stream
 is not strictly JSON Lines from its first line.
 
+### Active response normalization on the victim
+
+The separate **[defender.py](defender.py)** changes outbound IPv4 TTL to 64 and
+normalizes the ID field only on atomic (DF=1, MF=0, offset=0) packets. By default,
+it neither blocks new TCP connections nor suppresses replies. It runs on Linux
+with nftables and native Windows with WinDivert, with optional peer scoping and
+explicit opt-in probe/reply suppression. This reduces selected fingerprint clues;
+it does not guarantee OS concealment or make Windows fully imitate Linux.
+
+See **[DEFENSE.md](DEFENSE.md)** for commands, background execution, cleanup,
+and a repeatable before/after demonstration using this scanner.
+
 ## 12. Troubleshooting and accuracy limits
 
 | Symptom | Likely explanation / next step |
 | --- | --- |
-| `Live scanning needs Linux raw sockets` | Run live commands inside Linux/WSL2; native Windows supports offline commands only |
+| `WinDivert.dll not found` | Extract WinDivert 2.x and pass its architecture folder using `--windivert-dir` |
+| WinDivert error 5 | Run native Windows PowerShell as Administrator |
+| WinDivert driver error 2 / 577 / 1275 | Keep the signed driver beside the DLL; check the reported signature or driver-policy failure |
+| DLL architecture error | Match `x64`/`x86` DLLs to your Python process architecture |
+| `watch` needs Linux raw sockets | Run passive monitoring inside Linux/WSL2 |
 | Permission denied opening raw sockets | Use `sudo` in Linux or `-u root` with WSL; a restricted container can still lack raw-socket permission |
 | Missing `nmap-os-db` | Keep it beside the script or specify `--db` with an existing published text path |
 | Empty local database / no calibrated signatures | You selected a `.json` database; use default mode or follow `learn` workflow |
@@ -1888,12 +1988,12 @@ No packets or remote version queries occur.
 
 Print source/target, state counts, and discovery rows. Print all ports when debug
 or the scan is small (<=20 ports); otherwise print open ports. Display default DB
-count/SYN evidence, decision, explanation, and family hints. Show up to five
-rankings normally, all retained rows in debug. Use SIMILARITY for default mode
-and MATCH for local mode. Print the highest similarity without a match bar;
+count/SYN evidence, decision, explanation, and family hints. The current
+`format_os_results` helper shows up to 25 rankings normally and all retained
+rows in debug, with confidence, coverage, match bars, and a summary box.
 UNKNOWN rankings are explicitly diagnostic and do not identify an OS.
 
-Print the score definition, coverage definition, and default raw point ratios.
+Print the score and coverage definitions; debug adds the raw point ratios.
 An UNKNOWN result additionally cautions that displayed scores lack sufficient
 detection evidence. Print every warning. Debug prints flat features, diagnostics,
 the compact default fingerprint, and mismatch text for the first five labels.

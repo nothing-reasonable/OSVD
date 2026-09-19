@@ -10,15 +10,18 @@ import hashlib
 import ipaddress
 import json
 import math
+import os
 from pathlib import Path
 import random
 import re
 import select
+import shutil
 import socket
 import ssl
 import statistics
 import struct
 import sys
+import textwrap
 import time
 import zlib
 
@@ -33,6 +36,8 @@ PUBLISHED_PROBES = "standard-ipv4-v2"
 IMPLEMENTATION_REVISION = 2
 SERVICE_BYTE_LIMIT = 8192
 SERVICE_EXCLUDED_PORTS = frozenset(range(9100, 9108))
+DISPLAY_MATCHES = 25
+RETAINED_MATCHES = 40
 
 
 # 1. Packet construction and decoding. No packet/scanning libraries are used.
@@ -239,10 +244,10 @@ def corresponds(probe, response, source, target):
 
 def require_linux():
     if not sys.platform.startswith("linux"):
-        raise ValueError("Live scanning needs Linux raw sockets. Run inside a Linux VM or WSL2 with sudo. Offline match/learn/evaluate work on Windows.")
+        raise ValueError("This operation needs Linux raw sockets. For watch, use a Linux VM or WSL2 with sudo. Native Windows scan uses WinDivert.")
 
 
-# 2. The event loop sends probes and listens at the same time, without threads.
+# 2. Shared probe scheduling with platform-specific packet transport.
 
 class RawNetwork:
     def __init__(self, target):
@@ -271,6 +276,20 @@ class RawNetwork:
         for sock in self.sockets:
             sock.close()
 
+    def send_packet(self, packet):
+        self.sender.sendto(packet, (self.target, 0))
+
+    def receive_packets(self, timeout):
+        ready, _, _ = select.select(self.readers, [], [], timeout)
+        for receiver in ready:
+            # Bound work so unrelated traffic cannot starve probe timers.
+            for _ in range(256):
+                try:
+                    data = receiver.recv(65535)
+                except BlockingIOError:
+                    break
+                yield data, time.monotonic()
+
     def reserve_port(self, protocol=6):
         """Prevent local applications from sharing a fingerprint probe's tuple."""
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM if protocol == 6 else socket.SOCK_DGRAM)
@@ -287,8 +306,8 @@ class RawNetwork:
             # Never send an ACK that completes the handshake.
             segment = tcp_segment(self.source, self.target, probe.sport, probe.dport,
                                   response["ack"], flags=RST, window=0)
-            self.sender.sendto(ip_packet(self.source, self.target, 6, segment,
-                                        RNG.randrange(1, 65536)), (self.target, 0))
+            self.send_packet(ip_packet(self.source, self.target, 6, segment,
+                                       RNG.randrange(1, 65536)))
 
     def exchange(self, probes, timeout=1.0, retries=1, parallel=32, delay=0.01, jitter=0):
         pending, index, next_send = [], 0, time.monotonic()
@@ -296,7 +315,7 @@ class RawNetwork:
             now = time.monotonic()
             if index < len(probes) and len(pending) < parallel and now >= next_send:
                 probe = probes[index]
-                self.sender.sendto(probe.packet, (self.target, 0))
+                self.send_packet(probe.packet)
                 probe.sent, probe.attempts = now, 1
                 probe.first_sent = now
                 pending.append(probe)
@@ -305,7 +324,7 @@ class RawNetwork:
             for probe in pending[:]:
                 if now - probe.sent >= timeout:
                     if probe.attempts <= retries:
-                        self.sender.sendto(probe.packet, (self.target, 0))
+                        self.send_packet(probe.packet)
                         probe.sent = now
                         probe.attempts += 1
                     else:
@@ -313,27 +332,53 @@ class RawNetwork:
             wait = min([0.05] + [max(0, p.sent + timeout - now) for p in pending])
             if index < len(probes) and len(pending) < parallel:
                 wait = min(wait, max(0, next_send - now))
-            ready, _, _ = select.select(self.readers, [], [], wait)
-            for receiver in ready:
-                # Bound work per iteration so unrelated traffic cannot starve timers.
-                for _ in range(256):
-                    try:
-                        data = receiver.recv(65535)
-                    except BlockingIOError:
+            for data, received_at in self.receive_packets(wait):
+                try:
+                    response = decode_packet(data)
+                except ValueError:
+                    continue
+                for probe in pending:
+                    if received_at >= probe.sent and corresponds(probe, response, self.source, self.target):
+                        response["rtt_ms"] = round((received_at - probe.sent) * 1000, 3)
+                        response["received_at"] = received_at
+                        probe.response = response
+                        self.reset(probe, response)
+                        pending.remove(probe)
                         break
-                    try:
-                        response = decode_packet(data)
-                    except ValueError:
-                        continue
-                    for probe in pending:
-                        if corresponds(probe, response, self.source, self.target):
-                            response["rtt_ms"] = round((time.monotonic() - probe.sent) * 1000, 3)
-                            response["received_at"] = time.monotonic()
-                            probe.response = response
-                            self.reset(probe, response)
-                            pending.remove(probe)
-                            break
         return probes
+
+
+class WindowsNetwork(RawNetwork):
+    """Reuse probe scheduling and decoding with native Windows IP injection."""
+
+    def __init__(self, target, windivert_dir=None):
+        from windows_transport import WinDivertTransport
+        self.target, self.sockets = target, []
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as route:
+            route.connect((target, 9))
+            self.source = route.getsockname()[0]
+        self.transport = WinDivertTransport(self.source, target, windivert_dir)
+
+    def send_packet(self, packet):
+        self.transport.send(packet)
+
+    def receive_packets(self, timeout):
+        return self.transport.receive(timeout)
+
+    def close(self):
+        try:
+            self.transport.close()
+        finally:
+            super().close()
+
+
+def open_network(target, windivert_dir=None):
+    if sys.platform == "win32":
+        return WindowsNetwork(target, windivert_dir)
+    require_linux()
+    if windivert_dir is not None:
+        raise ValueError("--windivert-dir is only used on Windows")
+    return RawNetwork(target)
 
 
 def port_result(probe):
@@ -906,12 +951,14 @@ def published_match(report, database):
         else:
             explanation = "No published fingerprint matched closely enough (best %.2f%%)." % top["score"]
     # Compact normal reports; retain ties and the top alternatives, not thousands of zeros.
-    keep = max(20, len(plausible))
+    compared_labels = len(ranked)
+    keep = max(RETAINED_MATCHES, len(plausible))
     ranked = ranked[:keep]
     hints = ["Consistent published OS family: " + family] if family else []
     return {"status": status, "candidate": candidate, "family": family,
             "explanation": explanation, "ranked": ranked, "family_hints": hints,
             "plausible_count": len(plausible), "database_count": database["count"],
+            "compared_labels": compared_labels,
             "database_sha256": database["sha256"], "syn_replies": syn_count,
             "responsive_tests": responsive,
             "sequence_evidence_complete": complete_timing, "ambiguity_margin_percent": ambiguity_margin,
@@ -1304,6 +1351,97 @@ def learn(args):
     print("Learned %s (%d features). Database: %s" % (args.label, len(report["features"]), args.db))
 
 
+def terminal_color_enabled():
+    """ANSI on interactive terminals only; plain text for pipes and NO_COLOR."""
+    if not sys.stdout.isatty() or "NO_COLOR" in os.environ or os.getenv("TERM") == "dumb":
+        return False
+    if sys.platform == "win32":
+        import ctypes
+        from ctypes import wintypes
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel.GetStdHandle.argtypes, kernel.GetStdHandle.restype = [wintypes.DWORD], wintypes.HANDLE
+        kernel.GetConsoleMode.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+        kernel.SetConsoleMode.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        handle, mode = kernel.GetStdHandle(-11), wintypes.DWORD()
+        return bool(kernel.GetConsoleMode(handle, ctypes.byref(mode))
+                    and kernel.SetConsoleMode(handle, mode.value | 4))
+    return True
+
+
+def console_text(value):
+    """Keep reference labels on the page without terminal control sequences."""
+    return str(value).encode("unicode_escape").decode("ascii")
+
+
+def format_os_results(report, debug=False, color=False, width=120):
+    """Screenshot-style table; confidence bars always represent match scores."""
+    result = report["result"]
+    ranked = result["ranked"]
+    rows = ranked if debug else ranked[:DISPLAY_MATCHES]
+    width = max(78, min(width, 160))
+    bar_width = 16 if width < 100 else 20
+    # Five padded columns, six border characters.
+    columns = [max(4, len(str(len(rows)))), 0, 10, 8, bar_width]
+    columns[1] = width - sum(columns) - 16
+    lines = []
+
+    def paint(text, code):
+        return "\033[%sm%s\033[0m" % (code, text) if color else text
+
+    def border():
+        return paint("+" + "+".join("-" * (n + 2) for n in columns) + "+", "34")
+
+    def row(values, heading=False):
+        cells = []
+        for index, (value, size) in enumerate(zip(values, columns)):
+            value = value.ljust(size) if index in (1, 4) or heading else value.rjust(size)
+            cells.append(paint(value, "34" if heading else "36" if index == 1 else "33" if index >= 2 else "37"))
+        return paint("| ", "34") + paint(" | ", "34").join(cells) + paint(" |", "34")
+
+    title = "OS Detection Results for " + console_text(report["target"])
+    lines.extend(["", paint(title.center(width), "32"), border(),
+                  row(["Rank", "Operating System", "Confidence", "Coverage", "Match Bar"], True), border()])
+    for rank, item in enumerate(rows, 1):
+        score = item["score"]
+        filled = max(0, min(bar_width, int(score * bar_width / 100 + 0.5)))
+        label_lines = textwrap.wrap(console_text(item["label"]), columns[1]) or [""]
+        lines.append(row([str(rank), label_lines[0], "%.2f%%" % score,
+                          "%.1f%%" % item["coverage"], "#" * filled + "." * (bar_width - filled)]))
+        for continuation in label_lines[1:]:
+            lines.append(row(["", continuation, "", "", ""]))
+    lines.append(border())
+    if not rows:
+        lines.append("No comparable OS fingerprints available.")
+    lines.append("Source IP: " + console_text(report.get("source", "unknown")))
+    lines.append("Confidence and bars show fingerprint similarity, not a calibrated OS probability.")
+    lines.append("Coverage shows how much reference evidence was available for comparison.")
+
+    summary = ["Status: " + result["status"].upper()]
+    if ranked:
+        top = ranked[0]
+        label = "Best match: " if result.get("candidate") else "Closest reference: "
+        summary.extend([label + console_text(result.get("candidate") or top["label"]),
+                        "Confidence: %.2f%%    Coverage: %.1f%%" % (top["score"], top["coverage"])])
+    if result.get("family"):
+        summary.append("OS family: " + console_text(result["family"]))
+    summary.append(console_text(result["explanation"]))
+    summary.append("Showing: %d of %d retained matches" % (len(rows), len(ranked)))
+    if result.get("compared_labels") is not None:
+        summary.append("Compared: %d distinct OS labels" % result["compared_labels"])
+    if len(rows) < len(ranked):
+        summary.append("Use --debug to see all retained results and fingerprint details.")
+    if result["status"] == "unknown":
+        summary.append("Diagnostic rankings only; no OS identified.")
+    elif result["status"] == "ambiguous":
+        summary.append("Several possibilities or incomplete evidence; no unique OS version identified.")
+    lines.extend(["", paint("+ Summary " + "-" * (width - 11) + "+", "32")])
+    for item in summary:
+        for part in textwrap.wrap(item, width - 4) or [""]:
+            lines.append(paint("| ", "32") + part.ljust(width - 4) + paint(" |", "32"))
+    lines.append(paint("+" + "-" * (width - 2) + "+", "32"))
+    return "\n".join(lines)
+
+
 def show_report(report, debug=False):
     print("Target: %s    Source: %s" % (report["target"], report.get("source", "unknown")))
     counts = Counter(port["state"] for port in report["ports"])
@@ -1315,12 +1453,10 @@ def show_report(report, debug=False):
     result = report["result"]
     if result.get("database_count"):
         print("Database: %d published fingerprints; %d/6 SYN replies" % (result["database_count"], result["syn_replies"]))
-    print("\nOS result: " + result["status"].upper())
-    if result["candidate"]:
-        print("Candidate: " + result["candidate"])
-    print(result["explanation"])
-    for hint in result["family_hints"]:
-        print("Family hint: " + hint)
+    print(format_os_results(report, debug, terminal_color_enabled(), shutil.get_terminal_size((120, 24)).columns))
+    if not result.get("family"):
+        for hint in result["family_hints"]:
+            print("Family hint: " + hint)
     if report.get("services", {}).get("enabled"):
         print("\nApplication service evidence:")
         for row in report["services"]["ports"]:
@@ -1335,19 +1471,10 @@ def show_report(report, debug=False):
         for key in ("excluded_ports", "unprobed_ports"):
             if report["services"].get(key):
                 print("  %s: %s" % (key.replace("_", " "), report["services"][key]))
-    if result["ranked"]:
+    if result["ranked"] and debug:
         published = "database_count" in result
         if published and result["status"] == "unknown":
             print("\nDiagnostic reference similarities only; no OS was identified.")
-        print("\nRANK  %s  COVERAGE  OS LABEL" % ("SIMILARITY" if published else "MATCH     "))
-        rows = result["ranked"] if debug else result["ranked"][:5]
-        for i, row in enumerate(rows, 1):
-            print("%-5d %9.2f%%  %5.1f%%    %s" % (i, row["score"], row["coverage"], row["label"]))
-        score = result["ranked"][0]["score"]
-        if result["status"] == "unknown":
-            print("Highest diagnostic similarity: %.1f%% (OS identification unavailable)." % score)
-        else:
-            print("Highest fingerprint similarity: %.1f%%." % score)
         print(result["score_meaning"])
         print("Coverage: weighted reference evidence available for comparison; not the percentage of ports scanned.")
         if published:
@@ -1473,14 +1600,13 @@ def best_standard_round(network, args, db, ports, open_port, closed_port):
 
 
 def scan(args):
-    require_linux()
     target = resolve_target(args.target)
     db = load_scan_database(args.db)
     ports = set(args.ports)
     ports.update(p for p in (args.open_port, args.closed_port) if p is not None)
     ordered = sorted(ports)
     RNG.shuffle(ordered)
-    network = RawNetwork(target)
+    network = open_network(target, getattr(args, "windivert_dir", None))
     started = time.monotonic()
     try:
         print("Scanning %s from %s (%d TCP ports)..." % (target, network.source, len(ordered)), flush=True)
@@ -1732,8 +1858,10 @@ def resolve_target(text):
 def make_parser():
     parser = argparse.ArgumentParser(description=__doc__, epilog="Scan only machines you own or have permission to test.")
     commands = parser.add_subparsers(dest="command", required=True)
-    live = commands.add_parser("scan", help="SYN scan and active fingerprinting (Linux, sudo)")
+    live = commands.add_parser("scan", help="SYN scan and active fingerprinting (Linux: sudo; Windows: Administrator + WinDivert)")
     live.add_argument("target", help="one IPv4 address or hostname")
+    live.add_argument("--windivert-dir", type=Path,
+                      help="Windows: folder containing WinDivert 2.x DLL and driver (default: WinDivert beside scanner.py)")
     live.add_argument("-p", "--ports", type=parse_ports, default=parse_ports("1-1024,3389,5900,8000,8080,8443"))
     live.add_argument("--open-port", type=bounded_number(1, 65535, True), help="preferred open TCP port; verified first")
     live.add_argument("--closed-port", type=bounded_number(1, 65535, True), help="preferred closed TCP port; verified first")
@@ -1801,7 +1929,8 @@ def main(argv=None):
         else:
             watch(args)
     except PermissionError as error:
-        print("Error: %s. Live raw sockets need sudo or CAP_NET_RAW; also check file permissions." % error, file=sys.stderr)
+        privilege = "Administrator and WinDivert" if sys.platform == "win32" else "sudo or CAP_NET_RAW"
+        print("Error: %s. Live scanning needs %s; also check file permissions." % (error, privilege), file=sys.stderr)
         return 1
     except (OSError, ValueError) as error:
         print("Error: " + str(error), file=sys.stderr)

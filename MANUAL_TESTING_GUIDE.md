@@ -35,19 +35,20 @@ Important facts about the implementation:
 
 | Item | What the current code actually does |
 | --- | --- |
-| Live scanner | Linux, Python 3.10+, raw sockets, normally `sudo` |
+| Live scanner | Python 3.10+; Linux raw sockets with `sudo`, or native Windows with Administrator and WinDivert 2.x |
 | Targets | IPv4 devices, including Windows 7 |
 | Input | One IPv4 address or hostname; no CIDR, IPv6, or address-range input |
 | Default database | Bundled `nmap-os-db`; no installed Nmap needed to scan |
 | Fingerprint | Default full battery is 16 probes when open/closed ports are available; retries and supplemental probes can add packets |
-| `watch` | Passive detection; prints alerts; does **not** install firewall rules |
+| `watch` | Linux-only passive detection; prints alerts; does **not** install firewall rules |
 | `-sV` | Optional application connections/banner collection; these complete TCP handshakes |
 | Score | Fingerprint similarity, not a calibrated probability that an OS version is correct |
 | Version | Can be a range or an ambiguous result; exact distribution/build identification is not guaranteed |
 
 The PDF describes an earlier nine-probe, self-built-database design and mentions
-Windows/Npcap and optional decoys. Those are not the normal live workflow of the
-current code. Test the implementation that is present. Do not present proposed
+Windows/Npcap and optional decoys. Native Windows scanning now uses WinDivert,
+not Npcap; decoys remain unimplemented. See the [native Windows setup](README.md#native-windows).
+Test the implementation that is present. Do not present proposed
 features as implemented features.
 
 Ubuntu and Zorin both use Linux kernels. Two distributions with similar kernels

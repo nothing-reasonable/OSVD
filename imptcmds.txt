@@ -1,2 +1,4 @@
 netsh advfirewall firewall add rule name="OSFP Lab Ping" dir=in action=allow protocol=icmpv4:8,any remoteip=192.168.56.10 profile=any
 netsh advfirewall firewall delete rule name="OSFP Lab Ping"
+
+python scanner.py scan scanme.nmap.org --windivert-dir 'E:\L4-T1\CSE-406\Project\WinDivert-2.2.2-A\x64' -o result.json
